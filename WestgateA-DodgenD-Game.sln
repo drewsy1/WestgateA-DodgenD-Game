@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WestgateA-DodgenD-Game", "WestgateA-DodgenD-Game\WestgateA-DodgenD-Game.vbproj", "{3632D0FE-E04A-4785-83CB-48E53B0C4E6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3632D0FE-E04A-4785-83CB-48E53B0C4E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3632D0FE-E04A-4785-83CB-48E53B0C4E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3632D0FE-E04A-4785-83CB-48E53B0C4E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3632D0FE-E04A-4785-83CB-48E53B0C4E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77114D0B-9F00-4FF3-97F6-ED69D83924FA}
+	EndGlobalSection
+EndGlobal
