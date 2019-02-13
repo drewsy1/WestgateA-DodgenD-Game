@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WestgateA_DodgenD_Game"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeToContent="WidthAndHeight">
-    <Grid>
+        Title="MainWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeToContent="WidthAndHeight" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
+    <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="336"/>
             <ColumnDefinition Width="672"/>
@@ -14,9 +15,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="768"/>
         </Grid.RowDefinitions>
-        <Canvas Grid.Column="0" Background="Black"/>
-        <Canvas Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Canvas Grid.Column="2" Background="Black"/>
+        <!--<Canvas Grid.Column="0" Background="Black"/>-->
+        <Canvas x:Name="CanvasGameScreen" Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Height="768"/>
+        <!--<Canvas Grid.Column="2" Background="Black"/>-->
 
     </Grid>
 </Window>
