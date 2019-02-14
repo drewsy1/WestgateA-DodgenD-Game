@@ -1,5 +1,4 @@
-﻿
-Imports System.Windows.Threading
+﻿Imports System.Windows.Threading
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 

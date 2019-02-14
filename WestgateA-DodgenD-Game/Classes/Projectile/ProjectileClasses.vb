@@ -1,4 +1,5 @@
 ﻿Namespace Classes.Projectile
+    ' ReSharper disable once ClassNeverInstantiated.Global
     ''' <summary>
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>

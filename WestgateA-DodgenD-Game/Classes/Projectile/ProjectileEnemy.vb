@@ -1,4 +1,5 @@
 ﻿Namespace Classes.Projectile
+    ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Defines properties/methods of an enemy-fired projectile

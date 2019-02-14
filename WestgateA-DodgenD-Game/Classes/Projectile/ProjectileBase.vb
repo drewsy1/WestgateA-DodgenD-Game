@@ -1,4 +1,5 @@
 ﻿Namespace Classes.Projectile
+    ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Base Projectile class, must be inherited by new classes
