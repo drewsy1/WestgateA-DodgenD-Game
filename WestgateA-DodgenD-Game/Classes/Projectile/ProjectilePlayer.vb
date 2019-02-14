@@ -1,4 +1,7 @@
-﻿Namespace Classes.Projectile
+﻿Imports WestgateA_DodgenD_Game.Enums
+
+Namespace Classes.Projectile
+    ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Defines properties/methods of a player-fired projectile

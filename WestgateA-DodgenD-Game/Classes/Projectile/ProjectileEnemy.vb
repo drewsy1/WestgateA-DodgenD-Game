@@ -1,10 +1,13 @@
-﻿Namespace Classes.Projectile
+﻿Imports WestgateA_DodgenD_Game.Enums
+
+Namespace Classes.Projectile
+    ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Defines properties/methods of an enemy-fired projectile
         ''' </summary>
         Public Class ProjectileEnemy
-            Inherits ProjectileClasses.ProjectileBase
+            Inherits ProjectileBase
 
             ''' <summary>
             ''' Sets direction of projectile
@@ -43,7 +46,7 @@
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
             ''' <param name="locationX">Object's starting X-coordinate</param>
             ''' <param name="locationY">Object's starting Y-coordinate</param>
-            Shadows Sub AddToCanvas(translateX As Double,
+            Friend Shadows Sub AddToCanvas(translateX As Double,
                                     Optional locationX As Double = TransformXDefault,
                                     Optional locationY As Double = TransformYDefault)
                 MyBase.AddToCanvas(translateX, locationX, locationY)

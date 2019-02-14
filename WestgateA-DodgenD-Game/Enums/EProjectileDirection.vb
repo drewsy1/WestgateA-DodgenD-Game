@@ -1,4 +1,4 @@
-﻿Namespace Classes
+﻿Namespace Enums
     ''' <summary>
     ''' Enum representing directional modifiers for movement
     ''' </summary>
