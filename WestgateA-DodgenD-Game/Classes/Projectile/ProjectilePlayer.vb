@@ -1,4 +1,4 @@
-﻿Namespace Classes
+﻿Namespace Classes.Projectile
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Defines properties/methods of a player-fired projectile
@@ -6,16 +6,25 @@
         Public Class ProjectilePlayer
             Inherits ProjectileBase
 
-            ' Sets direction of projectile
+            ''' <summary>
+            ''' Direction of projectile
+            ''' </summary>
+            ''' <returns></returns>
             Protected Overrides Property ProjectileDirection As Double = EProjectileDirection.Up
 
-            ' Color of ProjectilePlayer projectile
+            ''' <summary>
+            ''' Color of ProjectilePlayer projectile
+            ''' </summary>
             Shared Shadows ReadOnly ProjectileColor As Color = Colors.LawnGreen
 
-            ' Default starting X-coordinate location for ProjectilePlayer
+            ''' <summary>
+            ''' Default starting X-coordinate location for ProjectilePlayer
+            ''' </summary>
             Private Const LocationXDefault As Double = 316.5
 
-            ' Default starting Y-coordinate location for ProjectilePlayer
+            ''' <summary>
+            ''' Default starting Y-coordinate location for ProjectilePlayer
+            ''' </summary>
             Private Const LocationYDefault As Double = 132
 
             ''' <summary>

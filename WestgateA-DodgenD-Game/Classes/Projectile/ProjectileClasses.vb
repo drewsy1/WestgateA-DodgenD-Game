@@ -1,16 +1,12 @@
 ﻿Imports JetBrains.Annotations
 
-Namespace Classes
+Namespace Classes.Projectile
     ''' <summary>
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>
     <UsedImplicitly>
     Partial Public Class ProjectileClasses
-        ''' <summary>
-        ''' Get the MainWindow as an object
-        ''' </summary>
-        Private Shared ReadOnly MainWindowInstance As MainWindow =
-                                    Windows.Application.Current.MainWindow
+
 
         ''' <summary>
         ''' Create a static collection of projectiles to keep track of them

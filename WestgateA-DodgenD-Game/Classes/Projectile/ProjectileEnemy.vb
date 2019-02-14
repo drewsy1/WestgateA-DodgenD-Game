@@ -1,10 +1,10 @@
-﻿Namespace Classes
+﻿Namespace Classes.Projectile
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Defines properties/methods of an enemy-fired projectile
         ''' </summary>
         Public Class ProjectileEnemy
-            Inherits ProjectileBase
+            Inherits ProjectileClasses.ProjectileBase
 
             ' Sets direction of projectile
             Protected Overrides Property ProjectileDirection As Double = EProjectileDirection.Down
