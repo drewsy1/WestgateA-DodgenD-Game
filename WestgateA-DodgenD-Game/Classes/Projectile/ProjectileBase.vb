@@ -1,4 +1,4 @@
-﻿Namespace Classes
+﻿Namespace Classes.Projectile
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Base Projectile class, must be inherited by new classes
@@ -14,6 +14,11 @@
             ''' Default projectile width
             ''' </summary>
             Private Const ProjectileWidth As Double = 3
+
+            ''' <summary>
+            ''' Default projectile speed
+            ''' </summary>
+            Private Const MovementSpeed As Double = 15
 
             ''' <summary>
             ''' Overridable double representing direction of projectile travel
@@ -32,16 +37,16 @@
             ''' TransformGroup containing _projectileTransformTranslate
             ''' (will be added to ProjectileRectangle)
             ''' </summary>
-            Private ReadOnly _projectileTransform As TransformGroup =
-                                 New TransformGroup() With {
-                .Children = New TransformCollection(
-                    New Transform() {_projectileTransformTranslate}
-                    )
+            Private ReadOnly _projectileTransform As TransformGroup =                New TransformGroup() With {
+                    .Children = New TransformCollection(
+                        New Transform() {_projectileTransformTranslate}
+                        )
                 }
 
-            ' Shapes.Rectangle object that serves as projectile
-            Private ReadOnly _projectileRectangle As Rectangle =
-                                 New Rectangle() With {
+            ''' <summary>
+            ''' Shapes.Rectangle object that serves as projectile
+            ''' </summary>
+            Private ReadOnly _projectileRectangle As Rectangle = New Rectangle() With {
                 .Height = ProjectileHeight,
                 .Width = ProjectileWidth,
                 .StrokeThickness = 0,
@@ -49,8 +54,11 @@
                 .RenderTransformOrigin = New Point(0, 0)
                 }
 
-            ' System.Drawing.Rectangle that serves as the projectile's hit box
-            Private _projectileRectangleHitBox As System.Drawing.Rectangle = New System.Drawing.Rectangle() With {
+            ''' <summary>
+            ''' System.Drawing.Rectangle that serves as the projectile's hit box
+            ''' </summary>
+            Private _projectileRectangleHitBox As System.Drawing.Rectangle =
+                        New System.Drawing.Rectangle() With {
                 .Height = ProjectileHeight,
                 .Width = ProjectileWidth
                 }
@@ -75,12 +83,12 @@
             ''' Moves projectile based on ProjectileDirection and removes it if needed
             ''' </summary>
             Sub UpdateLocation()
-                _projectileTransformTranslate.Y += (10 * ProjectileDirection)
-                _projectileRectangleHitBox.Y -= (10 * ProjectileDirection)
+                _projectileTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
+                _projectileRectangleHitBox.Y -= (MovementSpeed * ProjectileDirection)
 
                 ' If the projectile has left the canvas, remove it
                 If _projectileRectangleHitBox.Y >=
-                   MainWindowInstance.CanvasGameScreen.Height Or
+                   MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Or
                    _projectileRectangleHitBox.Y <= 0 Then
                     Remove()
                 End If
@@ -109,7 +117,7 @@
                 _projectileRectangleHitBox.Y = locationY
 
                 ' Add rectangle to CanvasGameScreen (makes it visible)
-                MainWindowInstance.CanvasGameScreen.Children.Add(
+                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Add(
                     _projectileRectangle)
             End Sub
 
@@ -119,16 +127,13 @@
             ''' </summary>
             Private Sub Remove()
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowInstance.CanvasGameScreen.Children.Remove(
+                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     _projectileRectangle)
 
                 _projectileRectangleHitBox = Nothing
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
                 ProjectilesCollection(itemIndex) = Nothing
             End Sub
-
         End Class
-
-
     End Class
 End Namespace
