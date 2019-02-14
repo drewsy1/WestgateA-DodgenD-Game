@@ -2,14 +2,14 @@
 Imports System.Windows.Threading
 Imports JetBrains.Annotations
 Imports WestgateA_DodgenD_Game.Classes
+Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 
 <UsedImplicitly>
 Public Class MainWindow
-
     '
     ReadOnly _dtTimer As DispatcherTimer = New DispatcherTimer With {
-        .Interval = TimeSpan.FromMilliseconds(16.7)
+        .Interval = TimeSpan.FromMilliseconds(1)
     }
 
     '
@@ -78,12 +78,9 @@ Public Class MainWindow
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Window_KeyUp(sender As Object, e As KeyEventArgs)
-        Select Case e.Key
-            Case Key.Left
-                _currentKeyPress = Nothing
-            Case Key.Right
-                _currentKeyPress = Nothing
-        End Select
+        If Not Keyboard.IsKeyDown(Key.Left) And Not Keyboard.IsKeyDown(Key.Right) Then
+            _currentKeyPress = Nothing
+        End If
     End Sub
 #End Region
 
