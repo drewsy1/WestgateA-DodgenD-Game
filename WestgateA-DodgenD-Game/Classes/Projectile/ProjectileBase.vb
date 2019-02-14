@@ -37,7 +37,8 @@
             ''' TransformGroup containing _projectileTransformTranslate
             ''' (will be added to ProjectileRectangle)
             ''' </summary>
-            Private ReadOnly _projectileTransform As TransformGroup =                New TransformGroup() With {
+            Private ReadOnly _projectileTransform As TransformGroup =
+                New TransformGroup() With {
                     .Children = New TransformCollection(
                         New Transform() {_projectileTransformTranslate}
                         )
@@ -131,6 +132,7 @@
                     _projectileRectangle)
 
                 _projectileRectangleHitBox = Nothing
+
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
                 ProjectilesCollection(itemIndex) = Nothing
             End Sub

@@ -1,13 +1,8 @@
-﻿Imports JetBrains.Annotations
-
-Namespace Classes.Projectile
+﻿Namespace Classes.Projectile
     ''' <summary>
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>
-    <UsedImplicitly>
     Partial Public Class ProjectileClasses
-
-
         ''' <summary>
         ''' Create a static collection of projectiles to keep track of them
         ''' </summary>

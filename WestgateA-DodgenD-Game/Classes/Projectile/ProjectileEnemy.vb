@@ -6,16 +6,25 @@
         Public Class ProjectileEnemy
             Inherits ProjectileClasses.ProjectileBase
 
-            ' Sets direction of projectile
+            ''' <summary>
+            ''' Sets direction of projectile
+            ''' </summary>
+            ''' <returns>ProjectileDirection</returns>
             Protected Overrides Property ProjectileDirection As Double = EProjectileDirection.Down
 
-            ' Color of ProjectileEnemy projectile
+            ''' <summary>
+            ''' Color of ProjectileEnemy projectile
+            ''' </summary>
             Shared Shadows ReadOnly ProjectileColor As Color = Colors.Red
 
-            ' Default starting X-coordinate location for ProjectileEnemy
+            ''' <summary>
+            ''' Default starting X-coordinate location for ProjectileEnemy
+            ''' </summary>
             Private Const TransformXDefault As Double = 316.5
 
-            ' Default starting Y-coordinate location for ProjectileEnemy
+            ''' <summary>
+            ''' Default starting Y-coordinate location for ProjectileEnemy
+            ''' </summary>
             Private Const TransformYDefault As Double = 768
 
             ''' <summary>

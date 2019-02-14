@@ -9,7 +9,7 @@
             ''' <summary>
             ''' Direction of projectile
             ''' </summary>
-            ''' <returns></returns>
+            ''' <returns>ProjectileDirection</returns>
             Protected Overrides Property ProjectileDirection As Double = EProjectileDirection.Up
 
             ''' <summary>

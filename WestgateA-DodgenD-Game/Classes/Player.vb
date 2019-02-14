@@ -91,10 +91,9 @@
         ''' <summary>
         ''' Sets location/transform for projectile and adds it to canvas
         ''' </summary>
-        ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
         ''' <param name="locationX">Object's starting X-coordinate</param>
         ''' <param name="locationY">Object's starting Y-coordinate</param>
-        Protected Sub AddToCanvas(Optional locationX As Double = LocationXDefault,
+        Sub AddToCanvas(Optional locationX As Double = LocationXDefault,
                                   Optional locationY As Double = LocationYDefault)
             Canvas.SetLeft(_playerCursorInstance, locationX)
             Canvas.SetBottom(_playerCursorInstance, locationY)
@@ -115,18 +114,20 @@
         ''' <summary>
         ''' Moves player cursor left if player is within bounds
         ''' </summary>
-        Sub MoveLeft()
+        ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to MovementSpeed)</param>
+        Sub MoveLeft(Optional localMovementSpeed As Double = MovementSpeed)
             If (_playerCursorBitmapImageTransformTranslate.X > TranslateBoundLeft) Then
-                _playerCursorBitmapImageTransformTranslate.X -= MovementSpeed
+                _playerCursorBitmapImageTransformTranslate.X -= localMovementSpeed
             End If
         End Sub
 
         ''' <summary>
         ''' Moves player cursor right if player is within bounds
         ''' </summary>
-        Sub MoveRight()
+        ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to MovementSpeed)</param>
+        Sub MoveRight(Optional localMovementSpeed As Double = MovementSpeed)
             If (_playerCursorBitmapImageTransformTranslate.X < TranslateBoundRight) Then
-                _playerCursorBitmapImageTransformTranslate.X += MovementSpeed
+                _playerCursorBitmapImageTransformTranslate.X += localMovementSpeed
             End If
         End Sub
 

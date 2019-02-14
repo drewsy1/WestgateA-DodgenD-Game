@@ -1,25 +1,29 @@
 ﻿
 Imports System.Windows.Threading
-Imports JetBrains.Annotations
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 
-<UsedImplicitly>
 Public Class MainWindow
-    '
+    ''' <summary>
+    ''' Timer that keeps track of game events/objects
+    ''' </summary>
     ReadOnly _dtTimer As DispatcherTimer = New DispatcherTimer With {
         .Interval = TimeSpan.FromMilliseconds(1)
     }
 
-    '
+    ''' <summary>
+    ''' Key (left or right) that controls movement of player cursor
+    ''' </summary>
     Dim _currentKeyPress As Key
 
-    '
+    ''' <summary>
+    ''' Variable for current Player object
+    ''' </summary>
     ReadOnly _playerObject As Player
 
     ''' <summary>
-    ''' 
+    ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the Player instance
     ''' </summary>
     Sub New()
         InitializeComponent()
@@ -33,20 +37,21 @@ Public Class MainWindow
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' This method is called on every tick of the _dtTimer
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub GameTimeUpdater(sender As Object, e As EventArgs)
-        RegisterKeypresses()
+        RegisterKeypresses(_currentKeyPress)
         ProjectileClasses.UpdateProjectiles()
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' Reads a Key variable and carries out specific actions based on its value
     ''' </summary>
-    Private Sub RegisterKeypresses()
-        Select Case _currentKeyPress
+    ''' <param name="currentKeyPress">Key variable to be read/acted upon</param>
+    Private Sub RegisterKeypresses(currentKeyPress As Key)
+        Select Case currentKeyPress
             Case Key.Left
                 _playerObject.MoveLeft()
             Case Key.Right
@@ -69,7 +74,6 @@ Public Class MainWindow
             Case Key.Space
                 _playerObject.FireWeapon()
         End Select
-
     End Sub
 
     ''' <summary>
@@ -83,5 +87,4 @@ Public Class MainWindow
         End If
     End Sub
 #End Region
-
 End Class
