@@ -7,16 +7,24 @@ Imports WestgateA_DodgenD_Game.Classes
 <UsedImplicitly>
 Public Class MainWindow
 
-    ReadOnly _dtTimer As DispatcherTimer
+    '
+    ReadOnly _dtTimer As DispatcherTimer = New DispatcherTimer With {
+        .Interval = TimeSpan.FromMilliseconds(16.7)
+    }
+
+    '
     Dim _currentKeyPress As Key
+
+    '
     ReadOnly _playerObject As Player
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Sub New()
         InitializeComponent()
 
-        _dtTimer = New DispatcherTimer With {
-            .Interval = TimeSpan.FromMilliseconds(16.7)
-        }
+        ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler _dtTimer.Tick, AddressOf GameTimeUpdater
         _dtTimer.Start()
 
@@ -31,7 +39,7 @@ Public Class MainWindow
     ''' <param name="e"></param>
     Private Sub GameTimeUpdater(sender As Object, e As EventArgs)
         RegisterKeypresses()
-
+        ProjectileClasses.UpdateProjectiles()
     End Sub
 
     ''' <summary>
@@ -70,7 +78,12 @@ Public Class MainWindow
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Window_KeyUp(sender As Object, e As KeyEventArgs)
-        _currentKeyPress = Nothing
+        Select Case e.Key
+            Case Key.Left
+                _currentKeyPress = Nothing
+            Case Key.Right
+                _currentKeyPress = Nothing
+        End Select
     End Sub
 #End Region
 

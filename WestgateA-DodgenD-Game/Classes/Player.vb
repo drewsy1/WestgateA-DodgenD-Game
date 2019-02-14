@@ -13,9 +13,12 @@
         Private Const PlayerCursorDefaultLeft As Double = 316.5
         Private Const PlayerCursorDefaultTop As Double = 663
 
-        Private _playerProjectileInstance As ProjectilePlayer
+        Private _playerProjectileInstance As ProjectileClasses.ProjectilePlayer
         Private ReadOnly _playerCursorInstance As Image
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Sub New()
             _playerCursorBitmapImageTransform.Children.Add(_playerCursorBitmapImageTransformTranslate)
 
@@ -36,23 +39,35 @@
             Canvas.SetTop(_playerCursorInstance, PlayerCursorDefaultTop)
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Sub AddToCanvas()
             Dim mw As MainWindow = Application.Current.MainWindow
             mw.CanvasGameScreen.Children.Add(_playerCursorInstance)
         End Sub
 
+        ''' <summary>
+        ''' Creates a player projectile that moves upward
+        ''' </summary>
         Sub FireWeapon()
-            If (_playerProjectileInstance Is Nothing) Then
-                _playerProjectileInstance = New ProjectilePlayer()
+            ' If no player projectile currently exists, fire a new one
+            If Not ProjectileClasses.ProjectilesCollection.Contains(_playerProjectileInstance) Then
+                _playerProjectileInstance = New ProjectileClasses.ProjectilePlayer()
                 _playerProjectileInstance.AddToCanvas(_playerCursorBitmapImageTransformTranslate.X + 17.5)
             End If
-
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Sub MoveLeft()
             If (_playerCursorBitmapImageTransformTranslate.X > -310) Then _playerCursorBitmapImageTransformTranslate.X -= 10
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Sub MoveRight()
             If (_playerCursorBitmapImageTransformTranslate.X < 310) Then _playerCursorBitmapImageTransformTranslate.X += 10
         End Sub

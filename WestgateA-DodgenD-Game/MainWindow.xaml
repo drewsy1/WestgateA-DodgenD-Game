@@ -15,7 +15,18 @@
             <RowDefinition Height="768"/>
         </Grid.RowDefinitions>
         <!--<Canvas Grid.Column="0" Background="Black"/>-->
-        <Canvas x:Name="CanvasGameScreen" Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Height="768"/>
+        <Canvas x:Name="CanvasGameScreen" Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Height="768">
+            <Rectangle Fill="#FFF4F4F5" Height="100" Canvas.Left="335" Stroke="Black" Canvas.Top="307" Width="100" RenderTransformOrigin="0.5,0">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Canvas>
         <!--<Canvas Grid.Column="2" Background="Black"/>-->
 
     </Grid>

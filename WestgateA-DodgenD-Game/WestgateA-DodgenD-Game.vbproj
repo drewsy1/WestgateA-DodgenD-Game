@@ -81,8 +81,12 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enums\EProjectileDirection.vb" />
     <Compile Include="Classes\Player.vb" />
-    <Compile Include="Classes\Projectile.vb" />
+    <Compile Include="Classes\Projectile\ProjectileBase.vb" />
+    <Compile Include="Classes\Projectile\ProjectileClasses.vb" />
+    <Compile Include="Classes\Projectile\ProjectileEnemy.vb" />
+    <Compile Include="Classes\Projectile\ProjectilePlayer.vb" />
     <Compile Include="MainWindow.xaml.vb">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
