@@ -1,4 +1,4 @@
-﻿Imports System.Collections.ObjectModel
+﻿
 Imports System.Windows.Threading
 Imports JetBrains.Annotations
 Imports WestgateA_DodgenD_Game.Classes
@@ -9,20 +9,19 @@ Public Class MainWindow
 
     ReadOnly _dtTimer As DispatcherTimer
     Dim _currentKeyPress As Key
-    Dim PlayerObject As Player
+    ReadOnly _playerObject As Player
 
     Sub New()
         InitializeComponent()
 
         _dtTimer = New DispatcherTimer With {
-            .Interval = TimeSpan.FromMilliseconds(1)
+            .Interval = TimeSpan.FromMilliseconds(16.7)
         }
         AddHandler _dtTimer.Tick, AddressOf GameTimeUpdater
         _dtTimer.Start()
 
-        PlayerObject = New Player()
-        PlayerObject.AddToCanvas()
-
+        _playerObject = New Player()
+        _playerObject.AddToCanvas()
     End Sub
 
     ''' <summary>
@@ -32,17 +31,18 @@ Public Class MainWindow
     ''' <param name="e"></param>
     Private Sub GameTimeUpdater(sender As Object, e As EventArgs)
         RegisterKeypresses()
-        Projectile.ProjectilesCollection.ForEach(Sub(obj As Projectile) obj.UpdateLocation())
+
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Private Sub RegisterKeypresses()
         Select Case _currentKeyPress
             Case Key.Left
-                PlayerObject.MoveLeft()
+                _playerObject.MoveLeft()
             Case Key.Right
-                PlayerObject.MoveRight()
-            Case Key.Space
-                PlayerObject.FireWeapon()
+                _playerObject.MoveRight()
         End Select
     End Sub
 
@@ -53,7 +53,15 @@ Public Class MainWindow
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs)
-        _currentKeyPress = e.Key
+        Select Case e.Key
+            Case Key.Left
+                _currentKeyPress = e.Key
+            Case Key.Right
+                _currentKeyPress = e.Key
+            Case Key.Space
+                _playerObject.FireWeapon()
+        End Select
+
     End Sub
 
     ''' <summary>

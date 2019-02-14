@@ -10,11 +10,11 @@
         Private ReadOnly _playerCursorBitmapImageTransformTranslate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0}
         Private ReadOnly _playerCursorBitmapImageTransform As TransformGroup = New TransformGroup()
 
-        Public Const PlayerCursorDefaultLeft As Double = 316.5
-        Public Const PlayerCursorDefaultTop As Double = 663
+        Private Const PlayerCursorDefaultLeft As Double = 316.5
+        Private Const PlayerCursorDefaultTop As Double = 663
 
-        Friend PlayerProjectileInstance As ProjectilePlayer
-        Friend PlayerCursorInstance As Image
+        Private _playerProjectileInstance As ProjectilePlayer
+        Private ReadOnly _playerCursorInstance As Image
 
         Sub New()
             _playerCursorBitmapImageTransform.Children.Add(_playerCursorBitmapImageTransformTranslate)
@@ -23,7 +23,7 @@
             _playerCursorBitmapImage.UriSource = _playerCursorBitmapImageUri
             _playerCursorBitmapImage.EndInit()
 
-            PlayerCursorInstance = New Image() With {
+            _playerCursorInstance = New Image() With {
                 .Name = "PlayerCursor",
                 .Height = PlayerCursorHeight,
                 .Width = PlayerCursorWidth,
@@ -32,19 +32,19 @@
                 .Source = _playerCursorBitmapImage
             }
             _playerCursorBitmapImageTransformTranslate.SetValue(FrameworkElement.NameProperty, "PlayerCursorTransform")
-            Canvas.SetLeft(PlayerCursorInstance, PlayerCursorDefaultLeft)
-            Canvas.SetTop(PlayerCursorInstance, PlayerCursorDefaultTop)
+            Canvas.SetLeft(_playerCursorInstance, PlayerCursorDefaultLeft)
+            Canvas.SetTop(_playerCursorInstance, PlayerCursorDefaultTop)
         End Sub
 
         Sub AddToCanvas()
             Dim mw As MainWindow = Application.Current.MainWindow
-            mw.CanvasGameScreen.Children.Add(PlayerCursorInstance)
+            mw.CanvasGameScreen.Children.Add(_playerCursorInstance)
         End Sub
 
         Sub FireWeapon()
-            If (PlayerProjectileInstance Is Nothing) Then
-                PlayerProjectileInstance = New ProjectilePlayer()
-                PlayerProjectileInstance.AddToCanvas(_playerCursorBitmapImageTransformTranslate.X + 17.5)
+            If (_playerProjectileInstance Is Nothing) Then
+                _playerProjectileInstance = New ProjectilePlayer()
+                _playerProjectileInstance.AddToCanvas(_playerCursorBitmapImageTransformTranslate.X + 17.5)
             End If
 
         End Sub
