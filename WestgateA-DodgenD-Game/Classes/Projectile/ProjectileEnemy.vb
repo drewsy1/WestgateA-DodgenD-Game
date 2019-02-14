@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿Imports WestgateA_DodgenD_Game.Enums
 
 Namespace Classes.Projectile
+=======
+﻿Namespace Classes.Projectile
+>>>>>>> 0e50ec605f27355ea86520b0e08c74e4203ef971
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
