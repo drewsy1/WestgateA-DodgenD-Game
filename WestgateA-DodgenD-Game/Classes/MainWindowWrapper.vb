@@ -7,6 +7,11 @@
         Public Shared ReadOnly MainWindowInstance As MainWindow = Application.Current.MainWindow
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        Public Shared ReadOnly CanvasGameScreen As Controls.Canvas = MainWindowInstance.CanvasGameScreen
+
+        ''' <summary>
         ''' Width of canvas in pixels
         ''' </summary>
         Public Const CanvasWidth As Double = 672

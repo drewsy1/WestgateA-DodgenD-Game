@@ -1,4 +1,5 @@
 ﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+Imports WestgateA_DodgenD_Game.Classes.Canvas
 
 Namespace Classes.Entities
     ' ReSharper disable once ClassNeverInstantiated.Global
@@ -11,7 +12,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Default PlayerCursor movement speed
             ''' </summary>
-            Private Const MovementSpeed As Double = 5
+            Protected Overrides Property MovementSpeed As Double = 5
 
             ''' <summary>
             ''' Bitmap image object that will contain the PlayerCursor BMP
@@ -80,7 +81,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Image control that serves as PlayerCursor
             ''' </summary>
-            Protected Overrides Property EntityControl As Object = New Image() With {
+            Private Shadows Property EntityControl As Object = New Image() With {
                 .Name = "PlayerCursor",
                 .Height = EntityHeight,
                 .Width = EntityWidth,
@@ -89,25 +90,19 @@ Namespace Classes.Entities
                 .Source = _playerCursorBitmapImage
                 }
 
-            Private WithEvents _entityHitbox As Hitbox
+            Protected Shadows WithEvents EntityHitbox As Hitbox
 #End Region
 
             ''' <summary>
             ''' Instantiates a new Player object, creates its hitbox, and adds it to EntitiesCollection
             ''' </summary>
             Sub New()
+                MyBase.New()
                 _playerCursorBitmapImage.BeginInit()
                 _playerCursorBitmapImage.UriSource = New Uri(PlayerCursorImagePath, UriKind.RelativeOrAbsolute)
                 _playerCursorBitmapImage.EndInit()
 
-                EntitiesCollection.Add(Me)
-
-                _entityHitbox = New Hitbox(EntityWidth,
-                                           EntityHeight,
-                                           LocationXDefault,
-                                           LocationYDefault)
-
-                AddHandler _entityHitbox.LeavingCanvas, AddressOf MyBase.Remove
+                CanvasMethods.SetCanvasLocation(LocationXDefault, LocationYDefault, EntityControl)
             End Sub
 
 
@@ -115,7 +110,7 @@ Namespace Classes.Entities
             ''' Sets location/transform for player and adds it to canvas
             ''' </summary>
             Overloads Sub AddToCanvas()
-                AddToCanvas(LocationXDefault, LocationYDefault, EntityControl)
+                AddToCanvas(EntityControl)
             End Sub
 
             ''' <summary>
@@ -127,22 +122,6 @@ Namespace Classes.Entities
                     _playerProjectileInstance = New ProjectileClasses.ProjectilePlayer(EntityTransformTranslate.X + (EntityWidth / 2))
                     _playerProjectileInstance.AddToCanvas()
                 End If
-            End Sub
-
-            ''' <summary>
-            ''' Moves player cursor left if player is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to MovementSpeed)</param>
-            Overloads Sub MoveLeft(Optional localMovementSpeed As Double = MovementSpeed)
-                MoveLeft(localMovementSpeed, EntityTransformTranslate)
-            End Sub
-
-            ''' <summary>
-            ''' Moves player cursor right if player is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to MovementSpeed)</param>
-            Overloads Sub MoveRight(Optional localMovementSpeed As Double = MovementSpeed)
-                MoveRight(localMovementSpeed, EntityTransformTranslate)
             End Sub
         End Class
     End Class

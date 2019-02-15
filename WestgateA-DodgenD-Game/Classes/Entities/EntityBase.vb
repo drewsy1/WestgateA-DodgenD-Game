@@ -5,58 +5,32 @@
     ''' </summary>
     Partial Public Class EntityClasses
         Public MustInherit Class EntityBase
-            ''' <summary>
-            ''' Default entity cursor height in pixels
-            ''' </summary>
-            Protected Overridable Property EntityHeight As Double
+            Implements IEntity
+            Protected Overridable Property EntityHeight As Double Implements IEntity.EntityHeight
 
-            ''' <summary>
-            ''' Default entity width in pixels
-            ''' </summary>
-            Protected Overridable Property EntityWidth As Double
+            Protected Overridable Property EntityWidth As Double Implements IEntity.EntityWidth
 
-            ''' <summary>
-            ''' Default starting X-coordinate location for entity
-            ''' </summary>
-            Protected Overridable Property LocationXDefault As Double
+            Protected Overridable Property LocationXDefault As Double Implements IEntity.LocationXDefault
 
-            ''' <summary>
-            ''' Default starting Y-coordinate location for entity
-            ''' </summary>
-            Protected Overridable Property LocationYDefault As Double
+            Protected Overridable Property LocationYDefault As Double Implements IEntity.LocationYDefault
 
-            ''' <summary>
-            ''' Leftmost x-value of entity
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Overridable Property TranslateBoundLeft As Double
+            Protected Overridable Property TranslateBoundLeft As Double Implements IEntity.TranslateBoundLeft
 
-            ''' <summary>
-            ''' Rightmost x-value of entity
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Overridable Property TranslateBoundRight As Double
+            Protected Overridable Property TranslateBoundRight As Double Implements IEntity.TranslateBoundRight
 
-            Protected Overridable Property TranslateBoundTop As Double
+            Protected Overridable Property TranslateBoundTop As Double Implements IEntity.TranslateBoundTop
 
-            Protected Overridable Property TranslateBoundBottom As Double
+            Protected Overridable Property TranslateBoundBottom As Double Implements IEntity.TranslateBoundBottom
 
-            ''' <summary>
-            ''' Translate transform object for entity
-            ''' </summary>
-            Protected Overridable Property EntityTransformTranslate As TranslateTransform
+            Protected Overridable Property EntityTransformTranslate As TranslateTransform Implements IEntity.EntityTransformTranslate
 
-            ''' <summary>
-            ''' TransformGroup containing Translate transform to be added to entity instance
-            ''' </summary>
-            Protected Overridable Property EntityTransformGroup As TransformGroup
+            Protected Overridable Property EntityTransformGroup As TransformGroup Implements IEntity.EntityTransformGroup
 
-            ''' <summary>
-            ''' Image that serves as entity
-            ''' </summary>
-            Protected Overridable Property EntityControl As Object
+            Protected Overridable Property EntityControl As Object Implements IEntity.EntityControl
 
-            Private WithEvents _entityHitbox As Hitbox
+            Protected Overridable Property MovementSpeed As Double Implements IEntity.MovementSpeed
+
+            Protected WithEvents EntityHitbox As Hitbox
 
             ''' <summary>
             ''' Calculates the minimum X bound to which an entity can travel
@@ -91,50 +65,29 @@
             End Function
 
             ''' <summary>
-            ''' Instantiates a new Entity object and adds it to EntitiesCollection
-            ''' </summary>
-            ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="locationX">Object's starting X-coordinate</param>
-            ''' <param name="locationY">Object's starting Y-coordinate</param>
-            Protected Sub New(translateX As Double,
-                              translateY As Double,
-                              locationX As Double,
-                              locationY As Double)
-
-                EntitiesCollection.Add(Me)
-
-                _entityHitbox = New Hitbox(EntityWidth,
-                                           EntityHeight,
-                                           locationX + translateX,
-                                           locationY + translateY)
-
-                AddHandler _entityHitbox.LeavingCanvas, AddressOf Remove
-            End Sub
-
-            ''' <summary>
-            ''' Instantiates a new Entity object with default location and adds it to EntitiesCollection
+            ''' Instantiates a new Entity object with matching hitbox and adds it to EntitiesCollection
             ''' </summary>
             Protected Sub New()
                 EntitiesCollection.Add(Me)
 
-                _entityHitbox = New Hitbox(EntityWidth,
-                                           EntityHeight,
-                                           LocationXDefault,
-                                           LocationYDefault)
+                EntityHitbox = CreateHitbox()
 
-                AddHandler _entityHitbox.LeavingCanvas, AddressOf Remove
+                AddHandler EntityHitbox.LeavingCanvas, AddressOf Remove
             End Sub
+
+            Protected Function CreateHitbox() As Hitbox
+                Dim newHitbox As Hitbox = New Hitbox(EntityWidth,
+                                                     EntityHeight,
+                                                     LocationXDefault,
+                                                     LocationYDefault)
+                Return newHitbox
+            End Function
 
             ''' <summary>
             ''' Sets location/transform for entity and adds it to canvas
             ''' </summary>
-            ''' <param name="locationX">Object's starting X-coordinate</param>
-            ''' <param name="locationY">Object's starting Y-coordinate</param>
-            Protected Shared Sub AddToCanvas(locationX As Double,
-                            locationY As Double,
-                            localEntity As Object)
-                Canvas.SetLeft(localEntity, locationX)
-                Canvas.SetBottom(localEntity, locationY)
+            ''' <param name="localEntity">Object representing the entity's element</param>
+            Protected Shared Sub AddToCanvas(localEntity As Object)
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Add(localEntity)
             End Sub
 
@@ -142,9 +95,10 @@
             ''' Moves entity left if entity is within bounds
             ''' </summary>
             ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to MovementSpeed)</param>
-            Protected Sub MoveLeft(localMovementSpeed As Double, localEntity As Object)
-                If (localEntity.X > TranslateBoundLeft) Then
-                    localEntity.X -= localMovementSpeed
+            Public Sub MoveLeft(Optional localMovementSpeed As Double = 0)
+
+                If (EntityTransformTranslate.X > TranslateBoundLeft) Then
+                    EntityTransformTranslate.X -= localMovementSpeed
                 End If
             End Sub
 
@@ -152,9 +106,12 @@
             ''' Moves entity right if entity is within bounds
             ''' </summary>
             ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to MovementSpeed)</param>
-            Protected Sub MoveRight(localMovementSpeed As Double, localEntity As Object)
-                If (localEntity.X < TranslateBoundRight) Then
-                    localEntity.X += localMovementSpeed
+            Public Sub MoveRight(Optional localMovementSpeed As Double = 0)
+                If (localMovementSpeed = 0 And MovementSpeed) Then
+                    localMovementSpeed = MovementSpeed
+                End If
+                If (EntityTransformTranslate.X < TranslateBoundRight) Then
+                    EntityTransformTranslate.X += localMovementSpeed
                 End If
             End Sub
 
@@ -167,7 +124,7 @@
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     EntityControl)
 
-                __entityHitbox = Nothing
+                EntityHitbox = Nothing
 
                 Dim itemIndex As Integer = EntitiesCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
