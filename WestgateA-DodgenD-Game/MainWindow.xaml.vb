@@ -1,5 +1,4 @@
-﻿Imports System.Windows.Threading
-Imports WestgateA_DodgenD_Game.Classes
+﻿Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports ProjectileClasses = WestgateA_DodgenD_Game.Classes.Projectile.ProjectileClasses
 
@@ -25,7 +24,7 @@ Public Class MainWindow
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
         _playerObject = New EntityClasses.Player()
-        _playerObject.AddToCanvas()
+        MainWindowWrapper.AddToCanvas(_playerObject)
     End Sub
 
     ''' <summary>

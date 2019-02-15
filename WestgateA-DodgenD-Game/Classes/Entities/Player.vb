@@ -1,5 +1,4 @@
 ﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
-Imports WestgateA_DodgenD_Game.Classes.Canvas
 
 Namespace Classes.Entities
     ' ReSharper disable once ClassNeverInstantiated.Global
@@ -81,7 +80,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Image control that serves as PlayerCursor
             ''' </summary>
-            Private Shadows Property EntityControl As Object = New Image() With {
+            Public Shadows Property EntityControl As Object = New Image() With {
                 .Name = "PlayerCursor",
                 .Height = EntityHeight,
                 .Width = EntityWidth,
@@ -102,15 +101,7 @@ Namespace Classes.Entities
                 _playerCursorBitmapImage.UriSource = New Uri(PlayerCursorImagePath, UriKind.RelativeOrAbsolute)
                 _playerCursorBitmapImage.EndInit()
 
-                CanvasMethods.SetCanvasLocation(LocationXDefault, LocationYDefault, EntityControl)
-            End Sub
-
-
-            ''' <summary>
-            ''' Sets location/transform for player and adds it to canvas
-            ''' </summary>
-            Overloads Sub AddToCanvas()
-                AddToCanvas(EntityControl)
+                MainWindowWrapper.SetCanvasLocation(LocationXDefault, LocationYDefault, EntityControl)
             End Sub
 
             ''' <summary>

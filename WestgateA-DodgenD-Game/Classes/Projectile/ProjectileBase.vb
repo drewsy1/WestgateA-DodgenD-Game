@@ -1,6 +1,4 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Canvas
-
-Namespace Classes.Projectile
+﻿Namespace Classes.Projectile
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
@@ -82,7 +80,7 @@ Namespace Classes.Projectile
                 _projectileTransformTranslate.X += translateX
 
                 ' Set coordinates on canvas for projectile
-                CanvasMethods.SetCanvasLocation(locationX, locationY, _projectileRectangle)
+                MainWindowWrapper.SetCanvasLocation(locationX, locationY, _projectileRectangle)
 
                 _projectileHitbox = New Hitbox(ProjectileWidth,
                                                ProjectileHeight,
