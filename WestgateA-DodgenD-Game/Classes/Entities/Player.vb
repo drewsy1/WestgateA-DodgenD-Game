@@ -1,4 +1,6 @@
-﻿Namespace Classes
+﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+
+Namespace Classes.Entities
     Public Class Player
         ''' <summary>
         ''' Default player cursor height in pixels
@@ -13,14 +15,14 @@
         ''' <summary>
         ''' Default player cursor image source (in URI string format)
         ''' </summary>
-        Private Const PlayerCursorImagePath As String = 
+        Private Const PlayerCursorImagePath As String =
             "pack://application:,,,/WestgateA-DodgenD-Game;component/Resources/PlayerCursor.bmp"
 
         ''' <summary>
         ''' Default starting X-coordinate location for PlayerCursor
         ''' </summary>
         Private Const LocationXDefault As Double = 316.5
-        
+
         ''' <summary>
         ''' Default starting Y-coordinate location for PlayerCursor
         ''' </summary>
@@ -45,19 +47,19 @@
         ''' Bitmap image object that will contain the PlayerCursor BMP
         ''' </summary>
         Private ReadOnly _playerCursorBitmapImage As BitmapImage = New BitmapImage()
-   
+
         ''' <summary>
         ''' Translate transform object for PlayerCursor
         ''' </summary>
         Private ReadOnly _
-            _playerCursorBitmapImageTransformTranslate As TranslateTransform = 
+            _playerCursorBitmapImageTransformTranslate As TranslateTransform =
                 New TranslateTransform() With {.X = 0, .Y = 0}
 
         ''' <summary>
         ''' TransformGroup containing Translate transform to be added to PlayerCursor instance
         ''' </summary>
-        Private ReadOnly _playerCursorBitmapImageTransform As TransformGroup = 
-            New TransformGroup() With{
+        Private ReadOnly _playerCursorBitmapImageTransform As TransformGroup =
+            New TransformGroup() With {
                 .Children = New TransformCollection(
                     New Transform() {_playerCursorBitmapImageTransformTranslate}
                 )
@@ -65,12 +67,12 @@
         ''' <summary>
         ''' ProjectilePlayer object for weapon projectile
         ''' </summary>
-        Private _playerProjectileInstance As Projectile.ProjectileClasses.ProjectilePlayer
+        Private _playerProjectileInstance As ProjectileClasses.ProjectilePlayer
 
         ''' <summary>
         ''' Image that serves as PlayerCursor
         ''' </summary>
-        Private ReadOnly _playerCursorInstance As Image =  New Image() With {
+        Private ReadOnly _playerCursorInstance As Image = New Image() With {
             .Name = "PlayerCursor",
             .Height = PlayerCursorHeight,
             .Width = PlayerCursorWidth,
@@ -105,8 +107,8 @@
         ''' </summary>
         Sub FireWeapon()
             ' If no player projectile currently exists, fire a new one
-            If Not Projectile.ProjectileClasses.ProjectilesCollection.Contains(_playerProjectileInstance) Then
-                _playerProjectileInstance = New Projectile.ProjectileClasses.ProjectilePlayer(_playerCursorBitmapImageTransformTranslate.X + 17.5)
+            If Not ProjectileClasses.ProjectilesCollection.Contains(_playerProjectileInstance) Then
+                _playerProjectileInstance = New ProjectileClasses.ProjectilePlayer(_playerCursorBitmapImageTransformTranslate.X + 17.5)
                 _playerProjectileInstance.AddToCanvas()
             End If
         End Sub

@@ -137,10 +137,18 @@ Namespace Classes
             End If
         End Function
 
+        ''' <summary>
+        ''' Move hitbox by specified amount of pixels on X axis
+        ''' </summary>
+        ''' <param name="pixels">Number of pixels by which to move along the X axis</param>
         Public Sub MoveX(pixels As Integer)
             X += pixels
         End Sub
 
+        ''' <summary>
+        ''' Move hitbox by specified amount of pixels on Y axis
+        ''' </summary>
+        ''' <param name="pixels">Number of pixels by which to move along the Y axis</param>
         Public Sub MoveY(pixels As Integer)
             Y += pixels
         End Sub

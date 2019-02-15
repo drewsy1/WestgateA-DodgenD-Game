@@ -82,7 +82,7 @@
     <Compile Include="Classes\Hitbox.vb" />
     <Compile Include="Classes\MainWindowWrapper.vb" />
     <Compile Include="Enums\EProjectileDirection.vb" />
-    <Compile Include="Classes\Player.vb" />
+    <Compile Include="Classes\Entities\Player.vb" />
     <Compile Include="Classes\Projectile\ProjectileBase.vb" />
     <Compile Include="Classes\Projectile\ProjectileClasses.vb" />
     <Compile Include="Classes\Projectile\ProjectileEnemy.vb" />

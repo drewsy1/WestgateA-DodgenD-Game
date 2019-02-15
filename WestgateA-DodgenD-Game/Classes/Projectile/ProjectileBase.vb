@@ -82,7 +82,7 @@
                               locationX As Double,
                               locationY As Double)
 
-                ProjectilesCollection.Add(Me)
+                ProjectileClasses.ProjectilesCollection.Add(Me)
 
                 ' Increment projectile's X transform value by translateX
                 _projectileTransformTranslate.X += translateX
@@ -96,7 +96,7 @@
             ''' <summary>
             ''' Sets fill color for projectile
             ''' </summary>
-            ''' <param name="projectileColor">Desired fill color for projectile</param>
+            ''' <param name="newProjectileColor">Desired fill color for projectile</param>
             Protected Sub SetColor(newProjectileColor As Color)
                 _projectileRectangle.Fill = New SolidColorBrush(newProjectileColor)
             End Sub
@@ -135,9 +135,9 @@
 
                 _projectileRectangleHitBox = Nothing
 
-                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
+                Dim itemIndex As Integer = ProjectileClasses.ProjectilesCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
-                    ProjectilesCollection(itemIndex) = Nothing
+                    ProjectileClasses.ProjectilesCollection(itemIndex) = Nothing
                 End If
             End Sub
         End Class

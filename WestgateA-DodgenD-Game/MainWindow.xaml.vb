@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Threading
 Imports WestgateA_DodgenD_Game.Classes
-Imports WestgateA_DodgenD_Game.Classes.Projectile
+Imports WestgateA_DodgenD_Game.Classes.Entities
+Imports ProjectileClasses = WestgateA_DodgenD_Game.Classes.Projectile.ProjectileClasses
 
 Public Class MainWindow
     ''' <summary>
