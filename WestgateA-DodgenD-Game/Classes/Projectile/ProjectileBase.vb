@@ -62,18 +62,10 @@
                 .RenderTransformOrigin = New Point(0, 0)
                 }
 
-            ''' <summary>
-            ''' System.Drawing.Rectangle that serves as the projectile's hit box
-            ''' </summary>
-            Private _projectileRectangleHitBox As System.Drawing.Rectangle =
-                        New System.Drawing.Rectangle() With {
-                .Height = ProjectileHeight,
-                .Width = ProjectileWidth
-                }
+            Private WithEvents _projectileHitbox As Hitbox
 
             ''' <summary>
-            ''' Instantiates a new Projectile object and
-            ''' adds it to ProjectilesCollection
+            ''' Instantiates a new Projectile object and adds it to ProjectilesCollection
             ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
             ''' <param name="locationX">Object's starting X-coordinate</param>
@@ -82,7 +74,7 @@
                               locationX As Double,
                               locationY As Double)
 
-                ProjectileClasses.ProjectilesCollection.Add(Me)
+                ProjectilesCollection.Add(Me)
 
                 ' Increment projectile's X transform value by translateX
                 _projectileTransformTranslate.X += translateX
@@ -91,6 +83,12 @@
                 Canvas.SetLeft(_projectileRectangle, locationX)
                 Canvas.SetBottom(_projectileRectangle, locationY)
 
+                _projectileHitbox = New Hitbox(ProjectileWidth,
+                                               ProjectileHeight,
+                                               locationX + translateX,
+                                               locationY)
+
+                AddHandler _projectileHitbox.LeavingCanvas, AddressOf Remove
             End Sub
 
             ''' <summary>
@@ -106,14 +104,7 @@
             ''' </summary>
             Sub UpdateLocation()
                 _projectileTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
-                _projectileRectangleHitBox.Y -= (MovementSpeed * ProjectileDirection)
-
-                ' If the projectile has left the canvas, remove it
-                If _projectileRectangleHitBox.Y >=
-                   MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Or
-                   _projectileRectangleHitBox.Y <= 0 Then
-                    Remove()
-                End If
+                _projectileHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub
 
             ''' <summary>
@@ -133,11 +124,11 @@
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     _projectileRectangle)
 
-                _projectileRectangleHitBox = Nothing
+                _projectileHitbox = Nothing
 
-                Dim itemIndex As Integer = ProjectileClasses.ProjectilesCollection.IndexOf(Me)
+                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
-                    ProjectileClasses.ProjectilesCollection(itemIndex) = Nothing
+                    ProjectilesCollection(itemIndex) = Nothing
                 End If
             End Sub
         End Class

@@ -12,7 +12,7 @@ Public Class MainWindow
     ''' <summary>
     ''' Variable for current Player object
     ''' </summary>
-    ReadOnly _playerObject As Player
+    ReadOnly _playerObject As EntityClasses.Player
 
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the Player instance
@@ -24,7 +24,7 @@ Public Class MainWindow
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
-        _playerObject = New Player()
+        _playerObject = New EntityClasses.Player()
         _playerObject.AddToCanvas()
     End Sub
 
