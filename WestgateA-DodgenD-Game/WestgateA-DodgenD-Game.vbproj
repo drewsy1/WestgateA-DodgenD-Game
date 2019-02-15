@@ -78,6 +78,8 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\GameTimer.vb" />
+    <Compile Include="Classes\Hitbox.vb" />
     <Compile Include="Classes\MainWindowWrapper.vb" />
     <Compile Include="Enums\EProjectileDirection.vb" />
     <Compile Include="Classes\Player.vb" />

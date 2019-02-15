@@ -4,13 +4,6 @@ Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 Public Class MainWindow
     ''' <summary>
-    ''' Timer that keeps track of game events/objects
-    ''' </summary>
-    ReadOnly _dtTimer As DispatcherTimer = New DispatcherTimer With {
-        .Interval = TimeSpan.FromMilliseconds(1)
-    }
-
-    ''' <summary>
     ''' Key (left or right) that controls movement of player cursor
     ''' </summary>
     Dim _currentKeyPress As Key
@@ -24,11 +17,11 @@ Public Class MainWindow
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the Player instance
     ''' </summary>
     Sub New()
+        GameTimer.Start()
         InitializeComponent()
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
-        AddHandler _dtTimer.Tick, AddressOf GameTimeUpdater
-        _dtTimer.Start()
+        AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
         _playerObject = New Player()
         _playerObject.AddToCanvas()
@@ -37,9 +30,7 @@ Public Class MainWindow
     ''' <summary>
     ''' This method is called on every tick of the _dtTimer
     ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub GameTimeUpdater(sender As Object, e As EventArgs)
+    Private Sub GameTimeUpdater()
         RegisterKeypresses(_currentKeyPress)
         ProjectileClasses.UpdateProjectiles()
     End Sub
