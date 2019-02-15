@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 ﻿Imports WestgateA_DodgenD_Game.Enums
 
 Namespace Classes.Projectile
-=======
-﻿Namespace Classes.Projectile
->>>>>>> 0e50ec605f27355ea86520b0e08c74e4203ef971
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
@@ -22,7 +18,7 @@ Namespace Classes.Projectile
             ''' <summary>
             ''' Color of ProjectileEnemy projectile
             ''' </summary>
-            Shared Shadows ReadOnly ProjectileColor As Color = Colors.Red
+            Protected Overrides Property ProjectileColor As Color = Colors.Red
 
             ''' <summary>
             ''' Default starting X-coordinate location for ProjectileEnemy
@@ -38,22 +34,14 @@ Namespace Classes.Projectile
             ''' Instantiates a ProjectileEnemy object by calling Projectile.New() and
             ''' sets its color to ProjectileColor
             ''' </summary>
-            Sub New()
-                MyBase.New()
-                SetColor(ProjectileColor)
-            End Sub
-
-            ''' <summary>
-            ''' Sets location/transform for projectile and adds it to canvas by calling
-            ''' base class' AddToCanvas()
-            ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
             ''' <param name="locationX">Object's starting X-coordinate</param>
             ''' <param name="locationY">Object's starting Y-coordinate</param>
-            Friend Shadows Sub AddToCanvas(translateX As Double,
-                                    Optional locationX As Double = TransformXDefault,
-                                    Optional locationY As Double = TransformYDefault)
-                MyBase.AddToCanvas(translateX, locationX, locationY)
+            Sub New(translateX As Double,
+                    Optional locationX As Double = TransformXDefault,
+                    Optional locationY As Double = TransformYDefault)
+                MyBase.New(translateX, locationX, locationY)
+                SetColor(ProjectileColor)
             End Sub
         End Class
     End Class
