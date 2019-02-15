@@ -106,8 +106,8 @@
         Sub FireWeapon()
             ' If no player projectile currently exists, fire a new one
             If Not Projectile.ProjectileClasses.ProjectilesCollection.Contains(_playerProjectileInstance) Then
-                _playerProjectileInstance = New Projectile.ProjectileClasses.ProjectilePlayer()
-                _playerProjectileInstance.AddToCanvas(_playerCursorBitmapImageTransformTranslate.X + 17.5)
+                _playerProjectileInstance = New Projectile.ProjectileClasses.ProjectilePlayer(_playerCursorBitmapImageTransformTranslate.X + 17.5)
+                _playerProjectileInstance.AddToCanvas()
             End If
         End Sub
 

@@ -28,6 +28,12 @@
             Protected Overridable Property ProjectileDirection As Double
 
             ''' <summary>
+            ''' Color of projectile
+            ''' </summary>
+            ''' <returns>ProjectileColor</returns>
+            Protected Overridable Property ProjectileColor As Color
+
+            ''' <summary>
             ''' Transform object that will be added to the projectile.
             ''' (This object's X and Y properties will move the projectile)
             ''' </summary>
@@ -69,16 +75,30 @@
             ''' Instantiates a new Projectile object and
             ''' adds it to ProjectilesCollection
             ''' </summary>
-            Protected Sub New()
+            ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
+            ''' <param name="locationX">Object's starting X-coordinate</param>
+            ''' <param name="locationY">Object's starting Y-coordinate</param>
+            Protected Sub New(translateX As Double,
+                              locationX As Double,
+                              locationY As Double)
+
                 ProjectilesCollection.Add(Me)
+
+                ' Increment projectile's X transform value by translateX
+                _projectileTransformTranslate.X += translateX
+
+                ' Set coordinates on canvas for projectile
+                Canvas.SetLeft(_projectileRectangle, locationX)
+                Canvas.SetBottom(_projectileRectangle, locationY)
+
             End Sub
 
             ''' <summary>
             ''' Sets fill color for projectile
             ''' </summary>
             ''' <param name="projectileColor">Desired fill color for projectile</param>
-            Protected Sub SetColor(projectileColor As Color)
-                _projectileRectangle.Fill = New SolidColorBrush(projectileColor)
+            Protected Sub SetColor(newProjectileColor As Color)
+                _projectileRectangle.Fill = New SolidColorBrush(newProjectileColor)
             End Sub
 
             ''' <summary>
@@ -97,28 +117,9 @@
             End Sub
 
             ''' <summary>
-            ''' Sets location/transform for projectile and adds it to canvas
+            ''' Adds projectile to canvas
             ''' </summary>
-            ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="locationX">Object's starting X-coordinate</param>
-            ''' <param name="locationY">Object's starting Y-coordinate</param>
-            Protected Sub AddToCanvas(translateX As Double,
-                                      locationX As Double,
-                                      locationY As Double)
-
-                ' Increment projectile's X transform value by translateX
-                _projectileTransformTranslate.X += translateX
-
-                ' Set coordinates on canvas for projectile
-                Canvas.SetLeft(_projectileRectangle, locationX)
-                Canvas.SetBottom(_projectileRectangle, locationY)
-
-                ' Set coordinates for projectile's hit box rectangle
-                _projectileRectangleHitBox.X =
-                    locationX + _projectileTransformTranslate.X
-                _projectileRectangleHitBox.Y = locationY
-
-                ' Add rectangle to CanvasGameScreen (makes it visible)
+            Sub AddToCanvas()
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Add(
                     _projectileRectangle)
             End Sub
@@ -135,7 +136,9 @@
                 _projectileRectangleHitBox = Nothing
 
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
-                ProjectilesCollection(itemIndex) = Nothing
+                If itemIndex >= 0 Then
+                    ProjectilesCollection(itemIndex) = Nothing
+                End If
             End Sub
         End Class
     End Class
