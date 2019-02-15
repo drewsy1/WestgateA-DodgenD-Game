@@ -23,12 +23,12 @@ Namespace Classes.Projectile
             ''' <summary>
             ''' Default starting X-coordinate location for ProjectilePlayer
             ''' </summary>
-            Private Const LocationXDefault As Double = 316.5
+            Private Const LocationXDefault As Double = MainWindowWrapper.CanvasWidth / 2
 
             ''' <summary>
             ''' Default starting Y-coordinate location for ProjectilePlayer
             ''' </summary>
-            Private Const LocationYDefault As Double = 132
+            Private Const LocationYDefault As Double = 76.5
 
             ''' <summary>
             ''' Instantiates a ProjectilePlayer object by calling Projectile.New() and
