@@ -4,7 +4,7 @@ Namespace Classes
     Public Class CanvasObjects
         Implements ICanvasObjects
 
-        Protected Shared ReadOnly ObjectCollection As List(Of Object) =
+        Public Shared ReadOnly ObjectCollection As List(Of Object) =
                                     New List(Of Object)()
 
         Protected Overridable Property ObjectHeight As Double Implements ICanvasObjects.ObjectHeight
@@ -21,15 +21,17 @@ Namespace Classes
         Protected Overridable Property ObjectTransformTranslate As TranslateTransform Implements ICanvasObjects.ObjectTransformTranslate
         Protected Overridable Property ObjectTransformGroup As TransformGroup Implements ICanvasObjects.ObjectTransformGroup
         Public Overridable Property ObjectControl As Object Implements ICanvasObjects.ObjectControl
-        Protected WithEvents ObjectHitbox As Hitbox
+        Public WithEvents ObjectHitbox As Hitbox
 
         Protected Overridable Function CreateHitbox() As Hitbox Implements ICanvasObjects.CreateHitbox
             Dim newHitbox As Hitbox = New Hitbox(ObjectWidth,
                                                  ObjectHeight,
+                                                 Me,
                                                  LocationXDefault,
                                                  LocationYDefault)
             Return newHitbox
         End Function
+
 
         Protected Overridable Function GetTranslateBoundLeft() As Double Implements ICanvasObjects.GetTranslateBoundLeft
             Return -1 * (LocationX - (ObjectWidth * 0.5))
@@ -140,7 +142,12 @@ Namespace Classes
             ObjectCollection.Add(Me)
 
             ObjectHitbox = CreateHitbox()
+            AddHandler ObjectHitbox.ObjectCollision, AddressOf CollisionDetected
             AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
+        End Sub
+
+        Public Sub CollisionDetected(Object1 As Object, Object2 As Object)
+            Debug.WriteLine(Object1.ToString() & " -> " & Object2.ToString())
         End Sub
     End Class
 End Namespace

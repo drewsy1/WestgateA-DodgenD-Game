@@ -2,13 +2,15 @@
 
 Namespace Classes
     Public Class Hitbox
-        Private _hitboxRectangle As Rectangle
+        Public _hitboxRectangle As Rectangle
+
+        Public Property Parent As Object
 
         ''' <summary>
         ''' Integer representing the X coordinate of the upper-left corner of the hitbox
         ''' </summary>
         ''' <returns>X coordinate of the upper-left corner of the hitbox</returns>
-        Public Property X() As Integer
+        Public Property X As Integer
             Get
                 Return _hitboxRectangle.X
             End Get
@@ -21,7 +23,7 @@ Namespace Classes
         ''' Integer representing the Y coordinate of the upper-left corner of the hitbox
         ''' </summary>
         ''' <returns>Y coordinate of the upper-left corner of the hitbox</returns>
-        Public Property Y() As Integer
+        Public Property Y As Integer
             Get
                 Return _hitboxRectangle.Y
             End Get
@@ -34,7 +36,7 @@ Namespace Classes
         ''' Integer representing the width of the hitbox
         ''' </summary>
         ''' <returns>Width of the hitbox</returns>
-        Public Property Width() As Integer
+        Public Property Width As Integer
             Get
                 Return _hitboxRectangle.Width
             End Get
@@ -47,7 +49,7 @@ Namespace Classes
         ''' Integer representing the height of the hitbox
         ''' </summary>
         ''' <returns>Height of the hitbox</returns>
-        Public Property Height() As Integer
+        Public Property Height As Integer
             Get
                 Return _hitboxRectangle.Height
             End Get
@@ -62,8 +64,16 @@ Namespace Classes
         ''' <param name="direction">Indicates canvas side being touched by hitbox</param>
         Public Event LeavingCanvas(direction As String)
 
+        ''' <summary>
+        ''' Event raised when hitbox makes contact with another hitbox
+        ''' </summary>
+        ''' <param name="Object1"></param>
+        ''' <param name="Object2"></param>
+        Public Event ObjectCollision(Object1 As Object, Object2 As Object)
+
         Sub New(width As Integer,
                 height As Integer,
+                parent As Object,
                 Optional x As Integer = 0,
                 Optional y As Integer = 0
                 )
@@ -71,6 +81,7 @@ Namespace Classes
             Me.Y = y
             Me.Width = width
             Me.Height = height
+            Me.Parent = parent
 
             _hitboxRectangle = New Rectangle() With {
                 .X = x,
@@ -83,6 +94,7 @@ Namespace Classes
             AddHandler GameTimer.Tick, AddressOf CheckCanvasBottomTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasLeftTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasRightTouch
+            AddHandler GameTimer.Tick, AddressOf CheckHitboxContact
         End Sub
 
         ''' <summary>
@@ -136,6 +148,11 @@ Namespace Classes
                 Return False
             End If
         End Function
+
+        Private Sub CheckHitboxContact()
+            CanvasObjects.ObjectCollection.ForEach(
+                Sub(obj) If obj.ObjectHitbox._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj, Parent))
+        End Sub
 
         ''' <summary>
         ''' Move hitbox by specified amount of pixels on X axis

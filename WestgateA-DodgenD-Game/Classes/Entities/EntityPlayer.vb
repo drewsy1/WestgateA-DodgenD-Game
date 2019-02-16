@@ -98,8 +98,6 @@ Namespace Classes.Entities
                 .RenderTransformOrigin = New Point(0, 0),
                 .Source = _playerCursorBitmapImage
                 }
-
-            Protected Shadows WithEvents ObjectHitbox As Hitbox
 #End Region
 
             ''' <summary>
