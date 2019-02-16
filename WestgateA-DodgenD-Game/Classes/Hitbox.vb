@@ -152,5 +152,9 @@ Namespace Classes
         Public Sub MoveY(pixels As Integer)
             Y += pixels
         End Sub
+
+        Public Shadows Sub Finalize()
+            MyBase.Finalize()
+        End Sub
     End Class
 End Namespace

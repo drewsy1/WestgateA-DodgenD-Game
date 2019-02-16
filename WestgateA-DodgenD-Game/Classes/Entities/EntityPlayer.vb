@@ -6,12 +6,12 @@ Namespace Classes.Entities
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>
     Partial Public Class EntityClasses
-        Public Class Player
+        Public Class EntityPlayer
             Inherits EntityBase
             ''' <summary>
             ''' Default PlayerCursor movement speed
             ''' </summary>
-            Private Const MovementSpeed As Double = 5
+            Protected Overrides Property MovementSpeed As Double = 5
 
             ''' <summary>
             ''' Bitmap image object that will contain the PlayerCursor BMP
@@ -33,25 +33,33 @@ Namespace Classes.Entities
             ''' Default player cursor height in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property EntityHeight As Double = 57
+            Protected Overrides Property ObjectHeight As Double = 57
 
             ''' <summary>
             ''' Default player cursor width in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property EntityWidth As Double = 39
+            Protected Overrides Property ObjectWidth As Double = 39
 
             ''' <summary>
             ''' Default starting X-coordinate location for PlayerCursor
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property LocationXDefault As Double = MainWindowWrapper.CanvasWidth / 2
+            Protected Overrides ReadOnly Property LocationXDefault As Double
+                Get
+                    Return MainWindowWrapper.CanvasWidth / 2
+                End Get
+            End Property
 
             ''' <summary>
             ''' Default starting Y-coordinate location for PlayerCursor
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property LocationYDefault As Double = 48
+            Protected Overrides ReadOnly Property LocationYDefault As Double
+                Get
+                    Return 48
+                End Get
+            End Property
 
             ''' <summary>
             ''' Leftmost x-value of PlayerCursor
@@ -68,54 +76,49 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Translate transform object for PlayerCursor
             ''' </summary>
-            Protected Overrides Property EntityTransformTranslate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0}
+            Protected Overrides Property ObjectTransformTranslate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0}
 
             ''' <summary>
             ''' TransformGroup containing Translate transform to be added to PlayerCursor instance
             ''' </summary>
-            Protected Overrides Property EntityTransformGroup As TransformGroup = New TransformGroup() With {
-                .Children = New TransformCollection(New Transform() {EntityTransformTranslate})
+            Protected Overrides Property ObjectTransformGroup As TransformGroup =
+                New TransformGroup() With {
+                    .Children = New TransformCollection(
+                        New Transform() {ObjectTransformTranslate})
                 }
 
             ''' <summary>
             ''' Image control that serves as PlayerCursor
             ''' </summary>
-            Protected Overrides Property EntityControl As Object = New Image() With {
+            Public Overrides Property ObjectControl As Object = New Image() With {
                 .Name = "PlayerCursor",
-                .Height = EntityHeight,
-                .Width = EntityWidth,
-                .RenderTransform = EntityTransformGroup,
+                .Height = ObjectHeight,
+                .Width = ObjectWidth,
+                .RenderTransform = ObjectTransformGroup,
                 .RenderTransformOrigin = New Point(0, 0),
                 .Source = _playerCursorBitmapImage
                 }
 
-            Private WithEvents _entityHitbox As Hitbox
+            Protected Shadows WithEvents ObjectHitbox As Hitbox
 #End Region
 
             ''' <summary>
-            ''' Instantiates a new Player object, creates its hitbox, and adds it to EntitiesCollection
+            ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
             Sub New()
+                MyBase.New()
                 _playerCursorBitmapImage.BeginInit()
-                _playerCursorBitmapImage.UriSource = New Uri(PlayerCursorImagePath, UriKind.RelativeOrAbsolute)
+                _playerCursorBitmapImage.UriSource = New Uri(
+                    PlayerCursorImagePath,
+                    UriKind.RelativeOrAbsolute
+                    )
                 _playerCursorBitmapImage.EndInit()
 
-                EntitiesCollection.Add(Me)
-
-                _entityHitbox = New Hitbox(EntityWidth,
-                                           EntityHeight,
-                                           LocationXDefault,
-                                           LocationYDefault)
-
-                AddHandler _entityHitbox.LeavingCanvas, AddressOf MyBase.Remove
-            End Sub
-
-
-            ''' <summary>
-            ''' Sets location/transform for player and adds it to canvas
-            ''' </summary>
-            Overloads Sub AddToCanvas()
-                AddToCanvas(LocationXDefault, LocationYDefault, EntityControl)
+                MainWindowWrapper.SetCanvasLocation(
+                    LocationXDefault,
+                    LocationYDefault,
+                    ObjectControl
+                    )
             End Sub
 
             ''' <summary>
@@ -123,26 +126,17 @@ Namespace Classes.Entities
             ''' </summary>
             Sub FireWeapon()
                 ' If no player projectile currently exists, fire a new one
-                If Not ProjectileClasses.ProjectilesCollection.Contains(_playerProjectileInstance) Then
-                    _playerProjectileInstance = New ProjectileClasses.ProjectilePlayer(EntityTransformTranslate.X + (EntityWidth / 2))
-                    _playerProjectileInstance.AddToCanvas()
+                If Not ProjectileClasses.ProjectilesCollection.Contains(
+                    _playerProjectileInstance) Then
+                    _playerProjectileInstance =
+                        New ProjectileClasses.ProjectilePlayer(
+                            (ObjectWidth / 2),
+                            0 - ObjectHeight,
+                            (LocationX + ObjectTransformTranslate.X),
+                            (LocationY)
+                            )
+                    MainWindowWrapper.AddToCanvas(_playerProjectileInstance)
                 End If
-            End Sub
-
-            ''' <summary>
-            ''' Moves player cursor left if player is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to MovementSpeed)</param>
-            Overloads Sub MoveLeft(Optional localMovementSpeed As Double = MovementSpeed)
-                MoveLeft(localMovementSpeed, EntityTransformTranslate)
-            End Sub
-
-            ''' <summary>
-            ''' Moves player cursor right if player is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to MovementSpeed)</param>
-            Overloads Sub MoveRight(Optional localMovementSpeed As Double = MovementSpeed)
-                MoveRight(localMovementSpeed, EntityTransformTranslate)
             End Sub
         End Class
     End Class

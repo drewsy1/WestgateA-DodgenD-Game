@@ -13,34 +13,51 @@ Namespace Classes.Projectile
             ''' Sets direction of projectile
             ''' </summary>
             ''' <returns>ProjectileDirection</returns>
-            Protected Overrides Property ProjectileDirection As Double = EProjectileDirection.Down
+            Protected Overrides Property ProjectileDirection As Double
+                Get
+                    Return EProjectileDirection.Down
+                End Get
+                Set(value As Double)
 
+                End Set
+            End Property
             ''' <summary>
             ''' Color of ProjectileEnemy projectile
             ''' </summary>
             Protected Overrides Property ProjectileColor As Color = Colors.Red
 
             ''' <summary>
-            ''' Default starting X-coordinate location for ProjectileEnemy
+            ''' Default starting X-coordinate location for ProjectilePlayer
             ''' </summary>
-            Private Const TransformXDefault As Double = 316.5
+            Protected Overrides ReadOnly Property LocationXDefault As Double
+                Get
+                    Return MainWindowWrapper.CanvasWidth / 2
+                End Get
+            End Property
+
 
             ''' <summary>
-            ''' Default starting Y-coordinate location for ProjectileEnemy
+            ''' Default starting Y-coordinate location for ProjectilePlayer
             ''' </summary>
-            Private Const TransformYDefault As Double = 768
+            Protected Overrides ReadOnly Property LocationYDefault As Double
+                Get
+                    Return 76.5
+                End Get
+            End Property
 
             ''' <summary>
-            ''' Instantiates a ProjectileEnemy object by calling Projectile.New() and
+            ''' Instantiates a ProjectilePlayer object by calling Projectile.New() and
             ''' sets its color to ProjectileColor
             ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="locationX">Object's starting X-coordinate</param>
-            ''' <param name="locationY">Object's starting Y-coordinate</param>
+            ''' <param name="localLocationX">Object's starting X-coordinate</param>
+            ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Sub New(translateX As Double,
-                    Optional locationX As Double = TransformXDefault,
-                    Optional locationY As Double = TransformYDefault)
-                MyBase.New(translateX, locationX, locationY)
+                    translateY As Double,
+                    Optional localLocationX As Double = Nothing,
+                    Optional localLocationY As Double = Nothing)
+                MyBase.New(translateX, translateY, localLocationX, localLocationY)
+
                 SetColor(ProjectileColor)
             End Sub
         End Class

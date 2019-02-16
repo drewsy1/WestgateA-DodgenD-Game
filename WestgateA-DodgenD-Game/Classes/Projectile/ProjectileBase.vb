@@ -1,28 +1,44 @@
-﻿Namespace Classes.Projectile
+﻿Imports WestgateA_DodgenD_Game.Interfaces
+
+Namespace Classes.Projectile
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
         ''' <summary>
         ''' Base Projectile class, must be inherited by new classes
         ''' </summary>
         Public MustInherit Class ProjectileBase
+            Inherits CanvasObjects
+            Implements ICanvasObjects
+
+            Protected Overrides Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
+            Protected Overrides Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
+            Protected Overrides ReadOnly Property LocationXDefault As Double Implements ICanvasObjects.LocationXDefault
+            Protected Overrides ReadOnly Property LocationYDefault As Double Implements ICanvasObjects.LocationYDefault
+            Protected Overrides Property LocationX As Double Implements ICanvasObjects.LocationX
+            Protected Overrides Property LocationY As Double Implements ICanvasObjects.LocationY
+            Protected Overrides Property TranslateBoundLeft As Double Implements ICanvasObjects.TranslateBoundLeft
+            Protected Overrides Property TranslateBoundRight As Double Implements ICanvasObjects.TranslateBoundRight
+            Protected Overrides Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
+            Protected Overrides Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
+            Protected Overrides Property MovementSpeed As Double = 15 Implements ICanvasObjects.MovementSpeed
+            Protected Overrides Property ObjectTransformTranslate As TranslateTransform =
+                New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+            Protected Overrides Property ObjectTransformGroup As TransformGroup =
+                New TransformGroup() With {
+                    .Children = New TransformCollection(
+                        New Transform() {ObjectTransformTranslate}
+                        )
+                    } Implements ICanvasObjects.ObjectTransformGroup
+            Public Overrides Property ObjectControl As Object = New Rectangle() With {
+                .Height = ObjectHeight,
+                .Width = ObjectWidth,
+                .StrokeThickness = 0,
+                .RenderTransform = ObjectTransformGroup,
+                .RenderTransformOrigin = New Point(0, 0)
+                } Implements ICanvasObjects.ObjectControl
 
             ''' <summary>
-            ''' Default projectile height
-            ''' </summary>
-            Private Const ProjectileHeight As Double = 27
-
-            ''' <summary>
-            ''' Default projectile width
-            ''' </summary>
-            Private Const ProjectileWidth As Double = 3
-
-            ''' <summary>
-            ''' Default projectile speed
-            ''' </summary>
-            Private Const MovementSpeed As Double = 15
-
-            ''' <summary>
-            ''' Overridable double representing direction of projectile travel
+            ''' Overrides double representing direction of projectile travel
             ''' </summary>
             ''' <returns>ProjectileDirection</returns>
             Protected Overridable Property ProjectileDirection As Double
@@ -33,62 +49,45 @@
             ''' <returns>ProjectileColor</returns>
             Protected Overridable Property ProjectileColor As Color
 
-            ''' <summary>
-            ''' Transform object that will be added to the projectile.
-            ''' (This object's X and Y properties will move the projectile)
-            ''' </summary>
-            Private ReadOnly _projectileTransformTranslate As TranslateTransform =
-                                 New TranslateTransform() With {.X = 0, .Y = 0}
 
-            ''' <summary>
-            ''' TransformGroup containing _projectileTransformTranslate
-            ''' (will be added to ProjectileRectangle)
-            ''' </summary>
-            Private ReadOnly _projectileTransform As TransformGroup =
-                New TransformGroup() With {
-                    .Children = New TransformCollection(
-                        New Transform() {_projectileTransformTranslate}
-                        )
-                }
+            Public Overrides Sub Remove() Implements ICanvasObjects.Remove
+                ' Remove rectangle from CanvasGameScreen (make it invisible)
+                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                    ObjectControl)
 
-            ''' <summary>
-            ''' Shapes.Rectangle object that serves as projectile
-            ''' </summary>
-            Private ReadOnly _projectileRectangle As Rectangle = New Rectangle() With {
-                .Height = ProjectileHeight,
-                .Width = ProjectileWidth,
-                .StrokeThickness = 0,
-                .RenderTransform = _projectileTransform,
-                .RenderTransformOrigin = New Point(0, 0)
-                }
+                ObjectHitbox.Finalize()
 
-            Private WithEvents _projectileHitbox As Hitbox
+                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
+                If itemIndex >= 0 Then
+                    ProjectilesCollection(itemIndex) = Nothing
+                End If
+                Finalize()
+            End Sub
 
             ''' <summary>
             ''' Instantiates a new Projectile object and adds it to ProjectilesCollection
             ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="locationX">Object's starting X-coordinate</param>
-            ''' <param name="locationY">Object's starting Y-coordinate</param>
+            ''' <param name="localLocationX">Object's starting X-coordinate</param>
+            ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Protected Sub New(translateX As Double,
-                              locationX As Double,
-                              locationY As Double)
-
+                              translateY As Double,
+                              Optional localLocationX As Double = Nothing,
+                              Optional localLocationY As Double = Nothing)
+                MyBase.New(localLocationX, localLocationY + translateY)
                 ProjectilesCollection.Add(Me)
 
-                ' Increment projectile's X transform value by translateX
-                _projectileTransformTranslate.X += translateX
+                ObjectHitbox = CreateHitbox()
 
                 ' Set coordinates on canvas for projectile
-                Canvas.SetLeft(_projectileRectangle, locationX)
-                Canvas.SetBottom(_projectileRectangle, locationY)
+                MainWindowWrapper.SetCanvasLocation(localLocationX, localLocationY, ObjectControl)
 
-                _projectileHitbox = New Hitbox(ProjectileWidth,
-                                               ProjectileHeight,
-                                               locationX + translateX,
-                                               locationY)
+                ' Increment projectile's X transform value by translateX
+                ObjectTransformTranslate.X += translateX
+                ObjectTransformTranslate.Y += translateY
 
-                AddHandler _projectileHitbox.LeavingCanvas, AddressOf Remove
+                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
+                AddHandler GameTimer.Tick, AddressOf UpdateLocation
             End Sub
 
             ''' <summary>
@@ -96,41 +95,21 @@
             ''' </summary>
             ''' <param name="newProjectileColor">Desired fill color for projectile</param>
             Protected Sub SetColor(newProjectileColor As Color)
-                _projectileRectangle.Fill = New SolidColorBrush(newProjectileColor)
+                ObjectControl.Fill = New SolidColorBrush(newProjectileColor)
             End Sub
 
             ''' <summary>
             ''' Moves projectile based on ProjectileDirection and removes it if needed
             ''' </summary>
             Sub UpdateLocation()
-                _projectileTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
-                _projectileHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
+
+                TranslateY(MovementSpeed * ProjectileDirection)
+                'ObjectTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
+                'ObjectHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub
 
-            ''' <summary>
-            ''' Adds projectile to canvas
-            ''' </summary>
-            Sub AddToCanvas()
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Add(
-                    _projectileRectangle)
-            End Sub
-
-            ''' <summary>
-            ''' Removes projectile from canvas, clears the hit box object,
-            ''' and removes projectile from ProjectilesCollection
-            ''' </summary>
-            Private Sub Remove()
-                ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    _projectileRectangle)
-
-                _projectileHitbox = Nothing
-
-                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
-                If itemIndex >= 0 Then
-                    ProjectilesCollection(itemIndex) = Nothing
-                End If
-            End Sub
         End Class
+
+
     End Class
 End Namespace
