@@ -8,19 +8,19 @@ Namespace Classes.Entities
             Private Shared ReadOnly EnemyCCollection As List(Of Object) =
                                           New List(Of Object)()
 
-            Public Overrides Property ObjectControl As Object = New Label() With {
+            Public Overrides Property ObjectControl As Object = New TextBox() With {
                                 .Name = "EnemyC_" & EnemyCCollection.Count,
                                 .Height = ObjectHeight,
                                 .Width = ObjectWidth,
                                 .RenderTransform = ObjectTransformGroup,
                                 .RenderTransformOrigin = New Point(0, 0),
-                                .Content = "⛄",
+                                .Text = "☣",
                                 .FontFamily = New FontFamily("Segoe UI Symbol"),
-                                .FontSize = 24,
-                                .VerticalContentAlignment = VerticalAlignment.Top,
+                                .FontSize = 32,
+                                .VerticalContentAlignment = VerticalAlignment.Center,
                                 .HorizontalContentAlignment = HorizontalAlignment.Center,
-                                .Padding = New Thickness(0, 0, 0, 0),
-                                .Background = New SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                                .Padding = New Thickness(-1.5, -10, 0, 0),
+                                .Background = New SolidColorBrush(Color.FromRgb(0, 255, 0)),
                                 .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
                 }
 
@@ -41,10 +41,12 @@ Namespace Classes.Entities
 
             Sub ChangeContent()
                 'Fires every half-second
-                If ObjectControl.Background.Color = Color.FromRgb(255, 255, 255) Then
-                    ObjectControl.Background.Color = Color.FromRgb(64, 255, 255)
+                If ObjectControl.Background.Color = Color.FromRgb(0, 255, 0) Then
+                    ObjectControl.Background.Color = Color.FromRgb(0, 0, 0)
+                    ObjectControl.Foreground.Color = Color.FromRgb(0, 255, 0)
                 Else
-                    ObjectControl.Background.Color = Color.FromRgb(255, 255, 255)
+                    ObjectControl.Background.Color = Color.FromRgb(0, 255, 0)
+                    ObjectControl.Foreground.Color = Color.FromRgb(0, 0, 0)
                 End If
             End Sub
         End Class
