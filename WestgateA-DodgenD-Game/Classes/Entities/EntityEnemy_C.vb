@@ -21,7 +21,8 @@ Namespace Classes.Entities
                                 .HorizontalContentAlignment = HorizontalAlignment.Center,
                                 .Padding = New Thickness(-1.5, -10, 0, 0),
                                 .Background = New SolidColorBrush(Color.FromRgb(0, 255, 0)),
-                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
+                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                                .IsReadOnly = True
                 }
 
             Public Shadows WithEvents ObjectHitbox As Hitbox
