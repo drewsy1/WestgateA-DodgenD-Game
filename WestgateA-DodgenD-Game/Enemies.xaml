@@ -8,6 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Enemies">
     <Grid Background="White">
-        
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="33" Margin="381,177,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="33" Padding="-2.5,-11.5,0,0" FontFamily="Segoe UI Symbol" FontSize="36" Text="☢" TextAlignment="Center" Background="Yellow"/>
+
     </Grid>
 </Page>
