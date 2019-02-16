@@ -26,8 +26,8 @@ Public Class MainWindow
         _entityPlayerObject = New EntityClasses.EntityPlayer()
         MainWindowWrapper.AddToCanvas(_entityPlayerObject)
 
-        Dim _entityEnemyB As EntityClasses.EntityEnemy = New EntityClasses.EntityEnemyB()
-        MainWindowWrapper.AddToCanvas(_entityEnemyB)
+        Dim entityEnemyC As EntityClasses.EntityEnemy = New EntityClasses.EntityEnemyC()
+        MainWindowWrapper.AddToCanvas(entityEnemyC)
     End Sub
 
     ''' <summary>
