@@ -26,13 +26,13 @@ Namespace Classes.Entities
 
             Public Shadows WithEvents ObjectHitbox As Hitbox
 
-            Sub New()
+            Sub New(localLocationX As Double, localLocationY As Double)
                 MyBase.New()
                 EnemyCCollection.Add(Me)
 
                 MainWindowWrapper.SetCanvasLocation(
-                    LocationXDefault,
-                    LocationYDefault,
+                    localLocationX,
+                    localLocationY,
                     ObjectControl
                     )
                 ObjectHitbox = CreateHitbox()
