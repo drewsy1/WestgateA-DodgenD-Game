@@ -9,7 +9,7 @@
       Title="Enemies">
     <Grid Background="White" Margin="638,361,0,0">
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="33" Margin="381,177,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="33" Padding="-2.5,-11.5,0,0" FontFamily="Segoe UI Symbol" FontSize="36" Text="☢" TextAlignment="Center" Background="Yellow"/>
-        <Label x:Name="label" Content="⛄" HorizontalAlignment="Center" Margin="87,38,0,0" VerticalAlignment="Center" Width="33" Height="32" FontSize="24" Padding="2,0,0,0" Background="#FF40FFFF"/>
+        <CheckBox x:Name="checkBox" Content="" HorizontalAlignment="Center" Margin="58,35,0,0" VerticalAlignment="Top" Width="8" Height="8" Padding="0" FontSize="8"/>
 
     </Grid>
 </Page>
