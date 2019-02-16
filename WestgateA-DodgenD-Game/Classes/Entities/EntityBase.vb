@@ -63,6 +63,8 @@ Namespace Classes.Entities
                 End If
                 Finalize()
             End Sub
+
+
         End Class
     End Class
 End Namespace

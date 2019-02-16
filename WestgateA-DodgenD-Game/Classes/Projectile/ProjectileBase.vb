@@ -12,6 +12,7 @@ Namespace Classes.Projectile
 
             Protected Overrides Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
             Protected Overrides Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
+            ' ReSharper disable UnassignedGetOnlyAutoProperty
             Protected Overrides ReadOnly Property LocationXDefault As Double Implements ICanvasObjects.LocationXDefault
             Protected Overrides ReadOnly Property LocationYDefault As Double Implements ICanvasObjects.LocationYDefault
             Protected Overrides Property LocationX As Double Implements ICanvasObjects.LocationX

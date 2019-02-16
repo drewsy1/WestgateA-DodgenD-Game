@@ -88,7 +88,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
-            Sub New()
+            Protected Sub New()
                 MyBase.New()
             End Sub
 

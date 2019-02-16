@@ -1,10 +1,11 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+﻿
 Namespace Classes.Entities
 
-    Partial Public Class EntityClasses
+    Partial Public MustInherit Class EntityClasses
         Public Class EntityEnemyA
             Inherits EntityEnemy
-            Protected Shared ReadOnly EnemyACollection As List(Of Object) =
+
+            Private Shared ReadOnly EnemyACollection As List(Of Object) =
                                           New List(Of Object)()
 
             Public Overrides Property ObjectControl As Object = New Button() With {
@@ -13,8 +14,16 @@ Namespace Classes.Entities
                                 .Width = ObjectWidth,
                                 .RenderTransform = ObjectTransformGroup,
                                 .RenderTransformOrigin = New Point(0, 0),
-                .IsEnabled = False
+                                .Content = "😠",
+                                .FontFamily = New FontFamily("Segoe UI Symbol"),
+                                .FontSize = 20,
+                                .VerticalContentAlignment = VerticalAlignment.Center,
+                                .Padding = New Thickness(0),
+                                .IsEnabled = False,
+                                .FontWeight = FontWeights.UltraBold
                 }
+
+            Public Shadows WithEvents ObjectHitbox As Hitbox
 
             Sub New()
                 MyBase.New()
@@ -25,9 +34,16 @@ Namespace Classes.Entities
                     LocationYDefault,
                     ObjectControl
                     )
-                Dim test As Button = New Button()
-                'test.
-                'ObjectControl.
+                ObjectHitbox = CreateHitbox()
+                AddHandler GameTimer.LongTick, AddressOf ChangeContent
+            End Sub
+
+            Sub ChangeContent()
+                If ObjectControl.Content = "😠" Then
+                    ObjectControl.Content = "😧"
+                Else
+                    ObjectControl.Content = "😠"
+                End If
             End Sub
         End Class
     End Class

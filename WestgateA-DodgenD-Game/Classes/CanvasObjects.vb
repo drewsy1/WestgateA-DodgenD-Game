@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Interfaces
+﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes
     Public Class CanvasObjects
@@ -142,12 +143,15 @@ Namespace Classes
             ObjectCollection.Add(Me)
 
             ObjectHitbox = CreateHitbox()
-            AddHandler ObjectHitbox.ObjectCollision, AddressOf CollisionDetected
             AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
         End Sub
 
-        Public Sub CollisionDetected(Object1 As Object, Object2 As Object)
-            Debug.WriteLine(Object1.ToString() & " -> " & Object2.ToString())
+        Public Shared Sub CollisionDetected(object1 As Object, object2 As Object) Handles ObjectHitbox.ObjectCollision
+            Debug.WriteLine("COLLISION: " & object1.ToString() & " -> " & object2.ToString())
+            If TypeOf object2 Is ProjectileClasses.ProjectileBase Then
+                object2.Remove()
+                object1.Remove()
+            End If
         End Sub
     End Class
 End Namespace
