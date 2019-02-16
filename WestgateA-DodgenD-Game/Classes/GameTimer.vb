@@ -9,7 +9,7 @@ Namespace Classes
         ''' Timer that keeps track of game events/objects
         ''' </summary>
         Private Shared WithEvents _dtTimer As DispatcherTimer = New DispatcherTimer() With {
-            .Interval = TimeSpan.FromMilliseconds(1)
+            .Interval = TimeSpan.FromMilliseconds(20)
         }
 
         Private Shared WithEvents _LongTimer As DispatcherTimer = New DispatcherTimer() With {

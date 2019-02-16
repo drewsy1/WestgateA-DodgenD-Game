@@ -55,8 +55,6 @@ Namespace Classes.Entities
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
-                ObjectHitbox.Finalize()
-
                 Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
                     EntityCollection(itemIndex) = Nothing

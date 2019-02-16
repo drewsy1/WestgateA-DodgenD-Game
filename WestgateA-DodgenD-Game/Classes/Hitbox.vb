@@ -2,6 +2,8 @@
 
 Namespace Classes
     Public Class Hitbox
+        Public Shared ReadOnly HitboxCollection As List(Of Hitbox) = New List(Of Hitbox)
+
         Public _hitboxRectangle As Rectangle
 
         Public Property Parent As Object
@@ -90,6 +92,8 @@ Namespace Classes
                 .Height = height
             }
 
+            HitboxCollection.Add(Me)
+
             AddHandler GameTimer.Tick, AddressOf CheckCanvasTopTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasBottomTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasLeftTouch
@@ -150,8 +154,8 @@ Namespace Classes
         End Function
 
         Private Sub CheckHitboxContact()
-            'CanvasObjects.ObjectCollection.ForEach(
-            'Sub(obj) If obj.ObjectHitbox._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj, Parent))
+            HitboxCollection.ForEach(
+                Sub(obj) If Not obj.Parent.Equals(Parent) AND obj._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj.Parent, Parent))
         End Sub
 
         ''' <summary>
@@ -168,10 +172,6 @@ Namespace Classes
         ''' <param name="pixels">Number of pixels by which to move along the Y axis</param>
         Public Sub MoveY(pixels As Integer)
             Y += pixels
-        End Sub
-
-        Public Shadows Sub Finalize()
-            MyBase.Finalize()
         End Sub
     End Class
 End Namespace

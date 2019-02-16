@@ -21,7 +21,7 @@ Namespace Classes.Projectile
             Protected Overrides Property TranslateBoundRight As Double Implements ICanvasObjects.TranslateBoundRight
             Protected Overrides Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
             Protected Overrides Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
-            Protected Overrides Property MovementSpeed As Double = 15 Implements ICanvasObjects.MovementSpeed
+            Protected Overrides Property MovementSpeed As Double = 30 Implements ICanvasObjects.MovementSpeed
             Protected Overrides Property ObjectTransformTranslate As TranslateTransform =
                 New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
             Protected Overrides Property ObjectTransformGroup As TransformGroup =
@@ -56,7 +56,8 @@ Namespace Classes.Projectile
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
-                ObjectHitbox.Finalize()
+                Hitbox.HitboxCollection.Remove(ObjectHitbox)
+                ObjectHitbox = Nothing
 
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
                 If itemIndex >= 0 Then

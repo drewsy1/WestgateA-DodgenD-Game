@@ -11,7 +11,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Default PlayerCursor movement speed
             ''' </summary>
-            Protected Overrides Property MovementSpeed As Double = 5
+            Protected Overrides Property MovementSpeed As Double = 10
 
             ''' <summary>
             ''' Bitmap image object that will contain the PlayerCursor BMP

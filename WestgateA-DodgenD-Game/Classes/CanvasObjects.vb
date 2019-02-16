@@ -118,6 +118,7 @@ Namespace Classes
             MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
                 ObjectControl)
 
+            Hitbox.HitboxCollection.Remove(ObjectHitbox)
             ObjectHitbox = Nothing
 
             Dim itemIndex As Integer = ObjectCollection.IndexOf(Me)
