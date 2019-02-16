@@ -47,7 +47,7 @@ Namespace Classes.Entities
             ''' <returns></returns>
             Protected Overrides ReadOnly Property LocationXDefault As Double
                 Get
-                    Return MainWindowWrapper.CanvasWidth / 2
+                    Return (MainWindowWrapper.CanvasWidth / 2)
                 End Get
             End Property
 
