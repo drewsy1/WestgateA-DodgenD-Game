@@ -155,7 +155,7 @@ Namespace Classes
 
         Private Sub CheckHitboxContact()
             'HitboxCollection.ForEach(
-            '    Sub(obj) If Not obj.Parent.Equals(Parent) AND obj._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj.Parent, Parent))
+            '    Sub(obj) If Not obj.Parent.Equals(Parent) And obj._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj.Parent, Parent))
         End Sub
 
         ''' <summary>
