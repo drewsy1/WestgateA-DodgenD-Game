@@ -49,6 +49,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Classic">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
@@ -81,6 +84,8 @@
     <Compile Include="Classes\CanvasObjects.vb" />
     <Compile Include="Classes\Entities\EntityBase.vb" />
     <Compile Include="Classes\Entities\EntityClasses.vb" />
+    <Compile Include="Classes\Entities\EntityEnemyBase.vb" />
+    <Compile Include="Classes\Entities\EntityEnemy_A.vb" />
     <Compile Include="Interfaces\ICanvasObjects.vb" />
     <Compile Include="Classes\GameTimer.vb" />
     <Compile Include="Classes\Hitbox.vb" />
