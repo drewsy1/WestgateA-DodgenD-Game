@@ -89,6 +89,7 @@
     <Compile Include="Classes\Entities\EntityBase.vb" />
     <Compile Include="Classes\Entities\EntityClasses.vb" />
     <Compile Include="Classes\Entities\EntityEnemyBase.vb" />
+    <Compile Include="Classes\Entities\EntityEnemy_B.vb" />
     <Compile Include="Classes\Entities\EntityEnemy_A.vb" />
     <Compile Include="Enemies.xaml.vb">
       <DependentUpon>Enemies.xaml</DependentUpon>
