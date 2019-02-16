@@ -150,13 +150,8 @@ Namespace Classes
         End Function
 
         Private Sub CheckHitboxContact()
-            CanvasObjects.ObjectCollection.ForEach(
-                Sub(obj)
-                    If Not obj.Equals(Parent) And obj.ObjectHitbox._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then
-                        RaiseEvent ObjectCollision(obj, Parent)
-                    End If
-                End Sub
-                )
+            'CanvasObjects.ObjectCollection.ForEach(
+            'Sub(obj) If obj.ObjectHitbox._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj, Parent))
         End Sub
 
         ''' <summary>
