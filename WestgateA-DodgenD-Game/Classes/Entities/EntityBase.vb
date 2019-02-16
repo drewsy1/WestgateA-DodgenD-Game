@@ -7,166 +7,61 @@ Namespace Classes.Entities
     ''' </summary>
     Partial Public Class EntityClasses
         Public Class EntityBase
-            Implements IEntity
+            Inherits CanvasObjects
+            Implements ICanvasObjects
+            Protected Overrides Property ObjectHeight As Double
 
-            Protected Overridable Property EntityHeight As Double Implements IEntity.EntityHeight
+            Protected Overrides Property ObjectWidth As Double
 
-            Protected Overridable Property EntityWidth As Double Implements IEntity.EntityWidth
+            Protected Overrides ReadOnly Property LocationXDefault As Double
 
-            Protected Overridable Property LocationXDefault As Double Implements IEntity.LocationXDefault
+            Protected Overrides ReadOnly Property LocationYDefault As Double
 
-            Protected Overridable Property LocationYDefault As Double Implements IEntity.LocationYDefault
+            Protected Overrides Property LocationX As Double
 
-            Protected Overridable Property TranslateBoundLeft As Double Implements IEntity.TranslateBoundLeft
+            Protected Overrides Property LocationY As Double
 
-            Protected Overridable Property TranslateBoundRight As Double Implements IEntity.TranslateBoundRight
+            Protected Overrides Property TranslateBoundLeft As Double
 
-            Protected Overridable Property TranslateBoundTop As Double Implements IEntity.TranslateBoundTop
+            Protected Overrides Property TranslateBoundRight As Double
 
-            Protected Overridable Property TranslateBoundBottom As Double Implements IEntity.TranslateBoundBottom
+            Protected Overrides Property TranslateBoundTop As Double
 
-            Protected Overridable Property EntityTransformTranslate As TranslateTransform Implements IEntity.EntityTransformTranslate
+            Protected Overrides Property TranslateBoundBottom As Double
 
-            Protected Overridable Property EntityTransformGroup As TransformGroup Implements IEntity.EntityTransformGroup
+            Protected Overrides Property MovementSpeed As Double
 
-            Public Overridable Property EntityControl As Object Implements IEntity.EntityControl
+            Protected Overrides Property ObjectTransformTranslate As TranslateTransform
 
-            Protected Overridable Property MovementSpeed As Double Implements IEntity.MovementSpeed
+            Protected Overrides Property ObjectTransformGroup As TransformGroup
 
-            Protected WithEvents EntityHitbox As Hitbox
-
-            ''' <summary>
-            ''' Calculates the minimum X bound to which an entity can travel
-            ''' </summary>
-            ''' <returns>Min X-bound as Double</returns>
-            Protected Function GetTranslateBoundLeft() As Double
-                Return -1 * (LocationXDefault - (EntityWidth * 0.5))
-            End Function
+            Public Overrides Property ObjectControl As Object
 
             ''' <summary>
-            ''' Calculates the maximum X bound to which an entity can travel
+            ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
-            ''' <returns>Max X-bound as Double</returns>
-            Protected Function GetTranslateBoundRight() As Double
-                Return MainWindowWrapper.CanvasWidth - LocationXDefault - (EntityWidth * 1.5)
-            End Function
+            Sub New(Optional localLocationX As Double = Nothing,
+                    Optional localLocationY As Double = Nothing)
+                MyBase.New(localLocationX, localLocationY)
+                EntityCollection.Add(Me)
 
-            ''' <summary>
-            ''' Calculates the maximum Y bound to which an entity can travel
-            ''' </summary>
-            ''' <returns>Max Y-bound as Double</returns>
-            Protected Function GetTranslateBoundTop() As Double
-                Return MainWindowWrapper.CanvasHeight - LocationYDefault - (EntityHeight * 1.5)
-            End Function
+                ObjectHitbox = CreateHitbox()
 
-            ''' <summary>
-            ''' Calculates the minimum Y bound to which an entity can travel
-            ''' </summary>
-            ''' <returns>Min Y-bound as Double</returns>
-            Protected Function GetTranslateBoundBottom() As Double
-                Return -1 * (LocationYDefault - (EntityHeight * 0.5))
-            End Function
-
-            Protected Function CreateHitbox() As Hitbox Implements IEntity.CreateHitbox
-                Dim newHitbox As Hitbox = New Hitbox(EntityWidth,
-                                                     EntityHeight,
-                                                     LocationXDefault,
-                                                     LocationYDefault)
-                Return newHitbox
-            End Function
-
-            ''' <summary>
-            ''' Instantiates a new Entity object with matching hitbox and adds it to EntitiesCollection
-            ''' </summary>
-            Sub New()
-                EntitiesCollection.Add(Me)
-
-                EntityHitbox = CreateHitbox()
-
-                AddHandler EntityHitbox.LeavingCanvas, AddressOf Remove
+                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
             End Sub
 
-            ''' <summary>
-            ''' Moves entity left if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to 0 unless MovementSpeed is set)</param>
-            Public Sub MoveLeft(Optional localMovementSpeed As Double = 0)
-                If (localMovementSpeed.Equals(0) And MovementSpeed) Then
-                    localMovementSpeed = MovementSpeed
-                End If
-                TranslateX(localMovementSpeed * -1)
-                'If (EntityTransformTranslate.X > TranslateBoundLeft) Then
-                '    EntityTransformTranslate.X -= localMovementSpeed
-                'End If
-            End Sub
-
-            ''' <summary>
-            ''' Moves entity right if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to 0 unless MovementSpeed is set)</param>
-            Public Sub MoveRight(Optional localMovementSpeed As Double = 0)
-                If (localMovementSpeed.Equals(0) And MovementSpeed) Then
-                    localMovementSpeed = MovementSpeed
-                End If
-                TranslateX(localMovementSpeed)
-                'If (EntityTransformTranslate.X < TranslateBoundRight) Then
-                '    EntityTransformTranslate.X += localMovementSpeed
-                'End If
-            End Sub
-
-            ''' <summary>
-            ''' Moves entity up if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move up (defaults to 0 unless MovementSpeed is set)</param>
-            Public Sub MoveUp(Optional localMovementSpeed As Double = 0)
-                If (localMovementSpeed.Equals(0) And MovementSpeed) Then
-                    localMovementSpeed = MovementSpeed
-                End If
-                TranslateY(localMovementSpeed)
-                'If (EntityTransformTranslate.Y < TranslateBoundTop) Then
-                '    EntityTransformTranslate.Y += localMovementSpeed
-                'End If
-            End Sub
-
-            ''' <summary>
-            ''' Moves entity down if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move down (defaults to 0 unless MovementSpeed is set)</param>
-            Public Sub MoveDown(Optional localMovementSpeed As Double = 0)
-                If (localMovementSpeed.Equals(0) And MovementSpeed) Then
-                    localMovementSpeed = MovementSpeed
-                End If
-                TranslateY(localMovementSpeed * -1)
-                'If (EntityTransformTranslate.Y > TranslateBoundBottom) Then
-                '    EntityTransformTranslate.Y -= localMovementSpeed
-                'End If
-            End Sub
-
-            Private Sub TranslateY(localMovementSpeed As Double) Implements IEntity.TranslateY
-                If (EntityTransformTranslate.Y > TranslateBoundBottom And
-                    EntityTransformTranslate.Y < TranslateBoundTop) Then
-                    EntityTransformTranslate.Y += localMovementSpeed
-                End If
-            End Sub
-
-            Private Sub TranslateX(localMovementSpeed As Double) Implements IEntity.TranslateX
-                If (EntityTransformTranslate.X > TranslateBoundLeft And
-                    EntityTransformTranslate.X < TranslateBoundRight) Then
-                    EntityTransformTranslate.X += localMovementSpeed
-                End If
-            End Sub
-
-            Public Sub Remove() Implements IEntity.Remove
+            Public Overrides Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
                 MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    EntityControl)
+                    ObjectControl)
 
-                EntityHitbox = Nothing
+                ObjectHitbox.Finalize()
 
-                Dim itemIndex As Integer = EntitiesCollection.IndexOf(Me)
+                Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
-                    EntitiesCollection(itemIndex) = Nothing
+                    EntityCollection(itemIndex) = Nothing
                 End If
+                Finalize()
             End Sub
         End Class
     End Class

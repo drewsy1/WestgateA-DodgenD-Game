@@ -41,8 +41,8 @@ Namespace Classes
         ''' </summary>
         ''' <param name="localControl">Object representing control</param>
         Public Shared Sub AddToCanvas(localControl)
-            If (localControl.GetType().IsSubclassOf((New EntityClasses.EntityBase).GetType().BaseType)) Then
-                CanvasGameScreen.Children.Add(localControl.EntityControl)
+            If (localControl.GetType().IsSubclassOf((New CanvasObjects).GetType().BaseType)) Then
+                CanvasGameScreen.Children.Add(localControl.ObjectControl)
             Else
 
             End If

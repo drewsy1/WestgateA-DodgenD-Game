@@ -9,12 +9,12 @@ Public Class MainWindow
     Dim _currentKeyPress As Key
 
     ''' <summary>
-    ''' Variable for current Player object
+    ''' Variable for current EntityPlayer object
     ''' </summary>
-    ReadOnly _playerObject As EntityClasses.Player
+    ReadOnly _entityPlayerObject As EntityClasses.EntityPlayer
 
     ''' <summary>
-    ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the Player instance
+    ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
     ''' </summary>
     Sub New()
         GameTimer.Start()
@@ -23,8 +23,8 @@ Public Class MainWindow
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
-        _playerObject = New EntityClasses.Player()
-        MainWindowWrapper.AddToCanvas(_playerObject)
+        _entityPlayerObject = New EntityClasses.EntityPlayer()
+        MainWindowWrapper.AddToCanvas(_entityPlayerObject)
     End Sub
 
     ''' <summary>
@@ -32,7 +32,6 @@ Public Class MainWindow
     ''' </summary>
     Private Sub GameTimeUpdater()
         RegisterKeypresses(_currentKeyPress)
-        ProjectileClasses.UpdateProjectiles()
     End Sub
 
     ''' <summary>
@@ -42,9 +41,9 @@ Public Class MainWindow
     Private Sub RegisterKeypresses(currentKeyPress As Key)
         Select Case currentKeyPress
             Case Key.Left
-                _playerObject.MoveLeft()
+                _entityPlayerObject.MoveLeft()
             Case Key.Right
-                _playerObject.MoveRight()
+                _entityPlayerObject.MoveRight()
         End Select
     End Sub
 
@@ -61,7 +60,7 @@ Public Class MainWindow
             Case Key.Right
                 _currentKeyPress = e.Key
             Case Key.Space
-                _playerObject.FireWeapon()
+                _entityPlayerObject.FireWeapon()
         End Select
     End Sub
 
