@@ -98,7 +98,7 @@
     <Compile Include="Interfaces\ICanvasObjects.vb" />
     <Compile Include="Classes\GameTimer.vb" />
     <Compile Include="Classes\Hitbox.vb" />
-    <Compile Include="Classes\MainWindowWrapper.vb" />
+    <Compile Include="Classes\MainViewModel.vb" />
     <Compile Include="Enums\EProjectileDirection.vb" />
     <Compile Include="Classes\Entities\EntityPlayer.vb" />
     <Compile Include="Classes\Projectile\ProjectileBase.vb" />

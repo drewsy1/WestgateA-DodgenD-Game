@@ -3,6 +3,12 @@
 Namespace Interfaces
     Public Interface ICanvasObjects
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Property ObjectName As String
+
+        ''' <summary>
         '''     Default entity cursor height in pixels
         ''' </summary>
         Property ObjectHeight As Double

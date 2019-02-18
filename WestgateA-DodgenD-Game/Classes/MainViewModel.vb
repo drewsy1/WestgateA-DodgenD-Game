@@ -2,7 +2,7 @@
 
 Namespace Classes
     ' ReSharper disable once ClassNeverInstantiated.Global
-    Public Class MainWindowWrapper
+    Public Class MainViewModel
         ''' <summary>
         ''' Gets the MainWindow as an object and provides it as a static object
         ''' </summary>

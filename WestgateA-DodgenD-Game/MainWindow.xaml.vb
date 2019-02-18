@@ -1,8 +1,11 @@
-﻿Imports System.Security.Cryptography.X509Certificates
+﻿
+Imports System.Collections.ObjectModel
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class MainWindow
+    Public Property EnemyTable As ObservableCollection(Of EntityClasses.EntityEnemyBase) = EntityClasses.EntityEnemyBase.EnemyCollection
+
     ''' <summary>
     ''' Key (left or right) that controls movement of player cursor
     ''' </summary>
@@ -19,12 +22,17 @@ Public Class MainWindow
     Sub New()
         GameTimer.Start()
         InitializeComponent()
+        DataContext = Me
+
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
         _entityPlayerObject = New EntityClasses.EntityPlayer()
-        MainWindowWrapper.AddToCanvas(_entityPlayerObject)
+        MainViewModel.AddToCanvas(_entityPlayerObject)
+
+        'DataContext = Me
+        'dataGrid.ItemsSource = EnemyTable
 
         Dim enemyArray(5, 9) As EntityClasses.EntityEnemyBase
 
@@ -32,26 +40,26 @@ Public Class MainWindow
             Select Case a
                 Case 0
                     For b = 3 To 6
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyD(New Point(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyD(("EnemyD_" + a + "." + b), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 1
                     For b = 2 To 7
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyC(New Point(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyC(("EnemyC_" + a + "." + b), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 2
                     For b = 1 To 8
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyB(New Point(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyB(("EnemyB_" + a + "." + b), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 3 To 5
                     For b = 0 To 9
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyA(New Point(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyA(("EnemyA_" + a + "." + b), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
             End Select
 
         Next
 
         For Each obj As EntityClasses.EntityEnemyBase In enemyArray
-            If Not IsNothing(obj) Then MainWindowWrapper.AddToCanvas(obj)
+            If Not IsNothing(obj) Then MainViewModel.AddToCanvas(obj)
         Next
     End Sub
 

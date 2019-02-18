@@ -24,9 +24,9 @@ Namespace Classes.Entities
                                 .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
                 }
 
-            Sub New(localLocation As Point)
-                MyBase.New(localLocation)
-                MainWindowWrapper.SetCanvasLocation(
+            Sub New(localName As String, localLocation As Point)
+                MyBase.New(localName, localLocation)
+                MainViewModel.SetCanvasLocation(
                     localLocation,
                     ObjectControl
                     )

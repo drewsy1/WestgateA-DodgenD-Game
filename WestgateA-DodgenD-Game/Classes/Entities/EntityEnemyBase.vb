@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+﻿Imports System.Collections.ObjectModel
+Imports WestgateA_DodgenD_Game.Classes.Projectile
 Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes.Entities
@@ -10,11 +11,19 @@ Namespace Classes.Entities
         Public Class EntityEnemyBase
             Implements ICanvasObjects
 
+            ''' <summary>
+            ''' TODO Write ObjectCollection summary
+            ''' </summary>
+            Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityEnemyBase) =
+                                       New ObservableCollection(Of EntityEnemyBase)()
+
 #Region "Inherited properties"
 
-            Protected Property ObjectHeight As Double = 33 Implements ICanvasObjects.ObjectHeight
+            Public Property ObjectName As String Implements ICanvasObjects.ObjectName
 
-            Protected Property ObjectWidth As Double = 33 Implements ICanvasObjects.ObjectWidth
+            Public Property ObjectHeight As Double = 33 Implements ICanvasObjects.ObjectHeight
+
+            Public Property ObjectWidth As Double = 33 Implements ICanvasObjects.ObjectWidth
 
             Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
@@ -30,11 +39,11 @@ Namespace Classes.Entities
 
             Protected ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
                 Get
-                    Return New Point(MainWindowWrapper.CanvasWidth / 2, MainWindowWrapper.CanvasHeight - 106)
+                    Return New Point(MainViewModel.CanvasWidth / 2, MainViewModel.CanvasHeight - 106)
                 End Get
             End Property
 
-            Protected Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
+            Public Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
 
             Protected Property TranslateBoundLeft As Double _
                 = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) _
@@ -127,7 +136,7 @@ Namespace Classes.Entities
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
                 Hitbox.HitboxCollection.Remove(_objectHitbox)
@@ -153,7 +162,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
-            Protected Sub New(Optional localLocationCoords As Point = Nothing)
+            Sub New(localName As String, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
 
                 LocationCoords = localLocationCoords
@@ -165,6 +174,7 @@ Namespace Classes.Entities
 
 
                 CanvasObjects.ObjectCollection.Add(Me)
+                EnemyCollection.Add(Me)
 
                 _objectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X,
                                                            localLocationCoords.Y)
@@ -184,7 +194,7 @@ Namespace Classes.Entities
                         0 - ObjectHeight,
                         New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y)
                         )
-                MainWindowWrapper.AddToCanvas(_enemyProjectileInstance)
+                MainViewModel.AddToCanvas(_enemyProjectileInstance)
             End Sub
 
             ''' <summary>
@@ -204,7 +214,8 @@ Namespace Classes.Entities
             ''' </summary>
             Private Sub CheckHitbox()
                 If Not IsNothing(EntityPlayer.PlayerProjectileInstance) Then
-                    Dim CollisionCheck As Boolean = CanvasObjects.CheckCollision(Me, EntityPlayer.PlayerProjectileInstance)
+                    Dim CollisionCheck As Boolean = CanvasObjects.CheckCollision(Me,
+                                                                                 EntityPlayer.PlayerProjectileInstance)
                     If CollisionCheck Then
                         RaiseEvent EnemyHit(Me)
                     End If

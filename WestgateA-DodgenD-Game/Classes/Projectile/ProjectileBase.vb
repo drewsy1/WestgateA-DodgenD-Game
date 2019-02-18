@@ -30,8 +30,9 @@ Namespace Classes.Projectile
         Public MustInherit Class ProjectileBase
             Implements ICanvasObjects
 
-            Protected Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
-            Protected Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
+            Public Property ObjectName As String Implements ICanvasObjects.ObjectName
+            Public Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
+            Public Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
 
             Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
@@ -170,7 +171,7 @@ Namespace Classes.Projectile
                 ProjectilesCollection.Add(Me)
 
                 ' Set coordinates on canvas for projectile
-                MainWindowWrapper.SetCanvasLocation(localLocationCoords, ObjectControl)
+                MainViewModel.SetCanvasLocation(localLocationCoords, ObjectControl)
 
                 ' Increment projectile's X transform value by translateX
                 ObjectTransformTranslate.X += translateX
@@ -184,7 +185,7 @@ Namespace Classes.Projectile
                 RemoveHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
                 RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
                 ObjectHitbox = Nothing
@@ -211,6 +212,7 @@ Namespace Classes.Projectile
             Sub UpdateLocation()
 
                 TranslateY(MovementSpeed * ProjectileDirection)
+
                 'ObjectTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
                 'ObjectHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub

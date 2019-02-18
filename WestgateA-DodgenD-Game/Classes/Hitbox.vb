@@ -97,7 +97,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Top is above canvas</returns>
         Private Function CheckCanvasTopTouch() As Boolean
-            If HitboxRectangle.Top > MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Then
+            If HitboxRectangle.Top > MainViewModel.MainWindowInstance.CanvasGameScreen.Height Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else
@@ -136,7 +136,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Right is right of canvas</returns>
         Private Function CheckCanvasRightTouch() As Boolean
-            If HitboxRectangle.Right < MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Width Then
+            If HitboxRectangle.Right < MainViewModel.MainWindowInstance.CanvasGameScreen.Width Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else

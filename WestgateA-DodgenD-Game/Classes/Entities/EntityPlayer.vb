@@ -29,6 +29,8 @@ Namespace Classes.Entities
 
 #Region "Inherited properties"
 
+            Public Property ObjectName As String Implements ICanvasObjects.ObjectName
+
             Public Property ObjectHeight As Double = 57 Implements ICanvasObjects.ObjectHeight
 
             Public Property ObjectWidth As Double = 39 Implements ICanvasObjects.ObjectWidth
@@ -47,11 +49,11 @@ Namespace Classes.Entities
 
             Protected ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
                 Get
-                    Return New Point(MainWindowWrapper.CanvasWidth / 2, 48)
+                    Return New Point((MainViewModel.CanvasWidth / 2) - (ObjectWidth / 2), 48)
                 End Get
             End Property
 
-            Protected Property LocationCoords As Point = LocationCoordsDefault Implements ICanvasObjects.LocationCoords
+            Public Property LocationCoords As Point = LocationCoordsDefault Implements ICanvasObjects.LocationCoords
 
             Protected Property TranslateBoundLeft As Double _
                 = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) _
@@ -67,7 +69,7 @@ Namespace Classes.Entities
 
             Protected Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
 
-            Protected Property ObjectTransformTranslate As TranslateTransform _
+            Public Property ObjectTransformTranslate As TranslateTransform _
                 = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
 
             Protected Property ObjectTransformGroup As TransformGroup =
@@ -128,7 +130,7 @@ Namespace Classes.Entities
 
             Public Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
                 Hitbox.HitboxCollection.Remove(ObjectHitbox)
@@ -157,7 +159,7 @@ Namespace Classes.Entities
                     )
                 _playerCursorBitmapImage.EndInit()
 
-                MainWindowWrapper.SetCanvasLocation(
+                MainViewModel.SetCanvasLocation(
                     LocationCoords,
                     ObjectControl
                     )
@@ -188,7 +190,7 @@ Namespace Classes.Entities
                             0,
                             New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
                             )
-                    MainWindowWrapper.AddToCanvas(PlayerProjectileInstance)
+                    MainViewModel.AddToCanvas(PlayerProjectileInstance)
                     AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 End If
             End Sub
