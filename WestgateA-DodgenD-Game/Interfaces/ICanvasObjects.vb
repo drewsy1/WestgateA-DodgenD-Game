@@ -76,7 +76,7 @@ Namespace Interfaces
         ''' Creates a hitbox with size/location set to defaults of the object calling the function
         ''' </summary>
         ''' <returns>Hitbox object</returns>
-        Function CreateHitbox() As Hitbox
+        Function CreateHitbox(localObjectWidth As Double, localObjectHeight As Double, localParent As Object, localLocationX As Double, localLocationY As Double) As Hitbox
 
         ''' <summary>
         ''' Calculates the minimum X bound to which an entity can travel

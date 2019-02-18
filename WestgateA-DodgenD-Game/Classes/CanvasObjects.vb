@@ -24,12 +24,12 @@ Namespace Classes
         Public Overridable Property ObjectControl As Object Implements ICanvasObjects.ObjectControl
         Public WithEvents ObjectHitbox As Hitbox
 
-        Protected Overridable Function CreateHitbox() As Hitbox Implements ICanvasObjects.CreateHitbox
-            Dim newHitbox As Hitbox = New Hitbox(ObjectWidth,
-                                                 ObjectHeight,
-                                                 Me,
-                                                 LocationXDefault,
-                                                 LocationYDefault)
+        Protected Overridable Function CreateHitbox(localObjectWidth As Double, localObjectHeight As Double, localParent As Object, localLocationX As Double, localLocationY As Double) As Hitbox Implements ICanvasObjects.CreateHitbox
+            Dim newHitbox = New Hitbox(localObjectWidth,
+                                       localObjectHeight,
+                                       localParent,
+                                       localLocationX,
+                                       localLocationY)
             Return newHitbox
         End Function
 
@@ -127,7 +127,9 @@ Namespace Classes
             End If
         End Sub
 
-        Public Sub New(Optional localLocationX As Double = Nothing,
+        Public Sub New(Optional localObjectWidth As Double = Nothing,
+                       Optional localObjectHeight As Double = Nothing,
+                       Optional localLocationX As Double = Nothing,
                        Optional localLocationY As Double = Nothing)
             If localLocationX.CompareTo(0) = 0 Then localLocationX = LocationXDefault
             If localLocationY.CompareTo(0) = 0 Then localLocationY = LocationYDefault
@@ -143,8 +145,8 @@ Namespace Classes
 
             ObjectCollection.Add(Me)
 
-            ObjectHitbox = CreateHitbox()
-            AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
+            ObjectHitbox = CreateHitbox(localObjectWidth, localObjectHeight, Me, localLocationX, localLocationY)
+
         End Sub
     End Class
 End Namespace

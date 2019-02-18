@@ -40,13 +40,14 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
-            Sub New(Optional localLocationX As Double = Nothing,
+            Sub New(Optional localObjectWidth As Double = Nothing,
+                    Optional localObjectHeight As Double = Nothing,
+                    Optional localLocationX As Double = Nothing,
                     Optional localLocationY As Double = Nothing)
-                MyBase.New(localLocationX, localLocationY)
+                MyBase.New(localObjectWidth, localObjectHeight, localLocationX, localLocationY)
                 EntityCollection.Add(Me)
 
-                ObjectHitbox = CreateHitbox()
-
+                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
             End Sub
 
             Public Overrides Sub Remove() Implements ICanvasObjects.Remove

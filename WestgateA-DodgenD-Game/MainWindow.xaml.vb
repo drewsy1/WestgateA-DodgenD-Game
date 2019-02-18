@@ -26,7 +26,7 @@ Public Class MainWindow
         _entityPlayerObject = New EntityClasses.EntityPlayer()
         MainWindowWrapper.AddToCanvas(_entityPlayerObject)
 
-        Dim enemyArray(5, 9) As EntityClasses.EntityEnemy
+        Dim enemyArray(5, 9) As EntityClasses.EntityEnemyBase
 
         For a = 0 To 5
             Select Case a
@@ -50,7 +50,7 @@ Public Class MainWindow
 
         Next
 
-        For Each obj As EntityClasses.EntityEnemy In enemyArray
+        For Each obj As EntityClasses.EntityEnemyBase In enemyArray
             If Not IsNothing(obj) Then MainWindowWrapper.AddToCanvas(obj)
         Next
     End Sub

@@ -33,13 +33,13 @@ Namespace Classes.Entities
             ''' Default player cursor height in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property ObjectHeight As Double = 57
+            Protected Shared Shadows Property ObjectHeight As Double = 57
 
             ''' <summary>
             ''' Default player cursor width in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property ObjectWidth As Double = 39
+            Protected Shared Shadows Property ObjectWidth As Double = 39
 
             ''' <summary>
             ''' Default starting X-coordinate location for PlayerCursor
@@ -104,7 +104,7 @@ Namespace Classes.Entities
             ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
             Sub New()
-                MyBase.New()
+                MyBase.New(ObjectWidth, ObjectHeight)
                 _playerCursorBitmapImage.BeginInit()
                 _playerCursorBitmapImage.UriSource = New Uri(
                     PlayerCursorImagePath,
@@ -117,6 +117,8 @@ Namespace Classes.Entities
                     LocationYDefault,
                     ObjectControl
                     )
+                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
+
             End Sub
 
             ''' <summary>
@@ -128,12 +130,12 @@ Namespace Classes.Entities
                     PlayerProjectileInstance =
                         New ProjectileClasses.ProjectilePlayer(
                             (ObjectWidth / 2),
-                            0 - ObjectHeight,
-                            Me,
+                            0,
                             (LocationX + ObjectTransformTranslate.X),
                             (LocationY)
                             )
                     MainWindowWrapper.AddToCanvas(PlayerProjectileInstance)
+                    AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 End If
             End Sub
 

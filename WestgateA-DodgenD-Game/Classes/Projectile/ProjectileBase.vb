@@ -60,13 +60,10 @@ Namespace Classes.Projectile
             ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Protected Sub New(translateX As Double,
                               translateY As Double,
-                              parent As Object,
                               Optional localLocationX As Double = Nothing,
                               Optional localLocationY As Double = Nothing)
                 MyBase.New(localLocationX, localLocationY + translateY)
                 ProjectilesCollection.Add(Me)
-
-                ObjectHitbox = CreateHitbox()
 
                 ' Set coordinates on canvas for projectile
                 MainWindowWrapper.SetCanvasLocation(localLocationX, localLocationY, ObjectControl)

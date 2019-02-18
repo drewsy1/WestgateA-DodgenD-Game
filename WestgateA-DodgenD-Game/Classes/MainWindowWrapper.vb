@@ -41,7 +41,7 @@ Namespace Classes
         ''' </summary>
         ''' <param name="localControl">Object representing control</param>
         Public Shared Sub AddToCanvas(localControl)
-            If (localControl.GetType().IsSubclassOf((New CanvasObjects).GetType().BaseType)) Then
+            If (localControl.GetType().IsSubclassOf(GetType(CanvasObjects).BaseType)) Then
                 CanvasGameScreen.Children.Add(localControl.ObjectControl)
             Else
 

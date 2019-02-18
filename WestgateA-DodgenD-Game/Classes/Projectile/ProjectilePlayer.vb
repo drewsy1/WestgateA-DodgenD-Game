@@ -58,14 +58,12 @@ Namespace Classes.Projectile
             ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Sub New(translateX As Double,
                     translateY As Double,
-                    parent As Object,
                     Optional localLocationX As Double = Nothing,
                     Optional localLocationY As Double = Nothing)
-                MyBase.New(translateX, translateY, parent, localLocationX, localLocationY)
+                MyBase.New(translateX, translateY, localLocationX, localLocationY)
 
                 SetColor(ProjectileColor)
-                AddHandler PlayerProjectileRemove, AddressOf parent.RemovePlayerProjectileInstance
-                AddHandler EntityClasses.EntityEnemy.EnemyHit, AddressOf Remove
+                AddHandler EntityClasses.EntityEnemyBase.EnemyHit, AddressOf Remove
             End Sub
 
             Overrides Sub Remove()

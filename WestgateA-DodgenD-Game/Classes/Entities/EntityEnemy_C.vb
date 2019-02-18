@@ -3,7 +3,7 @@ Namespace Classes.Entities
 
     Partial Public MustInherit Class EntityClasses
         Public Class EntityEnemyC
-            Inherits EntityEnemy
+            Inherits EntityEnemyBase
 
             Private Shared ReadOnly EnemyCCollection As List(Of Object) =
                                           New List(Of Object)()

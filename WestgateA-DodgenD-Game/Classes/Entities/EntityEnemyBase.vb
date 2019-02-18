@@ -8,7 +8,7 @@ Namespace Classes.Entities
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>
     Partial Public Class EntityClasses
-        Public Class EntityEnemy
+        Public Class EntityEnemyBase
             Inherits EntityBase
             ''' <summary>
             ''' Default PlayerCursor movement speed
@@ -25,13 +25,13 @@ Namespace Classes.Entities
             ''' Default player cursor height in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property ObjectHeight As Double = 33
+            Protected Shared Shadows Property ObjectHeight As Double = 33
 
             ''' <summary>
             ''' Default player cursor width in pixels
             ''' </summary>
             ''' <returns></returns>
-            Protected Overrides Property ObjectWidth As Double = 33
+            Protected Shared Shadows Property ObjectWidth As Double = 33
 
             ''' <summary>
             ''' Default starting X-coordinate location for PlayerCursor
@@ -84,17 +84,16 @@ Namespace Classes.Entities
             ''' </summary>
             Public Overrides Property ObjectControl As Object = New UIElement()
 
-            Protected Shadows WithEvents ObjectHitbox As Hitbox
 #End Region
 
-            Public Shared Event EnemyHit(enemy As EntityEnemy)
+            Public Shared Event EnemyHit(enemy As EntityEnemyBase)
 
             ''' <summary>
             ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
-            Protected Sub New()
-                MyBase.New()
-                ObjectHitbox = CreateHitbox()
+            Protected Sub New(Optional localLocationX As Double = Nothing,
+                              Optional localLocationY As Double = Nothing)
+                MyBase.New(ObjectWidth, ObjectHeight, localLocationX, localLocationY)
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
                 AddHandler GameTimer.Tick, AddressOf CheckHitbox
@@ -122,8 +121,8 @@ Namespace Classes.Entities
                 MyBase.Remove()
             End Sub
 
-            Private Overloads Sub Remove(enemyRemoved As EntityEnemy)
-                MyBase.Remove()
+            Private Overloads Sub Remove(enemyRemoved As EntityEnemyBase)
+                enemyRemoved.Remove()
                 Debug.WriteLine(enemyRemoved)
             End Sub
 

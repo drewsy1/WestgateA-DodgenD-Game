@@ -45,7 +45,7 @@ Namespace Classes.Projectile
                 End Get
             End Property
 
-            Public Event PlayerProjectileRemove(projectile As ProjectileEnemy)
+            Public Event EnemyProjectileRemove(projectile As ProjectileEnemy)
 
             ''' <summary>
             ''' Instantiates a ProjectilePlayer object by calling Projectile.New() and
@@ -56,18 +56,17 @@ Namespace Classes.Projectile
             ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Sub New(translateX As Double,
                     translateY As Double,
-                    parent As Object,
                     Optional localLocationX As Double = Nothing,
                     Optional localLocationY As Double = Nothing)
-                MyBase.New(translateX, translateY, parent, localLocationX, localLocationY)
+                MyBase.New(translateX, translateY, localLocationX, localLocationY)
 
                 SetColor(ProjectileColor)
-                AddHandler PlayerProjectileRemove, AddressOf parent.RemovePlayerProjectileInstance
+                'AddHandler EnemyProjectileRemove, AddressOf parent.RemovePlayerProjectileInstance
             End Sub
 
             Overrides Sub Remove()
                 MyBase.Remove()
-                RaiseEvent PlayerProjectileRemove(Me)
+                RaiseEvent EnemyProjectileRemove(Me)
             End Sub
         End Class
     End Class

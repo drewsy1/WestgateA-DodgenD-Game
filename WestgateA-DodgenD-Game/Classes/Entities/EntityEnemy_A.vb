@@ -3,7 +3,7 @@ Namespace Classes.Entities
 
     Partial Public MustInherit Class EntityClasses
         Public Class EntityEnemyA
-            Inherits EntityEnemy
+            Inherits EntityEnemyBase
 
             Private Shared ReadOnly EnemyACollection As List(Of Object) =
                                           New List(Of Object)()
@@ -26,7 +26,7 @@ Namespace Classes.Entities
             'Public Shadows WithEvents ObjectHitbox As Hitbox
 
             Sub New(localLocationX As Double, localLocationY As Double)
-                MyBase.New()
+                MyBase.New(localLocationX, localLocationY)
                 MainWindowWrapper.SetCanvasLocation(
                     localLocationX,
                     localLocationY,
