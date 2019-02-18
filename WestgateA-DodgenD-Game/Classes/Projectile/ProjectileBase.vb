@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Interfaces
+﻿Imports WestgateA_DodgenD_Game.Classes.Entities
+Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes.Projectile
     ' ReSharper disable once ClassNeverInstantiated.Global
@@ -51,21 +52,6 @@ Namespace Classes.Projectile
             Protected Overridable Property ProjectileColor As Color
 
 
-            Public Overrides Sub Remove() Implements ICanvasObjects.Remove
-                ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    ObjectControl)
-
-                Hitbox.HitboxCollection.Remove(ObjectHitbox)
-                ObjectHitbox = Nothing
-
-                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
-                If itemIndex >= 0 Then
-                    ProjectilesCollection(itemIndex) = Nothing
-                End If
-                Finalize()
-            End Sub
-
             ''' <summary>
             ''' Instantiates a new Projectile object and adds it to ProjectilesCollection
             ''' </summary>
@@ -74,6 +60,7 @@ Namespace Classes.Projectile
             ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Protected Sub New(translateX As Double,
                               translateY As Double,
+                              parent As Object,
                               Optional localLocationX As Double = Nothing,
                               Optional localLocationY As Double = Nothing)
                 MyBase.New(localLocationX, localLocationY + translateY)
@@ -91,6 +78,24 @@ Namespace Classes.Projectile
                 AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
                 AddHandler GameTimer.Tick, AddressOf UpdateLocation
             End Sub
+
+            Public Overrides Sub Remove() Implements ICanvasObjects.Remove
+                RemoveHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
+                RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
+                ' Remove rectangle from CanvasGameScreen (make it invisible)
+                MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                    ObjectControl)
+
+                ObjectHitbox = Nothing
+
+                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
+                If itemIndex >= 0 Then
+                    ProjectilesCollection.RemoveAt(itemIndex)
+                End If
+
+                Finalize()
+            End Sub
+
 
             ''' <summary>
             ''' Sets fill color for projectile

@@ -23,22 +23,18 @@ Namespace Classes.Entities
                                 .FontWeight = FontWeights.UltraBold
                 }
 
-            Public Shadows WithEvents ObjectHitbox As Hitbox
+            'Public Shadows WithEvents ObjectHitbox As Hitbox
 
             Sub New(localLocationX As Double, localLocationY As Double)
                 MyBase.New()
-                EnemyACollection.Add(Me)
-
                 MainWindowWrapper.SetCanvasLocation(
                     localLocationX,
                     localLocationY,
                     ObjectControl
                     )
-                ObjectHitbox = CreateHitbox()
-                AddHandler GameTimer.LongTick, AddressOf ChangeContent
             End Sub
 
-            Sub ChangeContent()
+            Overrides Sub ChangeContent()
                 If ObjectControl.Content = "😠" Then
                     ObjectControl.Content = "😧"
                 Else

@@ -25,22 +25,16 @@ Namespace Classes.Entities
                                 .IsReadOnly = True
                 }
 
-            Public Shadows WithEvents ObjectHitbox As Hitbox
-
             Sub New(localLocationX As Double, localLocationY As Double)
                 MyBase.New()
-                EnemyCCollection.Add(Me)
-
                 MainWindowWrapper.SetCanvasLocation(
                     localLocationX,
                     localLocationY,
                     ObjectControl
                     )
-                ObjectHitbox = CreateHitbox()
-                AddHandler GameTimer.LongTick, AddressOf ChangeContent
             End Sub
 
-            Sub ChangeContent()
+            Overrides Sub ChangeContent()
                 'Fires every half-second
                 If ObjectControl.Background.Color = Color.FromRgb(0, 255, 0) Then
                     ObjectControl.Background.Color = Color.FromRgb(0, 0, 0)

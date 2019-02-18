@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Enums
+﻿Imports WestgateA_DodgenD_Game.Classes.Entities
+Imports WestgateA_DodgenD_Game.Enums
 
 Namespace Classes.Projectile
     ' ReSharper disable once ClassNeverInstantiated.Global
@@ -46,6 +47,8 @@ Namespace Classes.Projectile
                 End Get
             End Property
 
+            Public Event PlayerProjectileRemove(projectile As ProjectilePlayer)
+
             ''' <summary>
             ''' Instantiates a ProjectilePlayer object by calling Projectile.New() and
             ''' sets its color to ProjectileColor
@@ -55,11 +58,19 @@ Namespace Classes.Projectile
             ''' <param name="localLocationY">Object's starting Y-coordinate</param>
             Sub New(translateX As Double,
                     translateY As Double,
+                    parent As Object,
                     Optional localLocationX As Double = Nothing,
                     Optional localLocationY As Double = Nothing)
-                MyBase.New(translateX, translateY, localLocationX, localLocationY)
+                MyBase.New(translateX, translateY, parent, localLocationX, localLocationY)
 
                 SetColor(ProjectileColor)
+                AddHandler PlayerProjectileRemove, AddressOf parent.RemovePlayerProjectileInstance
+                AddHandler EntityClasses.EntityEnemy.EnemyHit, AddressOf Remove
+            End Sub
+
+            Overrides Sub Remove()
+                MyBase.Remove()
+                RaiseEvent PlayerProjectileRemove(Me)
             End Sub
         End Class
     End Class

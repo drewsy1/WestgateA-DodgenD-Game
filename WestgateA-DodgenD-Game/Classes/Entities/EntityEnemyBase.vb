@@ -1,4 +1,6 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+﻿Imports System.Drawing
+Imports System.Drawing.Design
+Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 Namespace Classes.Entities
     ' ReSharper disable once ClassNeverInstantiated.Global
@@ -80,35 +82,60 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Image control that serves as PlayerCursor
             ''' </summary>
-            Public Overrides Property ObjectControl As Object
+            Public Overrides Property ObjectControl As Object = New UIElement()
 
             Protected Shadows WithEvents ObjectHitbox As Hitbox
 #End Region
+
+            Public Shared Event EnemyHit(enemy As EntityEnemy)
 
             ''' <summary>
             ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
             Protected Sub New()
                 MyBase.New()
+                ObjectHitbox = CreateHitbox()
+
+                AddHandler GameTimer.LongTick, AddressOf ChangeContent
+                AddHandler GameTimer.Tick, AddressOf CheckHitbox
+                AddHandler EnemyHit, AddressOf Me.Remove
             End Sub
 
             ''' <summary>
             ''' Creates a player projectile that moves upward
             ''' </summary>
             Sub FireWeapon()
-                ' If no player projectile currently exists, fire a new one
-                If Not ProjectileClasses.ProjectilesCollection.Contains(
-                    _enemyProjectileInstance) Then
-                    _enemyProjectileInstance =
+                _enemyProjectileInstance =
                         New ProjectileClasses.ProjectileEnemy(
                             (ObjectWidth / 2),
                             0 - ObjectHeight,
                             (LocationX + ObjectTransformTranslate.X),
                             (LocationY)
                             )
-                    MainWindowWrapper.AddToCanvas(_enemyProjectileInstance)
+                MainWindowWrapper.AddToCanvas(_enemyProjectileInstance)
+            End Sub
+
+            Overridable Sub ChangeContent()
+            End Sub
+
+            Overrides Sub Remove()
+                MyBase.Remove()
+            End Sub
+
+            Private Overloads Sub Remove(enemyRemoved As EntityEnemy)
+                MyBase.Remove()
+                Debug.WriteLine(enemyRemoved)
+            End Sub
+
+            Protected Sub CheckHitbox()
+                If Not IsNothing(EntityPlayer.PlayerProjectileInstance) And Not IsNothing(ObjectHitbox._hitboxRectangle) Then
+                    If ObjectHitbox._hitboxRectangle.IntersectsWith(EntityPlayer.PlayerProjectileInstance.ObjectHitbox._hitboxRectangle) Then
+                        RaiseEvent EnemyHit(Me)
+                    End If
                 End If
             End Sub
+
+
         End Class
     End Class
 End Namespace

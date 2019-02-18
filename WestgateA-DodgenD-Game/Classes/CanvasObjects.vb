@@ -146,13 +146,5 @@ Namespace Classes
             ObjectHitbox = CreateHitbox()
             AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
         End Sub
-
-        Public Shared Sub CollisionDetected(object1 As Object, object2 As Object) Handles ObjectHitbox.ObjectCollision
-            Debug.WriteLine("COLLISION: " & object1.ToString() & " -> " & object2.ToString())
-            If TypeOf object2 Is ProjectileClasses.ProjectileBase Then
-                object2.Remove()
-                object1.Remove()
-            End If
-        End Sub
     End Class
 End Namespace

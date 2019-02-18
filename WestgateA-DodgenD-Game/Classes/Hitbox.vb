@@ -64,14 +64,7 @@ Namespace Classes
         ''' Event raised when hitbox leaves canvas
         ''' </summary>
         ''' <param name="direction">Indicates canvas side being touched by hitbox</param>
-        Public Event LeavingCanvas(direction As String)
-
-        ''' <summary>
-        ''' Event raised when hitbox makes contact with another hitbox
-        ''' </summary>
-        ''' <param name="Object1"></param>
-        ''' <param name="Object2"></param>
-        Public Event ObjectCollision(Object1 As Object, Object2 As Object)
+        Public Event LeavingCanvas()
 
         Sub New(width As Integer,
                 height As Integer,
@@ -98,7 +91,6 @@ Namespace Classes
             AddHandler GameTimer.Tick, AddressOf CheckCanvasBottomTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasLeftTouch
             AddHandler GameTimer.Tick, AddressOf CheckCanvasRightTouch
-            AddHandler GameTimer.Tick, AddressOf CheckHitboxContact
         End Sub
 
         ''' <summary>
@@ -107,7 +99,7 @@ Namespace Classes
         ''' <returns>Boolean that returns true if Rectangle.Top is above canvas</returns>
         Private Function CheckCanvasTopTouch() As Boolean
             If _hitboxRectangle.Top > MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Then
-                RaiseEvent LeavingCanvas("Top")
+                RaiseEvent LeavingCanvas()
                 Return True
             Else
                 Return False
@@ -120,7 +112,7 @@ Namespace Classes
         ''' <returns>Boolean that returns true if Rectangle.Bottom is below canvas</returns>
         Private Function CheckCanvasBottomTouch() As Boolean
             If _hitboxRectangle.Bottom < 0 Then
-                RaiseEvent LeavingCanvas("Bottom")
+                RaiseEvent LeavingCanvas()
                 Return True
             Else
                 Return False
@@ -133,7 +125,7 @@ Namespace Classes
         ''' <returns>Boolean that returns true if Rectangle.Left is left of canvas</returns>
         Private Function CheckCanvasLeftTouch() As Boolean
             If _hitboxRectangle.Left < 0 Then
-                RaiseEvent LeavingCanvas("Left")
+                RaiseEvent LeavingCanvas()
                 Return True
             Else
                 Return False
@@ -146,17 +138,12 @@ Namespace Classes
         ''' <returns>Boolean that returns true if Rectangle.Right is right of canvas</returns>
         Private Function CheckCanvasRightTouch() As Boolean
             If _hitboxRectangle.Right < MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Width Then
-                RaiseEvent LeavingCanvas("Right")
+                RaiseEvent LeavingCanvas()
                 Return True
             Else
                 Return False
             End If
         End Function
-
-        Private Sub CheckHitboxContact()
-            'HitboxCollection.ForEach(
-            '    Sub(obj) If Not obj.Parent.Equals(Parent) AND obj._hitboxRectangle.IntersectsWith(_hitboxRectangle) Then RaiseEvent ObjectCollision(obj.Parent, Parent))
-        End Sub
 
         ''' <summary>
         ''' Move hitbox by specified amount of pixels on X axis

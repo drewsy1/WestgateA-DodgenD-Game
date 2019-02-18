@@ -47,7 +47,6 @@ Namespace Classes.Entities
 
                 ObjectHitbox = CreateHitbox()
 
-                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
             End Sub
 
             Public Overrides Sub Remove() Implements ICanvasObjects.Remove

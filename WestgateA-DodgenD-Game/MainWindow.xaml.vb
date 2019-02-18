@@ -26,29 +26,31 @@ Public Class MainWindow
         _entityPlayerObject = New EntityClasses.EntityPlayer()
         MainWindowWrapper.AddToCanvas(_entityPlayerObject)
 
-        Dim EnemyArray(5, 9) As EntityClasses.EntityEnemy
+        Dim enemyArray(5, 9) As EntityClasses.EntityEnemy
 
-        Dim EnemyAList As List(Of EntityClasses.EntityEnemyA) = New List(Of EntityClasses.EntityEnemyA)
+        For a = 0 To 5
+            Select Case a
+                Case 0
+                    For b = 3 To 6
+                        enemyArray(a, b) = (New EntityClasses.EntityEnemyD(117 + (45 * b), 630 - (36 * a)))
+                    Next
+                Case 1
+                    For b = 2 To 7
+                        enemyArray(a, b) = (New EntityClasses.EntityEnemyC(117 + (45 * b), 630 - (36 * a)))
+                    Next
+                Case 2
+                    For b = 1 To 8
+                        enemyArray(a, b) = (New EntityClasses.EntityEnemyB(117 + (45 * b), 630 - (36 * a)))
+                    Next
+                Case 3 To 5
+                    For b = 0 To 9
+                        enemyArray(a, b) = (New EntityClasses.EntityEnemyA(117 + (45 * b), 630 - (36 * a)))
+                    Next
+            End Select
 
-        For b As Integer = 3 To 6
-            EnemyArray(0, b) = (New EntityClasses.EntityEnemyD(117 + (45 * b), 630 - (36 * 0)))
         Next
 
-        For b As Integer = 2 To 7
-            EnemyArray(1, b) = (New EntityClasses.EntityEnemyC(117 + (45 * b), 630 - (36 * 1)))
-        Next
-
-        For b As Integer = 1 To 8
-            EnemyArray(2, b) = (New EntityClasses.EntityEnemyB(117 + (45 * b), 630 - (36 * 2)))
-        Next
-
-        For a As Integer = 3 To 5
-            For b As Integer = 0 To 9
-                EnemyArray(a, b) = (New EntityClasses.EntityEnemyA(117 + (45 * b), 630 - (36 * a)))
-            Next
-        Next
-
-        For Each obj As EntityClasses.EntityEnemy In EnemyArray
+        For Each obj As EntityClasses.EntityEnemy In enemyArray
             If Not IsNothing(obj) Then MainWindowWrapper.AddToCanvas(obj)
         Next
     End Sub

@@ -26,7 +26,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' ProjectilePlayer object for weapon projectile
             ''' </summary>
-            Private _playerProjectileInstance As ProjectileClasses.ProjectilePlayer
+            Public Shared PlayerProjectileInstance As ProjectileClasses.ProjectilePlayer
 
 #Region "Inherited properties"
             ''' <summary>
@@ -124,17 +124,21 @@ Namespace Classes.Entities
             ''' </summary>
             Sub FireWeapon()
                 ' If no player projectile currently exists, fire a new one
-                If Not ProjectileClasses.ProjectilesCollection.Contains(
-                    _playerProjectileInstance) Then
-                    _playerProjectileInstance =
+                If IsNothing(PlayerProjectileInstance) Then
+                    PlayerProjectileInstance =
                         New ProjectileClasses.ProjectilePlayer(
                             (ObjectWidth / 2),
                             0 - ObjectHeight,
+                            Me,
                             (LocationX + ObjectTransformTranslate.X),
                             (LocationY)
                             )
-                    MainWindowWrapper.AddToCanvas(_playerProjectileInstance)
+                    MainWindowWrapper.AddToCanvas(PlayerProjectileInstance)
                 End If
+            End Sub
+
+            Public Sub RemovePlayerProjectileInstance(parent As ProjectileClasses.ProjectilePlayer)
+                PlayerProjectileInstance = Nothing
             End Sub
         End Class
     End Class
