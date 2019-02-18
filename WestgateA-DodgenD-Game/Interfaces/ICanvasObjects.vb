@@ -72,35 +72,13 @@ Namespace Interfaces
         ''' </summary>
         Property ObjectControl As Object
 
-        ''' <summary>
-        ''' Creates a hitbox with size/location set to defaults of the object calling the function
-        ''' </summary>
-        ''' <returns>Hitbox object</returns>
-        Function CreateHitbox(localObjectWidth As Double, localObjectHeight As Double, localParent As Object, localLocationX As Double, localLocationY As Double) As Hitbox
+        Sub MoveLeft(Optional localMovementSpeed As Double = 0)
 
-        ''' <summary>
-        ''' Calculates the minimum X bound to which an entity can travel
-        ''' </summary>
-        ''' <returns>Min X-bound as Double</returns>
-        Function GetTranslateBoundLeft() As Double
+        Sub MoveRight(Optional localMovementSpeed As Double = 0)
 
-        ''' <summary>
-        ''' Calculates the maximum X bound to which an entity can travel
-        ''' </summary>
-        ''' <returns>Max X-bound as Double</returns>
-        Function GetTranslateBoundRight() As Double
+        Sub MoveUp(Optional localMovementSpeed As Double = 0)
 
-        ''' <summary>
-        ''' Calculates the maximum Y bound to which an entity can travel
-        ''' </summary>
-        ''' <returns>Max Y-bound as Double</returns>
-        Function GetTranslateBoundTop() As Double
-
-        ''' <summary>
-        ''' Calculates the minimum Y bound to which an entity can travel
-        ''' </summary>
-        ''' <returns>Min Y-bound as Double</returns>
-        Function GetTranslateBoundBottom() As Double
+        Sub MoveDown(Optional localMovementSpeed As Double = 0)
 
         ''' <summary>
         ''' Translates along the Y axis a given number of pixels while staying within canvas bounds

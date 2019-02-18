@@ -86,7 +86,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\CanvasObjects.vb" />
-    <Compile Include="Classes\Entities\EntityBase.vb" />
     <Compile Include="Classes\Entities\EntityClasses.vb" />
     <Compile Include="Classes\Entities\EntityEnemyBase.vb" />
     <Compile Include="Classes\Entities\EntityEnemy_D.vb" />
@@ -103,7 +102,6 @@
     <Compile Include="Enums\EProjectileDirection.vb" />
     <Compile Include="Classes\Entities\EntityPlayer.vb" />
     <Compile Include="Classes\Projectile\ProjectileBase.vb" />
-    <Compile Include="Classes\Projectile\ProjectileClasses.vb" />
     <Compile Include="Classes\Projectile\ProjectileEnemy.vb" />
     <Compile Include="Classes\Projectile\ProjectilePlayer.vb" />
     <Compile Include="MainWindow.xaml.vb">

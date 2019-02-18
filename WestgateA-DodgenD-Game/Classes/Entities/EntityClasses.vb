@@ -7,7 +7,6 @@
         ''' <summary>
         ''' Create a static collection of projectiles to keep track of them
         ''' </summary>
-        Private Shared ReadOnly EntityCollection As List(Of EntityBase) =
-                                    New List(Of EntityBase)()
+        Private Shared ReadOnly EntityCollection As List(Of Object) = New List(Of Object)()
     End Class
 End Namespace

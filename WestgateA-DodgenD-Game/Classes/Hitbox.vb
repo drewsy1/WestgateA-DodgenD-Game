@@ -4,7 +4,7 @@ Namespace Classes
     Public Class Hitbox
         Public Shared ReadOnly HitboxCollection As List(Of Hitbox) = New List(Of Hitbox)
 
-        Public _hitboxRectangle As Rectangle
+        Public HitboxRectangle As Rectangle
 
         Public Property Parent As Object
 
@@ -14,10 +14,10 @@ Namespace Classes
         ''' <returns>X coordinate of the upper-left corner of the hitbox</returns>
         Public Property X As Integer
             Get
-                Return _hitboxRectangle.X
+                Return HitboxRectangle.X
             End Get
             Set(value As Integer)
-                _hitboxRectangle.X = value
+                HitboxRectangle.X = value
             End Set
         End Property
 
@@ -27,10 +27,10 @@ Namespace Classes
         ''' <returns>Y coordinate of the upper-left corner of the hitbox</returns>
         Public Property Y As Integer
             Get
-                Return _hitboxRectangle.Y
+                Return HitboxRectangle.Y
             End Get
             Set(value As Integer)
-                _hitboxRectangle.Y = value
+                HitboxRectangle.Y = value
             End Set
         End Property
 
@@ -40,10 +40,10 @@ Namespace Classes
         ''' <returns>Width of the hitbox</returns>
         Public Property Width As Integer
             Get
-                Return _hitboxRectangle.Width
+                Return HitboxRectangle.Width
             End Get
             Set(value As Integer)
-                _hitboxRectangle.Width = value
+                HitboxRectangle.Width = value
             End Set
         End Property
 
@@ -53,17 +53,16 @@ Namespace Classes
         ''' <returns>Height of the hitbox</returns>
         Public Property Height As Integer
             Get
-                Return _hitboxRectangle.Height
+                Return HitboxRectangle.Height
             End Get
             Set(value As Integer)
-                _hitboxRectangle.Height = value
+                HitboxRectangle.Height = value
             End Set
         End Property
 
         ''' <summary>
         ''' Event raised when hitbox leaves canvas
         ''' </summary>
-        ''' <param name="direction">Indicates canvas side being touched by hitbox</param>
         Public Event LeavingCanvas()
 
         Sub New(width As Integer,
@@ -78,7 +77,7 @@ Namespace Classes
             Me.Height = height
             Me.Parent = parent
 
-            _hitboxRectangle = New Rectangle() With {
+            HitboxRectangle = New Rectangle() With {
                 .X = x,
                 .Y = y,
                 .Width = width,
@@ -98,7 +97,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Top is above canvas</returns>
         Private Function CheckCanvasTopTouch() As Boolean
-            If _hitboxRectangle.Top > MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Then
+            If HitboxRectangle.Top > MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Height Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else
@@ -111,7 +110,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Bottom is below canvas</returns>
         Private Function CheckCanvasBottomTouch() As Boolean
-            If _hitboxRectangle.Bottom < 0 Then
+            If HitboxRectangle.Bottom < 0 Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else
@@ -124,7 +123,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Left is left of canvas</returns>
         Private Function CheckCanvasLeftTouch() As Boolean
-            If _hitboxRectangle.Left < 0 Then
+            If HitboxRectangle.Left < 0 Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else
@@ -137,7 +136,7 @@ Namespace Classes
         ''' </summary>
         ''' <returns>Boolean that returns true if Rectangle.Right is right of canvas</returns>
         Private Function CheckCanvasRightTouch() As Boolean
-            If _hitboxRectangle.Right < MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Width Then
+            If HitboxRectangle.Right < MainWindowWrapper.MainWindowInstance.CanvasGameScreen.Width Then
                 RaiseEvent LeavingCanvas()
                 Return True
             Else
