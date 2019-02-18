@@ -9,6 +9,7 @@ Namespace Classes.Entities
     Partial Public Class EntityClasses
         Public Class EntityPlayer
             Implements ICanvasObjects
+
             ''' <summary>
             ''' Bitmap image object that will contain the PlayerCursor BMP
             ''' </summary>
@@ -17,7 +18,9 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Default player cursor image source (in URI string format)
             ''' </summary>
-            Private Const PlayerCursorImagePath As String = "pack://application:,,,/WestgateA-DodgenD-Game;component/Resources/PlayerCursor.png"
+            Private _
+                Const PlayerCursorImagePath As String =
+                "pack://application:,,,/WestgateA-DodgenD-Game;component/Resources/PlayerCursor.png"
 
             ''' <summary>
             ''' ProjectilePlayer object for weapon projectile
@@ -25,53 +28,38 @@ Namespace Classes.Entities
             Public Shared PlayerProjectileInstance As ProjectileClasses.ProjectilePlayer
 
 #Region "Inherited properties"
-            ''' <summary>
-            ''' Default player cursor height in pixels
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Property ObjectHeight As Double = 57 Implements ICanvasObjects.ObjectHeight
 
-            ''' <summary>
-            ''' Default player cursor width in pixels
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Shadows Property ObjectWidth As Double = 39 Implements ICanvasObjects.ObjectWidth
+            Public Property ObjectHeight As Double = 57 Implements ICanvasObjects.ObjectHeight
 
-            ''' <summary>
-            ''' Default starting X-coordinate location for PlayerCursor
-            ''' </summary>
-            ''' <returns></returns>
-            Protected ReadOnly Property LocationXDefault As Double Implements ICanvasObjects.LocationXDefault
+            Public Property ObjectWidth As Double = 39 Implements ICanvasObjects.ObjectWidth
+
+            Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
-                    Return MainWindowWrapper.CanvasWidth / 2
+                    Return LocationCoords
                 End Get
             End Property
 
-            ''' <summary>
-            ''' Default starting Y-coordinate location for PlayerCursor
-            ''' </summary>
-            ''' <returns></returns>
-            Protected ReadOnly Property LocationYDefault As Double Implements ICanvasObjects.LocationYDefault
+            Protected ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
                 Get
-                    Return 48
+                    Return New Point(LocationCoords.X + ObjectWidth, LocationCoords.Y + ObjectHeight)
                 End Get
             End Property
 
-            Protected Property LocationX As Double = LocationXDefault Implements ICanvasObjects.LocationX
+            Protected ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
+                Get
+                    Return New Point(MainWindowWrapper.CanvasWidth / 2, 48)
+                End Get
+            End Property
 
-            Protected Property LocationY As Double = LocationYDefault Implements ICanvasObjects.LocationY
+            Protected Property LocationCoords As Point = LocationCoordsDefault Implements ICanvasObjects.LocationCoords
 
-            ''' <summary>
-            ''' Leftmost x-value of PlayerCursor
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Property TranslateBoundLeft As Double = CanvasObjects.GetTranslateBoundLeft(LocationXDefault, ObjectWidth) Implements ICanvasObjects.TranslateBoundLeft
+            Protected Property TranslateBoundLeft As Double _
+                = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) _
+                Implements ICanvasObjects.TranslateBoundLeft
 
-            ''' <summary>
-            ''' Rightmost x-value of PlayerCursor
-            ''' </summary>
-            ''' <returns></returns>
-            Protected Property TranslateBoundRight As Double = CanvasObjects.GetTranslateBoundRight(LocationXDefault, ObjectWidth) Implements ICanvasObjects.TranslateBoundRight
+            Protected Property TranslateBoundRight As Double _
+                = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) _
+                Implements ICanvasObjects.TranslateBoundRight
 
             Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
 
@@ -79,13 +67,14 @@ Namespace Classes.Entities
 
             Protected Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
 
-            Protected Property ObjectTransformTranslate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+            Protected Property ObjectTransformTranslate As TranslateTransform _
+                = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
 
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
                     .Children = New TransformCollection(
                         New Transform() {ObjectTransformTranslate})
-                } Implements ICanvasObjects.ObjectTransformGroup
+                    } Implements ICanvasObjects.ObjectTransformGroup
 
             Public Property ObjectControl As Object = New Image() With {
                 .Name = "PlayerCursor",
@@ -96,26 +85,14 @@ Namespace Classes.Entities
                 .Source = _playerCursorBitmapImage
                 } Implements ICanvasObjects.ObjectControl
 
-            ''' <summary>
-            ''' Moves entity left if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveLeft(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveLeft
                 TranslateX(MovementSpeed * -1)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity right if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveRight(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveRight
                 TranslateX(MovementSpeed)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity up if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move up (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveUp(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveUp
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
@@ -123,10 +100,6 @@ Namespace Classes.Entities
                 TranslateY(localMovementSpeed)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity down if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move down (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveDown(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveDown
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
@@ -135,9 +108,9 @@ Namespace Classes.Entities
             End Sub
 
             Public Sub TranslateY(localMovementSpeed As Double) Implements ICanvasObjects.TranslateY
-                Dim location As Double = ObjectTransformTranslate.Y - LocationY
+                Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
                 If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
-                (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
+                   (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
                     If Not IsNothing(ObjectHitbox) Then
                         ObjectHitbox.MoveY(localMovementSpeed * -1)
@@ -147,7 +120,7 @@ Namespace Classes.Entities
 
             Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
                 If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-            (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
+                   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.X += localMovementSpeed
                     ObjectHitbox.MoveX(localMovementSpeed * -1)
                 End If
@@ -166,6 +139,7 @@ Namespace Classes.Entities
                     EntityCollection(itemIndex) = Nothing
                 End If
             End Sub
+
 #End Region
 
             Public WithEvents ObjectHitbox As Hitbox
@@ -184,23 +158,22 @@ Namespace Classes.Entities
                 _playerCursorBitmapImage.EndInit()
 
                 MainWindowWrapper.SetCanvasLocation(
-                    LocationXDefault,
-                    LocationYDefault,
+                    LocationCoords,
                     ObjectControl
                     )
 
-                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationY, ObjectHeight)
-                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationY, ObjectHeight)
-                TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationX, ObjectWidth)
-                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationX, ObjectWidth)
+                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)
+                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationCoords.Y, ObjectHeight)
+                TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth)
+                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
 
                 CanvasObjects.ObjectCollection.Add(Me)
 
-                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, LocationXDefault, LocationYDefault)
+                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, LocationCoords.X,
+                                                          LocationCoords.Y)
 
                 AddHandler PlayerHit, AddressOf Remove
                 AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
-
             End Sub
 
             ''' <summary>
@@ -213,8 +186,7 @@ Namespace Classes.Entities
                         New ProjectileClasses.ProjectilePlayer(
                             (ObjectWidth / 2),
                             0,
-                            (LocationX + ObjectTransformTranslate.X),
-                            (LocationY)
+                            New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
                             )
                     MainWindowWrapper.AddToCanvas(PlayerProjectileInstance)
                     AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
@@ -222,6 +194,7 @@ Namespace Classes.Entities
             End Sub
 
             Private Shared Sub RemovePlayerProjectileInstance(parent As ProjectileClasses.ProjectilePlayer)
+                RemoveHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 PlayerProjectileInstance = Nothing
             End Sub
         End Class

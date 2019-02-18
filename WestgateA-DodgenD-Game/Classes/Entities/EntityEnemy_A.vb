@@ -25,16 +25,15 @@ Namespace Classes.Entities
 
             'Public Shadows WithEvents ObjectHitbox As Hitbox
 
-            Sub New(localLocationX As Double, localLocationY As Double)
-                MyBase.New(localLocationX, localLocationY)
+            Sub New(localLocation As Point)
+                MyBase.New(localLocation)
                 MainWindowWrapper.SetCanvasLocation(
-                    localLocationX,
-                    localLocationY,
+                    localLocation,
                     ObjectControl
                     )
             End Sub
 
-            Overrides Sub ChangeContent()
+            Protected Overrides Sub ChangeContent()
                 If ObjectControl.Content = "😠" Then
                     ObjectControl.Content = "😧"
                 Else

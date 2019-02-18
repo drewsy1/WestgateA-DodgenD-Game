@@ -26,14 +26,12 @@ Namespace Classes
         ''' <summary>
         ''' Sets the canvas location of a control
         ''' </summary>
-        ''' <param name="locationX">X coordinate of desired location</param>
-        ''' <param name="locationY">Y coordinate of desired location</param>
+        ''' <param name="localLocation">Coordinate of desired location</param>
         ''' <param name="control">Control to be placed</param>
-        Public Shared Sub SetCanvasLocation(locationX As Double,
-                                            locationY As Double,
+        Public Shared Sub SetCanvasLocation(localLocation As Point,
                                             control As Object)
-            Controls.Canvas.SetLeft(control, locationX)
-            Controls.Canvas.SetBottom(control, locationY)
+            Controls.Canvas.SetLeft(control, localLocation.X)
+            Controls.Canvas.SetBottom(control, localLocation.Y)
         End Sub
 
         ''' <summary>

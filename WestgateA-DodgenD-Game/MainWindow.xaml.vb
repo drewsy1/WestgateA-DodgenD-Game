@@ -32,19 +32,19 @@ Public Class MainWindow
             Select Case a
                 Case 0
                     For b = 3 To 6
-                        enemyArray(a, b) = (New EntityClasses.EntityEnemyD(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyD(New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 1
                     For b = 2 To 7
-                        enemyArray(a, b) = (New EntityClasses.EntityEnemyC(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyC(New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 2
                     For b = 1 To 8
-                        enemyArray(a, b) = (New EntityClasses.EntityEnemyB(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyB(New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 3 To 5
                     For b = 0 To 9
-                        enemyArray(a, b) = (New EntityClasses.EntityEnemyA(117 + (45 * b), 630 - (36 * a)))
+                        enemyArray(a, b) = New EntityClasses.EntityEnemyA(New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
             End Select
 

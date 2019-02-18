@@ -14,36 +14,16 @@ Namespace Classes.Projectile
             ''' Direction of projectile
             ''' </summary>
             ''' <returns>ProjectileDirection</returns>
-            Protected Overrides Property ProjectileDirection As Double
-                Get
-                    Return EProjectileDirection.Up
-                End Get
-                Set(value As Double)
-
-                End Set
-            End Property
+            Protected Overrides ReadOnly Property ProjectileDirection As Double = EProjectileDirection.Up
 
             ''' <summary>
             ''' Color of ProjectilePlayer projectile
             ''' </summary>
             Protected Overrides Property ProjectileColor As Color = Colors.LawnGreen
 
-            ''' <summary>
-            ''' Default starting X-coordinate location for ProjectilePlayer
-            ''' </summary>
-            Protected Overrides ReadOnly Property LocationXDefault As Double
+            Protected Overrides ReadOnly Property LocationCoordsDefault As Point
                 Get
-                    Return MainWindowWrapper.CanvasWidth / 2
-                End Get
-            End Property
-
-
-            ''' <summary>
-            ''' Default starting Y-coordinate location for ProjectilePlayer
-            ''' </summary>
-            Protected Overrides ReadOnly Property LocationYDefault As Double
-                Get
-                    Return 76.5
+                    Return New Point(MainWindowWrapper.CanvasWidth / 2, MainWindowWrapper.CanvasHeight)
                 End Get
             End Property
 
@@ -54,19 +34,19 @@ Namespace Classes.Projectile
             ''' sets its color to ProjectileColor
             ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="localLocationX">Object's starting X-coordinate</param>
-            ''' <param name="localLocationY">Object's starting Y-coordinate</param>
+            ''' <param name="translateY">Y-axis translation (y coordinate +/- pixels)</param>
+            ''' <param name="localLocation">Object's starting coordinate</param>
             Sub New(translateX As Double,
                     translateY As Double,
-                    Optional localLocationX As Double = Nothing,
-                    Optional localLocationY As Double = Nothing)
-                MyBase.New(translateX, translateY, localLocationX, localLocationY)
+                    Optional localLocation As Point = Nothing)
+                MyBase.New(translateX, translateY, localLocation)
 
                 SetColor(ProjectileColor)
                 AddHandler EntityClasses.EntityEnemyBase.EnemyHit, AddressOf Remove
             End Sub
 
             Overrides Sub Remove()
+                RemoveHandler EntityClasses.EntityEnemyBase.EnemyHit, AddressOf Remove
                 MyBase.Remove()
                 RaiseEvent PlayerProjectileRemove(Me)
             End Sub

@@ -24,15 +24,15 @@ Namespace Classes.Entities
                                 .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
                 }
 
-            Sub New(localLocationX As Double, localLocationY As Double)
-                MyBase.New()
+            Sub New(localLocation As Point)
+                MyBase.New(localLocation)
                 MainWindowWrapper.SetCanvasLocation(
-                    localLocationX,
-                    localLocationY,
+                    localLocation,
                     ObjectControl
                     )
             End Sub
-            Overrides Sub ChangeContent()
+
+            Protected Overrides Sub ChangeContent()
                 'Fires every half-second
                 If ObjectControl.Background.Color = Color.FromRgb(255, 255, 0) Then
                     ObjectControl.Background.Color = Color.FromRgb(0, 0, 0)

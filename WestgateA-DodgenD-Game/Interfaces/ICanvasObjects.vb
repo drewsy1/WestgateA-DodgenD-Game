@@ -1,102 +1,119 @@
-﻿Imports WestgateA_DodgenD_Game.Classes
+﻿
 
 Namespace Interfaces
     Public Interface ICanvasObjects
         ''' <summary>
-        ''' Default entity cursor height in pixels
+        '''     Default entity cursor height in pixels
         ''' </summary>
         Property ObjectHeight As Double
 
         ''' <summary>
-        ''' Default entity width in pixels
+        '''     Default entity width in pixels
         ''' </summary>
         Property ObjectWidth As Double
 
         ''' <summary>
-        ''' Default starting X-coordinate location for entity
+        ''' TODO Write ObjectPointLowerLeft summary
         ''' </summary>
-        ReadOnly Property LocationXDefault As Double
+        ''' <returns></returns>
+        ReadOnly Property ObjectPointLowerLeft As Point
 
         ''' <summary>
-        ''' Default starting Y-coordinate location for entity
+        ''' TODO Write ObjectPointUpperRight summary
         ''' </summary>
-        ReadOnly Property LocationYDefault As Double
+        ''' <returns></returns>
+        ReadOnly Property ObjectPointUpperRight As Point
 
         ''' <summary>
-        ''' X-coordinate location for entity
+        '''     Default starting coordinate location for entity
         ''' </summary>
-        Property LocationX As Double
+        ReadOnly Property LocationCoordsDefault As Point
 
         ''' <summary>
-        ''' Y-coordinate location for entity
+        '''     Coordinate location of entity
         ''' </summary>
-        Property LocationY As Double
+        Property LocationCoords As Point
 
         ''' <summary>
-        ''' Leftmost X-value of entity
+        '''     Leftmost translatable X-value of entity
         ''' </summary>
         Property TranslateBoundLeft As Double
 
         ''' <summary>
-        ''' Rightmost X-value of entity
+        '''     Rightmost translatable X-value of entity
         ''' </summary>
         Property TranslateBoundRight As Double
 
         ''' <summary>
-        ''' Uppermost Y-value of entity
+        '''     Uppermost translatable Y-value of entity
         ''' </summary>
         Property TranslateBoundTop As Double
 
         ''' <summary>
-        ''' Bottommost Y-value of entity
+        '''     Bottommost translatable Y-value of entity
         ''' </summary>
         Property TranslateBoundBottom As Double
 
         ''' <summary>
-        ''' Number of pixels by which the object moves
+        '''     Number of pixels by which the object moves
         ''' </summary>
         Property MovementSpeed As Double
 
         ''' <summary>
-        ''' Translate transform object for entity
+        '''     Translate transform object for entity
         ''' </summary>
         Property ObjectTransformTranslate As TranslateTransform
 
         ''' <summary>
-        ''' TransformGroup containing Translate transform to be added to entity instance
+        '''     TransformGroup containing Translate transform to be added to entity instance
         ''' </summary>
         Property ObjectTransformGroup As TransformGroup
 
         ''' <summary>
-        ''' Image that serves as entity
+        '''     Image that serves as entity
         ''' </summary>
         Property ObjectControl As Object
 
+        ''' <summary>
+        ''' TODO Write MoveLeft summary
+        ''' </summary>
+        ''' <param name="localMovementSpeed"></param>
         Sub MoveLeft(Optional localMovementSpeed As Double = 0)
 
+        ''' <summary>
+        ''' TODO Write MoveRight summary
+        ''' </summary>
+        ''' <param name="localMovementSpeed"></param>
         Sub MoveRight(Optional localMovementSpeed As Double = 0)
 
+        ''' <summary>
+        ''' TODO Write MoveUp summary
+        ''' </summary>
+        ''' <param name="localMovementSpeed"></param>
         Sub MoveUp(Optional localMovementSpeed As Double = 0)
 
+        ''' <summary>
+        ''' TODO Write MoveDown summary
+        ''' </summary>
+        ''' <param name="localMovementSpeed"></param>
         Sub MoveDown(Optional localMovementSpeed As Double = 0)
 
         ''' <summary>
-        ''' Translates along the Y axis a given number of pixels while staying within canvas bounds
+        '''     Translates along the Y axis a given number of pixels while staying within canvas bounds
         ''' </summary>
         ''' <param name="localMovementSpeed">Distance to translate in pixels (Negative moves down)</param>
         Sub TranslateY(localMovementSpeed As Double)
 
         ''' <summary>
-        ''' Translates along the X axis a given number of pixels while staying within canvas bounds
+        '''     Translates along the X axis a given number of pixels while staying within canvas bounds
         ''' </summary>
         ''' <param name="localMovementSpeed">Distance to translate in pixels (Negative moves left)</param>
         Sub TranslateX(localMovementSpeed As Double)
 
         ''' <summary>
-        ''' Removes entity from canvas, clears the hit box object,
-        ''' and removes entity from EntitiesCollection
+        '''     Removes entity from canvas, clears the hit box object,
+        '''     and removes entity from EntitiesCollection
         ''' </summary>
         Sub Remove()
-
     End Interface
 End Namespace

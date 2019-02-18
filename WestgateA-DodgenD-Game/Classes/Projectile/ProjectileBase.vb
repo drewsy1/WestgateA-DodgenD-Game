@@ -4,7 +4,6 @@ Imports WestgateA_DodgenD_Game.Interfaces
 Namespace Classes.Projectile
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
-
         ''' <summary>
         ''' Create a static collection of projectiles to keep track of them
         ''' </summary>
@@ -33,24 +32,39 @@ Namespace Classes.Projectile
 
             Protected Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
             Protected Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
+
+            Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
+                Get
+                    Return LocationCoords
+                End Get
+            End Property
+
+            Protected ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
+                Get
+                    Return New Point(LocationCoords.X + ObjectWidth, LocationCoords.Y + ObjectHeight)
+                End Get
+            End Property
             ' ReSharper disable UnassignedGetOnlyAutoProperty
-            Protected Overridable ReadOnly Property LocationXDefault As Double Implements ICanvasObjects.LocationXDefault
-            Protected Overridable ReadOnly Property LocationYDefault As Double Implements ICanvasObjects.LocationYDefault
-            Protected Property LocationX As Double Implements ICanvasObjects.LocationX
-            Protected Property LocationY As Double Implements ICanvasObjects.LocationY
+            Protected Overridable ReadOnly Property LocationCoordsDefault As Point _
+                Implements ICanvasObjects.LocationCoordsDefault
+
+            Protected Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
             Protected Property TranslateBoundLeft As Double Implements ICanvasObjects.TranslateBoundLeft
             Protected Property TranslateBoundRight As Double Implements ICanvasObjects.TranslateBoundRight
             Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
             Protected Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
             Protected Property MovementSpeed As Double = 30 Implements ICanvasObjects.MovementSpeed
+
             Protected Property ObjectTransformTranslate As TranslateTransform =
                 New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
                     .Children = New TransformCollection(
                         New Transform() {ObjectTransformTranslate}
                         )
                     } Implements ICanvasObjects.ObjectTransformGroup
+
             Public Property ObjectControl As Object = New Rectangle() With {
                 .Height = ObjectHeight,
                 .Width = ObjectWidth,
@@ -104,9 +118,9 @@ Namespace Classes.Projectile
             End Sub
 
             Public Sub TranslateY(localMovementSpeed As Double) Implements ICanvasObjects.TranslateY
-                Dim location As Double = ObjectTransformTranslate.Y - LocationY
+                Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
                 If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
-                (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
+                   (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
                     If Not IsNothing(ObjectHitbox) Then
                         ObjectHitbox.MoveY(localMovementSpeed * -1)
@@ -116,17 +130,17 @@ Namespace Classes.Projectile
 
             Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
                 If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-            (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
+                   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.X += localMovementSpeed
                     ObjectHitbox.MoveX(localMovementSpeed * -1)
                 End If
             End Sub
 
             ''' <summary>
-            ''' Overrides double representing direction of projectile travel
+            ''' Overridable double representing direction of projectile travel
             ''' </summary>
             ''' <returns>ProjectileDirection</returns>
-            Protected Overridable Property ProjectileDirection As Double
+            Protected Overridable ReadOnly Property ProjectileDirection As Double
 
             ''' <summary>
             ''' Color of projectile
@@ -139,27 +153,24 @@ Namespace Classes.Projectile
             ''' Instantiates a new Projectile object and adds it to ProjectilesCollection
             ''' </summary>
             ''' <param name="translateX">X-axis translation (x coordinate +/- pixels)</param>
-            ''' <param name="localLocationX">Object's starting X-coordinate</param>
-            ''' <param name="localLocationY">Object's starting Y-coordinate</param>
+            ''' <param name="localLocationCoords">Object's starting point</param>
             Protected Sub New(translateX As Double,
                               translateY As Double,
-                              Optional localLocationX As Double = Nothing,
-                              Optional localLocationY As Double = Nothing)
-                LocationX = localLocationX
-                LocationY = localLocationY
+                              Optional localLocationCoords As Point = Nothing)
+                LocationCoords = localLocationCoords
 
-                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationY, ObjectHeight)
-                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationY, ObjectHeight)
-                TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationX, ObjectWidth)
-                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationX, ObjectWidth)
+                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)
+                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationCoords.Y, ObjectHeight)
+                TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth)
+                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
 
                 CanvasObjects.ObjectCollection.Add(Me)
 
-                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationX, localLocationY)
+                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X, localLocationCoords.Y)
                 ProjectilesCollection.Add(Me)
 
                 ' Set coordinates on canvas for projectile
-                MainWindowWrapper.SetCanvasLocation(localLocationX, localLocationY, ObjectControl)
+                MainWindowWrapper.SetCanvasLocation(localLocationCoords, ObjectControl)
 
                 ' Increment projectile's X transform value by translateX
                 ObjectTransformTranslate.X += translateX
@@ -203,9 +214,6 @@ Namespace Classes.Projectile
                 'ObjectTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
                 'ObjectHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub
-
         End Class
-
-
     End Class
 End Namespace
