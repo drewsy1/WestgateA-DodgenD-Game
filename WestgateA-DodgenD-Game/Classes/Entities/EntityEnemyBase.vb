@@ -15,17 +15,19 @@ Namespace Classes.Entities
 
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
 
+            Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
+
             Public Property ObjectHeight As Double = 33 Implements ICanvasObjects.ObjectHeight
 
             Public Property ObjectWidth As Double = 33 Implements ICanvasObjects.ObjectWidth
 
-            Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
+            Public ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
                     Return LocationCoords
                 End Get
             End Property
 
-            Protected ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
+            Public ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
                 Get
                     Return New Point(ObjectPointLowerLeft.X + ObjectWidth, ObjectPointLowerLeft.Y + ObjectHeight)
                 End Get
@@ -157,6 +159,8 @@ Namespace Classes.Entities
             ''' </summary>
             Private _enemyProjectileInstance As ProjectileClasses.ProjectileEnemy
 
+            Public Property EnemyType As String = Me.GetType().Name
+
             Private WithEvents _objectHitbox As Hitbox
 
             Public Shared Event EnemyHit(enemy As EntityEnemyBase)
@@ -164,9 +168,10 @@ Namespace Classes.Entities
             ''' <summary>
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
-            Sub New(localName As String, Optional localLocationCoords As Point = Nothing)
+            Sub New(localName As String, localScoreValue As Integer, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
                 ObjectName = localName
+                ObjectScoreValue = localScoreValue
                 LocationCoords = localLocationCoords
 
                 TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)

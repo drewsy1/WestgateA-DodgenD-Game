@@ -3,10 +3,16 @@
 Namespace Interfaces
     Public Interface ICanvasObjects
         ''' <summary>
-        ''' 
+        ''' TODO Write ObjectName summary
         ''' </summary>
         ''' <returns></returns>
         Property ObjectName As String
+
+        ''' <summary>
+        ''' TODO Write ObjectScoreValue summary
+        ''' </summary>
+        ''' <returns></returns>
+        Property ObjectScoreValue As Integer
 
         ''' <summary>
         '''     Default entity cursor height in pixels

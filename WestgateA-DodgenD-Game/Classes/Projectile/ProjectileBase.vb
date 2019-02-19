@@ -31,6 +31,7 @@ Namespace Classes.Projectile
             Implements ICanvasObjects
 
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
+            Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
             Public Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
             Public Property ObjectWidth As Double = 3 Implements ICanvasObjects.ObjectWidth
 
@@ -74,10 +75,6 @@ Namespace Classes.Projectile
                 .RenderTransformOrigin = New Point(0, 0)
                 } Implements ICanvasObjects.ObjectControl
 
-            ''' <summary>
-            ''' Moves entity left if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move left (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveLeft(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveLeft
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
@@ -85,10 +82,6 @@ Namespace Classes.Projectile
                 TranslateX(localMovementSpeed * -1)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity right if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move right (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveRight(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveRight
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
@@ -96,10 +89,6 @@ Namespace Classes.Projectile
                 TranslateX(localMovementSpeed)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity up if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move up (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveUp(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveUp
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
@@ -107,10 +96,6 @@ Namespace Classes.Projectile
                 TranslateY(localMovementSpeed)
             End Sub
 
-            ''' <summary>
-            ''' Moves entity down if entity is within bounds
-            ''' </summary>
-            ''' <param name="localMovementSpeed">Number of pixels to move down (defaults to 0 unless MovementSpeed is set)</param>
             Public Sub MoveDown(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveDown
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed

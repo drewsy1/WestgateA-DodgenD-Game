@@ -20,13 +20,14 @@ Namespace Classes.Entities
                                 .VerticalContentAlignment = VerticalAlignment.Center,
                                 .Padding = New Thickness(0),
                                 .IsEnabled = False,
-                                .FontWeight = FontWeights.UltraBold
+                                .FontWeight = FontWeights.UltraBold,
+                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
                 }
 
             'Public Shadows WithEvents ObjectHitbox As Hitbox
 
             Sub New(localName As String, localLocation As Point)
-                MyBase.New(localName, localLocation)
+                MyBase.New(localName, 30, localLocation)
                 MainViewModel.SetCanvasLocation(
                     localLocation,
                     ObjectControl
@@ -36,8 +37,10 @@ Namespace Classes.Entities
             Protected Overrides Sub ChangeContent()
                 If ObjectControl.Content = "😠" Then
                     ObjectControl.Content = "😧"
+                    ObjectControl.Foreground = New SolidColorBrush(Color.FromRgb(255, 0, 0))
                 Else
                     ObjectControl.Content = "😠"
+                    ObjectControl.Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
                 End If
             End Sub
         End Class

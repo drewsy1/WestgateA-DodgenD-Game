@@ -31,6 +31,8 @@ Namespace Classes.Entities
 
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
 
+            Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
+
             Public Property ObjectHeight As Double = 57 Implements ICanvasObjects.ObjectHeight
 
             Public Property ObjectWidth As Double = 39 Implements ICanvasObjects.ObjectWidth

@@ -26,7 +26,7 @@ Namespace Classes.Entities
                 }
 
             Sub New(localName As String, localLocation As Point)
-                MyBase.New(localName, localLocation)
+                MyBase.New(localName, 40, localLocation)
                 MainViewModel.SetCanvasLocation(
                     localLocation,
                     ObjectControl

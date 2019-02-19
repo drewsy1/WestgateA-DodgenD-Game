@@ -30,6 +30,21 @@ Namespace Classes
         Public Const CanvasWidth As Double = 672
 
         ''' <summary>
+        ''' TODO Write GameScore summary
+        ''' </summary>
+        Public Shared GameScore As Integer
+
+        ''' <summary>
+        ''' TODO Write GameLives summary
+        ''' </summary>
+        Public Shared GameLives As Integer
+
+        ''' <summary>
+        ''' TODO Write GameLevel summary
+        ''' </summary>
+        Public Shared GameLevel As Integer
+
+        ''' <summary>
         ''' TODO Write ObjectCollection summary
         ''' </summary>
         Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =

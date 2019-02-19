@@ -20,13 +20,13 @@ Namespace Classes.Entities
                                 .VerticalContentAlignment = VerticalAlignment.Center,
                                 .HorizontalContentAlignment = HorizontalAlignment.Center,
                                 .Padding = New Thickness(-1.5, -10, 0, 0),
-                                .Background = New SolidColorBrush(Color.FromRgb(0, 255, 0)),
-                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                                                                    .IsEnabled = False
+                                .Background = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 255, 0)),
+                .IsEnabled = False
                 }
 
             Sub New(localName As String, localLocation As Point)
-                MyBase.New(localName, localLocation)
+                MyBase.New(localName, 50, localLocation)
                 MainViewModel.SetCanvasLocation(
                     localLocation,
                     ObjectControl
