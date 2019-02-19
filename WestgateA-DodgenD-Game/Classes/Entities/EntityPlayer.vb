@@ -171,6 +171,8 @@ Namespace Classes.Entities
 
             Public Shared Event PlayerHit(enemy As EntityPlayer)
 
+            Public Shared Event PressFireButton()
+
             ''' <summary>
             ''' Instantiates a new EntityPlayer object, creates its hitbox, and adds it to ObjectCollection
             ''' </summary>
@@ -214,6 +216,7 @@ Namespace Classes.Entities
                             New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
                             )
                     MainViewModel.AddToCanvas(PlayerProjectileInstance)
+                    RaiseEvent PressFireButton
                     AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 End If
             End Sub

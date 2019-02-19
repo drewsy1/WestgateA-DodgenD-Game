@@ -11,8 +11,7 @@ Public Class MainWindow
 
     Private Shared _newDebugWindow As DebugWindow
 
-    Public Event PressFireButton()
-    Public Event ReleaseFireButton()
+    Public Shared Event ReleaseFireButton()
 
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
@@ -99,7 +98,6 @@ Public Class MainWindow
                 _currentKeyPress = e.Key
             Case Key.Space
                 MainViewModel.EntityPlayerObject.FireWeapon()
-                RaiseEvent PressFireButton()
         End Select
     End Sub
 

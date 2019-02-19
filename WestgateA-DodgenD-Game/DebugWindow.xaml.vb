@@ -10,6 +10,8 @@ Public Class DebugWindow
 
     Public Property PlayerEntity As EntityClasses.EntityPlayer = MainViewModel.EntityPlayerObject
 
+    Public Property PlayerProjectileValue As Double = PlayerEntity.ObjectTransformTranslate.Y
+
     Public Property PlayerLeftBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundLeft
 
     Public Property PlayerRightBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundRight
@@ -25,7 +27,7 @@ Public Class DebugWindow
         ' This call is required by the designer.
         InitializeComponent()
 
-        AddHandler MainViewModel.MainWindowInstance.PressFireButton, AddressOf PressFireButton
+        AddHandler PlayerEntity.PressFireButton, AddressOf PressFireButton
         AddHandler MainViewModel.MainWindowInstance.ReleaseFireButton, AddressOf ReleaseFireButton
         ' Add any initialization after the InitializeComponent() call.
 

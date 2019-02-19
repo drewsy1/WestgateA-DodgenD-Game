@@ -86,7 +86,6 @@
 
             </Grid>
             <TextBox x:Name="TextBoxFiring" Height="23" TextWrapping="Wrap" Text="Fire" TextAlignment="Center" Margin="10" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <ProgressBar Height="23" Value="50" Margin="10"/>
 
 
         </StackPanel>
