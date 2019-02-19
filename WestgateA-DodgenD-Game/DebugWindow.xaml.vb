@@ -1,7 +1,4 @@
 ﻿Imports System.Collections.ObjectModel
-Imports System.Windows.Automation.Peers
-Imports System.Windows.Automation.Provider
-Imports System.Windows.Controls.Primitives
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
@@ -27,8 +24,8 @@ Public Class DebugWindow
         ' This call is required by the designer.
         InitializeComponent()
 
-        AddHandler PlayerEntity.PressFireButton, AddressOf PressFireButton
-        AddHandler MainViewModel.MainWindowInstance.ReleaseFireButton, AddressOf ReleaseFireButton
+        AddHandler EntityClasses.EntityPlayer.PressFireButton, AddressOf PressFireButton
+        AddHandler MainWindow.ReleaseFireButton, AddressOf ReleaseFireButton
         ' Add any initialization after the InitializeComponent() call.
 
 
