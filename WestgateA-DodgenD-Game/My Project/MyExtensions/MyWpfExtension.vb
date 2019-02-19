@@ -1,4 +1,7 @@
-﻿#If _MyType <> "Empty" Then
+﻿Imports System.Collections.ObjectModel
+Imports WestgateA_DodgenD_Game.Classes.Entities
+
+#If _MyType <> "Empty" Then
 ' ReSharper disable RedundantQualifier
 Namespace My
     ''' <summary>
@@ -118,5 +121,7 @@ Partial Class Application
             Return New Global.Microsoft.VisualBasic.ApplicationServices.AssemblyInfo(Global.System.Reflection.Assembly.GetExecutingAssembly())
         End Get
     End Property
+
+
 End Class
 #End If

@@ -4,35 +4,37 @@ Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class MainWindow
-    Public Property EnemyTable As ObservableCollection(Of EntityClasses.EntityEnemyBase) = EntityClasses.EntityEnemyBase.EnemyCollection
-
     ''' <summary>
     ''' Key (left or right) that controls movement of player cursor
     ''' </summary>
     Dim _currentKeyPress As Key
 
-    ''' <summary>
-    ''' Variable for current EntityPlayer object
-    ''' </summary>
-    ReadOnly _entityPlayerObject As EntityClasses.EntityPlayer
+    Private Shared _newDebugWindow As DebugWindow
+
+    Public Event PressFireButton()
+    Public Event ReleaseFireButton()
 
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
     ''' </summary>
     Sub New()
-        GameTimer.Start()
         InitializeComponent()
-        DataContext = Me
+        GameTimer.Start()
 
+
+        MainViewModel.MainWindowInstance = Me
+        MainViewModel.CanvasGameScreen = CanvasGameScreen
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
-        _entityPlayerObject = New EntityClasses.EntityPlayer()
-        MainViewModel.AddToCanvas(_entityPlayerObject)
+        MainViewModel.EntityPlayerObject = New EntityClasses.EntityPlayer()
+        MainViewModel.AddToCanvas(MainViewModel.EntityPlayerObject)
 
-        'DataContext = Me
-        'dataGrid.ItemsSource = EnemyTable
+        If Debugger.IsAttached Then
+            _newDebugWindow = New DebugWindow
+            _newDebugWindow.Show()
+        End If
 
         Dim enemyArray(5, 9) As EntityClasses.EntityEnemyBase
 
@@ -77,9 +79,9 @@ Public Class MainWindow
     Private Sub RegisterKeypresses(currentKeyPress As Key)
         Select Case currentKeyPress
             Case Key.Left
-                _entityPlayerObject.MoveLeft()
+                MainViewModel.EntityPlayerObject.MoveLeft()
             Case Key.Right
-                _entityPlayerObject.MoveRight()
+                MainViewModel.EntityPlayerObject.MoveRight()
         End Select
     End Sub
 
@@ -96,7 +98,8 @@ Public Class MainWindow
             Case Key.Right
                 _currentKeyPress = e.Key
             Case Key.Space
-                _entityPlayerObject.FireWeapon()
+                MainViewModel.EntityPlayerObject.FireWeapon()
+                RaiseEvent PressFireButton()
         End Select
     End Sub
 
@@ -108,6 +111,9 @@ Public Class MainWindow
     Private Sub Window_KeyUp(sender As Object, e As KeyEventArgs)
         If Not Keyboard.IsKeyDown(Key.Left) And Not Keyboard.IsKeyDown(Key.Right) Then
             _currentKeyPress = Nothing
+        End If
+        If e.Key = Key.Space Then
+            RaiseEvent ReleaseFireButton()
         End If
     End Sub
 #End Region

@@ -1,3 +1,0 @@
-﻿Class Enemies
-
-End Class

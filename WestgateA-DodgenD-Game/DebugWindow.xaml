@@ -1,0 +1,52 @@
+﻿<Window x:Class="DebugWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WestgateA_DodgenD_Game"
+        mc:Ignorable="d"
+        Title="DebugWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label x:Name="labelEnemyEntities" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <DataGrid x:Name="dataGridEnemies" Margin="10" ItemsSource="{Binding Path=EnemyCollection}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ObjectName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="X" Binding="{Binding LocationCoords.X}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Y" Binding="{Binding LocationCoords.X}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label x:Name="labelPlayer" Content="Player" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Slider x:Name="slider" Margin="0" Grid.Row="1" Grid.ColumnSpan="3" Maximum="{Binding Path=PlayerEntity.TranslateBoundRight}" Minimum="{Binding Path=PlayerEntity.TranslateBoundLeft}" Value="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" Cursor="ScrollWE" IsEnabled="False"/>
+                <Label Grid.Row="0" x:Name="LabelPlayerMin" Content="{Binding Path=PlayerLeftBound}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom"/>
+                <Label Grid.Row="0" x:Name="LabelPlayerMax" Content="{Binding Path=PlayerRightBound}" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Grid.Column="2"/>
+                <TextBox x:Name="textBoxPlayerLocation" Grid.ColumnSpan="1" Grid.Column="1" Margin="0" Grid.RowSpan="1" TextWrapping="Wrap" Text="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" VerticalAlignment="Bottom"/>
+
+            </Grid>
+            <TextBox x:Name="textBoxFiring" Height="23" TextWrapping="Wrap" Text="Fire" TextAlignment="Center" Margin="10" IsReadOnly="True"/>
+
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>

@@ -55,19 +55,19 @@ Namespace Classes.Entities
 
             Public Property LocationCoords As Point = LocationCoordsDefault Implements ICanvasObjects.LocationCoords
 
-            Protected Property TranslateBoundLeft As Double _
+            Public Property TranslateBoundLeft As Double _
                 = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) _
                 Implements ICanvasObjects.TranslateBoundLeft
 
-            Protected Property TranslateBoundRight As Double _
+            Public Property TranslateBoundRight As Double _
                 = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) _
                 Implements ICanvasObjects.TranslateBoundRight
 
-            Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
+            Public Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
 
-            Protected Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
+            Public Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
 
-            Protected Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
+            Public Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
 
             Public Property ObjectTransformTranslate As TranslateTransform _
                 = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
@@ -121,11 +121,32 @@ Namespace Classes.Entities
             End Sub
 
             Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
-                If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-                   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
-                    ObjectTransformTranslate.X += localMovementSpeed
-                    ObjectHitbox.MoveX(localMovementSpeed * -1)
-                End If
+                Dim distanceToLeftBound As Double = TranslateBoundLeft - ObjectTransformTranslate.X
+                Dim distanceToRightBound As Double = TranslateBoundRight - ObjectTransformTranslate.X
+
+                Select Case localMovementSpeed
+                    Case > 0
+                        If (distanceToRightBound) >= localMovementSpeed Then
+                            ObjectTransformTranslate.X += localMovementSpeed
+                            ObjectHitbox.MoveX(localMovementSpeed * -1)
+                        ElseIf (distanceToRightBound) > 0 Then
+                            ObjectTransformTranslate.X += distanceToRightBound
+                            ObjectHitbox.MoveX(distanceToRightBound * -1)
+                        End If
+                    Case <= 0
+                        If (distanceToLeftBound) <= localMovementSpeed Then
+                            ObjectTransformTranslate.X += localMovementSpeed
+                            ObjectHitbox.MoveX(localMovementSpeed * -1)
+                        ElseIf distanceToLeftBound < 0 Then
+                            ObjectTransformTranslate.X += distanceToLeftBound
+                            ObjectHitbox.MoveX(distanceToLeftBound * -1)
+                        End If
+                End Select
+                'If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
+                '   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
+                '    ObjectTransformTranslate.X += localMovementSpeed
+                '    ObjectHitbox.MoveX(localMovementSpeed * -1)
+                'End If
             End Sub
 
             Public Sub Remove() Implements ICanvasObjects.Remove

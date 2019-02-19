@@ -11,12 +11,6 @@ Namespace Classes.Entities
         Public Class EntityEnemyBase
             Implements ICanvasObjects
 
-            ''' <summary>
-            ''' TODO Write ObjectCollection summary
-            ''' </summary>
-            Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityEnemyBase) =
-                                       New ObservableCollection(Of EntityEnemyBase)()
-
 #Region "Inherited properties"
 
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
@@ -45,13 +39,9 @@ Namespace Classes.Entities
 
             Public Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
 
-            Protected Property TranslateBoundLeft As Double _
-                = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) _
-                Implements ICanvasObjects.TranslateBoundLeft
+            Protected Property TranslateBoundLeft As Double = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundLeft
 
-            Protected Property TranslateBoundRight As Double _
-                = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) _
-                Implements ICanvasObjects.TranslateBoundRight
+            Protected Property TranslateBoundRight As Double = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundRight
 
             Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
 
@@ -59,17 +49,14 @@ Namespace Classes.Entities
 
             Protected Property MovementSpeed As Double = 5 Implements ICanvasObjects.MovementSpeed
 
-            Protected Property ObjectTransformTranslate As TranslateTransform _
-                = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+            Protected Property ObjectTransformTranslate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
 
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
-                    .Children = New TransformCollection(
-                        New Transform() {ObjectTransformTranslate})
+                    .Children = New TransformCollection(New Transform() {ObjectTransformTranslate})
                     } Implements ICanvasObjects.ObjectTransformGroup
 
-            Public Overridable Property ObjectControl As Object = New UIElement() _
-                Implements ICanvasObjects.ObjectControl
+            Public Overridable Property ObjectControl As Object = New UIElement() Implements ICanvasObjects.ObjectControl
 
             ''' <summary>
             ''' Moves entity left if entity is within bounds
@@ -117,8 +104,7 @@ Namespace Classes.Entities
 
             Public Sub TranslateY(localMovementSpeed As Double) Implements ICanvasObjects.TranslateY
                 Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
-                If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
-                   (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
+                If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
                     If Not IsNothing(_objectHitbox) Then
                         _objectHitbox.MoveY(localMovementSpeed * -1)
@@ -127,17 +113,33 @@ Namespace Classes.Entities
             End Sub
 
             Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
-                If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-                   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
-                    ObjectTransformTranslate.X += localMovementSpeed
-                    _objectHitbox.MoveX(localMovementSpeed * -1)
-                End If
+                Dim distanceToLeftBound As Double = TranslateBoundLeft - ObjectTransformTranslate.X
+                Dim distanceToRightBound As Double = TranslateBoundRight - ObjectTransformTranslate.X
+
+                Select Case localMovementSpeed
+                    Case > 0
+                        If (distanceToRightBound) >= localMovementSpeed Then
+                            ObjectTransformTranslate.X += localMovementSpeed
+                        ElseIf (distanceToRightBound) > 0 Then
+                            ObjectTransformTranslate.X += distanceToRightBound
+                        End If
+                    Case <= 0
+                        If (distanceToLeftBound) <= localMovementSpeed Then
+                            ObjectTransformTranslate.X += localMovementSpeed
+                        ElseIf distanceToLeftBound < 0 Then
+                            ObjectTransformTranslate.X += distanceToLeftBound
+                        End If
+                End Select
+                'If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
+                '   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
+                '    ObjectTransformTranslate.X += localMovementSpeed
+                '    ObjectHitbox.MoveX(localMovementSpeed * -1)
+                'End If
             End Sub
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    ObjectControl)
+                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
 
                 Hitbox.HitboxCollection.Remove(_objectHitbox)
                 _objectHitbox = Nothing
@@ -174,10 +176,9 @@ Namespace Classes.Entities
 
 
                 CanvasObjects.ObjectCollection.Add(Me)
-                EnemyCollection.Add(Me)
+                MainViewModel.EnemyCollection.Add(Me)
 
-                _objectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X,
-                                                           localLocationCoords.Y)
+                _objectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X, localLocationCoords.Y)
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
                 AddHandler GameTimer.Tick, AddressOf CheckHitbox
@@ -188,12 +189,7 @@ Namespace Classes.Entities
             ''' Creates an enemy projectile that moves downward
             ''' </summary>
             Sub FireWeapon()
-                _enemyProjectileInstance =
-                    New ProjectileClasses.ProjectileEnemy(
-                        (ObjectWidth / 2),
-                        0 - ObjectHeight,
-                        New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y)
-                        )
+                _enemyProjectileInstance = New ProjectileClasses.ProjectileEnemy((ObjectWidth / 2), 0 - ObjectHeight, New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y))
                 MainViewModel.AddToCanvas(_enemyProjectileInstance)
             End Sub
 
@@ -214,8 +210,7 @@ Namespace Classes.Entities
             ''' </summary>
             Private Sub CheckHitbox()
                 If Not IsNothing(EntityPlayer.PlayerProjectileInstance) Then
-                    Dim CollisionCheck As Boolean = CanvasObjects.CheckCollision(Me,
-                                                                                 EntityPlayer.PlayerProjectileInstance)
+                    Dim CollisionCheck As Boolean = CanvasObjects.CheckCollision(Me, EntityPlayer.PlayerProjectileInstance)
                     If CollisionCheck Then
                         RaiseEvent EnemyHit(Me)
                     End If

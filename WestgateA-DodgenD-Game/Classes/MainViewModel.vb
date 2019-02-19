@@ -4,23 +4,20 @@ Imports WestgateA_DodgenD_Game.Classes.Entities
 Namespace Classes
     ' ReSharper disable once ClassNeverInstantiated.Global
     Public Class MainViewModel
-
-        Public Property EnemyTable As ObservableCollection(Of EntityClasses.EntityEnemyBase) = EntityClasses.EntityEnemyBase.EnemyCollection
-
         ''' <summary>
         ''' Gets the MainWindow as an object and provides it as a static object
         ''' </summary>
-        Public Shared ReadOnly MainWindowInstance As MainWindow = Application.Current.MainWindow
+        Public Shared MainWindowInstance As MainWindow
 
         ''' <summary>
-        ''' 
+        ''' TODO Write CanvasGameScreen summary
         ''' </summary>
-        Public Shared ReadOnly CanvasGameScreen As Controls.Canvas = MainWindowInstance.CanvasGameScreen
+        Public Shared CanvasGameScreen As Canvas
 
         ''' <summary>
-        ''' Width of canvas in pixels
+        ''' Variable for current EntityPlayer object
         ''' </summary>
-        Public Const CanvasWidth As Double = 672
+        Public Shared EntityPlayerObject As EntityClasses.EntityPlayer
 
         ''' <summary>
         ''' Height of canvas in pixels
@@ -28,15 +25,15 @@ Namespace Classes
         Public Const CanvasHeight As Double = 768
 
         ''' <summary>
-        ''' Sets the canvas location of a control
+        ''' Width of canvas in pixels
         ''' </summary>
-        ''' <param name="localLocation">Coordinate of desired location</param>
-        ''' <param name="control">Control to be placed</param>
-        Public Shared Sub SetCanvasLocation(localLocation As Point,
-                                            control As Object)
-            Controls.Canvas.SetLeft(control, localLocation.X)
-            Controls.Canvas.SetBottom(control, localLocation.Y)
-        End Sub
+        Public Const CanvasWidth As Double = 672
+
+        ''' <summary>
+        ''' TODO Write ObjectCollection summary
+        ''' </summary>
+        Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
+                                   New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
 
         ''' <summary>
         ''' Adds a control to canvas
@@ -48,7 +45,17 @@ Namespace Classes
             Else
 
             End If
+        End Sub
 
+        ''' <summary>
+        ''' Sets the canvas location of a control
+        ''' </summary>
+        ''' <param name="localLocation">Coordinate of desired location</param>
+        ''' <param name="control">Control to be placed</param>
+        Public Shared Sub SetCanvasLocation(localLocation As Point,
+                                            control As Object)
+            Canvas.SetLeft(control, localLocation.X)
+            Canvas.SetBottom(control, localLocation.Y)
         End Sub
     End Class
 End Namespace
