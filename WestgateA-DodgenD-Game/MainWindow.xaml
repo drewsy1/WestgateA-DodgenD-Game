@@ -28,27 +28,6 @@
             <Label FontFamily="{StaticResource ARCADE}" x:Name="labelHighScore" Content="HIGH SCORE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" Height="29" HorizontalContentAlignment="Center" Canvas.Left="221" Width="235" Canvas.Top="-5" Foreground="Black"/>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="labelCurrentScore" Content="000000" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0" Canvas.Left="24" Width="146" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Right" Foreground="Red" VerticalContentAlignment="Center"/>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="labelCurrentScore_Copy" Content="000000" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" Canvas.Left="264" Width="144" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Center" Foreground="Red" VerticalContentAlignment="Center"/>
-            <Grid x:Name="GridPlayerLifeIndicator" Height="42" Canvas.Left="33" Canvas.Top="723" Width="270">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="2" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="4" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="6" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="8" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="10" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-            </Grid>
             <Grid x:Name="GridLevelIndicators_Copy" Height="39" Canvas.Left="453" Canvas.Top="729" Width="195">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -63,6 +42,9 @@
                 <Label Grid.Column="3" Content="ÿ" Canvas.Left="508" Canvas.Top="673" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="#FFFF3000"/>
                 <Label Grid.Column="4" Content="ÿ" Canvas.Left="508" Canvas.Top="673" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="Black"/>
             </Grid>
+            <StackPanel Canvas.Left="16" Height="42" Canvas.Top="723" Width="287" Orientation="Horizontal">
+                <Image x:Name="ImageLife1" Grid.Column="1" Source="Resources/PlayerCursor.png" HorizontalAlignment="Left" Margin="17.4,0,0,0" Width="29" Grid.ColumnSpan="2"/>
+            </StackPanel>
         </Canvas>
 
         <Canvas x:Name="CanvasGameScreen" Grid.Column="1" Height="768" Panel.ZIndex="1">
