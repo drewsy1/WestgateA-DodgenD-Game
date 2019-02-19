@@ -21,7 +21,8 @@ Namespace Classes.Entities
                                 .HorizontalContentAlignment = HorizontalAlignment.Center,
                                 .Padding = New Thickness(0, 0, 0, 0),
                                 .Background = New SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
+                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                .IsEnabled = False
                 }
 
             Sub New(localName As String, localLocation As Point)

@@ -164,7 +164,7 @@ Namespace Classes.Entities
             ''' </summary>
             Sub New(localName As String, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
-
+                ObjectName = localName
                 LocationCoords = localLocationCoords
 
                 TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)

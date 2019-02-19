@@ -22,7 +22,7 @@ Namespace Classes.Entities
                                 .Padding = New Thickness(-1.5, -10, 0, 0),
                                 .Background = New SolidColorBrush(Color.FromRgb(0, 255, 0)),
                                 .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                                .IsReadOnly = True
+                                                                    .IsEnabled = False
                 }
 
             Sub New(localName As String, localLocation As Point)

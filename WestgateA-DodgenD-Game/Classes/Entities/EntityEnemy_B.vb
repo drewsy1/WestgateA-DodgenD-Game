@@ -21,7 +21,8 @@ Namespace Classes.Entities
                                 .Padding = New Thickness(-2.5, -11.5, 0, 0),
                                 .IsReadOnly = True,
                                 .Background = New SolidColorBrush(Color.FromRgb(255, 255, 0)),
-                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0))
+                                .Foreground = New SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                .IsEnabled = False
                 }
 
             Sub New(localName As String, localLocation As Point)

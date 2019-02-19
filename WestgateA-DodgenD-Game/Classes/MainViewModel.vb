@@ -1,8 +1,12 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Entities
+﻿Imports System.Collections.ObjectModel
+Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Namespace Classes
     ' ReSharper disable once ClassNeverInstantiated.Global
     Public Class MainViewModel
+
+        Public Property EnemyTable As ObservableCollection(Of EntityClasses.EntityEnemyBase) = EntityClasses.EntityEnemyBase.EnemyCollection
+
         ''' <summary>
         ''' Gets the MainWindow as an object and provides it as a static object
         ''' </summary>
