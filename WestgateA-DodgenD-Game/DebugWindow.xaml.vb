@@ -14,6 +14,11 @@ Public Class DebugWindow
 
     Public Property PlayerRightBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundRight
 
+    Public Property GameScore As Integer = MainViewModel.GameScore
+    Public Property GameLevel As Integer = MainViewModel.GameLevel
+    Public Property GameLives As Integer = MainViewModel.GameLives
+
+
     Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = MainViewModel.EnemyCollection
 
     Sub New()

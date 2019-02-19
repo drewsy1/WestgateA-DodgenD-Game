@@ -4,11 +4,7 @@
     xmlns:local="clr-namespace:WestgateA_DodgenD_Game" x:Class="Application"
 StartupUri="MainWindow.xaml"
 ShutdownMode="OnMainWindowClose">
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PresentationFramework.Classic;V4.0.0.0;31bf3856ad364e35;component/themes/classic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+  <Application.Resources>
+    <FontFamily x:Key="ARCADE">pack://application:,,,/Fonts/#Arcade Normal</FontFamily>
+  </Application.Resources>
 </Application>

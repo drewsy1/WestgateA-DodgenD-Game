@@ -3,28 +3,70 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:WestgateA_DodgenD_Game"
         mc:Ignorable="d"
         Title="DebugWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized">
+    <Window.Resources>
+        <CollectionViewSource x:Key="CvsEnemies" Source="{Binding Path=EnemyCollection}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="EnemyType"/>
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="EnemyType" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Label x:Name="labelEnemyEntities" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
-            <DataGrid x:Name="dataGridEnemies" Margin="10" ItemsSource="{Binding Path=EnemyCollection}" AutoGenerateColumns="False">
+        <Grid Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelEnemyEntities" Grid.Row="0" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <DataGrid x:Name="DataGridEnemies" Grid.Row="1" Margin="10" ItemsSource="{Binding Source={StaticResource CvsEnemies}}" AutoGenerateColumns="False" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding ObjectName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="X" Binding="{Binding LocationCoords.X}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Y" Binding="{Binding LocationCoords.X}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Type" Binding="{Binding EnemyType}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="↗" Binding="{Binding ObjectPointUpperRight}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="↙" Binding="{Binding ObjectPointLowerLeft}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Score" Binding="{Binding ObjectScoreValue}"></DataGridTextColumn>
                 </DataGrid.Columns>
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" >
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
             </DataGrid>
-        </StackPanel>
+        </Grid>
         <StackPanel Grid.Column="1">
-            <Label x:Name="labelPlayer" Content="Player" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelPlayer" Content="Player" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -36,16 +78,42 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Slider x:Name="slider" Margin="0" Grid.Row="1" Grid.ColumnSpan="3" Maximum="{Binding Path=PlayerEntity.TranslateBoundRight}" Minimum="{Binding Path=PlayerEntity.TranslateBoundLeft}" Value="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" Cursor="ScrollWE" IsEnabled="False"/>
-                <Label Grid.Row="0" x:Name="LabelPlayerMin" Content="{Binding Path=PlayerLeftBound}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom"/>
+                <Slider x:Name="Slider" Margin="0" Grid.Row="1" Grid.ColumnSpan="3" Maximum="{Binding Path=PlayerEntity.TranslateBoundRight}" Minimum="{Binding Path=PlayerEntity.TranslateBoundLeft}" Value="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" Cursor="ScrollWE" IsEnabled="False"/>
+                <Label Grid.Row="0" Grid.Column="0" x:Name="LabelPlayerMin" Content="{Binding Path=PlayerLeftBound}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom"/>
                 <Label Grid.Row="0" x:Name="LabelPlayerMax" Content="{Binding Path=PlayerRightBound}" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Grid.Column="2"/>
-                <TextBox x:Name="textBoxPlayerLocation" Grid.ColumnSpan="1" Grid.Column="1" Margin="0" Grid.RowSpan="1" TextWrapping="Wrap" Text="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="TextBoxPlayerLocation" Grid.Column="1" Margin="0" Grid.Row="0"
+                         TextWrapping="Wrap" Text="{Binding Path=PlayerEntity.ObjectTransformTranslate.X}" VerticalAlignment="Bottom"/>
 
             </Grid>
-            <TextBox x:Name="textBoxFiring" Height="23" TextWrapping="Wrap" Text="Fire" TextAlignment="Center" Margin="10" IsReadOnly="True"/>
+            <TextBox x:Name="TextBoxFiring" Height="23" TextWrapping="Wrap" Text="Fire" TextAlignment="Center" Margin="10" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <ProgressBar Height="23" Value="50" Margin="10"/>
 
 
         </StackPanel>
+        <StackPanel Grid.Column="2">
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelStats"  Content="Current Game Stats" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" x:Name="LabelGameScore" Content="Score:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxGameScore" Text="{Binding Path=GameScore}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <Label Grid.Row="1" x:Name="LabelGameLives" Content="Lives:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxGameLives" Text="{Binding Path=GameLives}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <Label Grid.Row="2" x:Name="LabelGameLevel" Content="Level:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxGameLevel" Text="{Binding Path=GameLevel}" VerticalContentAlignment="Center" IsReadOnly="True" />
+            </Grid>
+
+
+        </StackPanel>
+        
+
 
 
     </Grid>
