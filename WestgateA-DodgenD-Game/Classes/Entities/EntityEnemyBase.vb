@@ -178,8 +178,6 @@ Namespace Classes.Entities
 
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
-                AddHandler GameTimer.Tick, AddressOf CheckHitbox
-                AddHandler EnemyHit, AddressOf Remove
             End Sub
 
             ''' <summary>
@@ -197,7 +195,6 @@ Namespace Classes.Entities
             End Sub
 
             Private Overloads Shared Sub Remove(enemyRemoved As EntityEnemyBase)
-                RemoveHandler EnemyHit, AddressOf Remove
                 enemyRemoved.Remove()
                 Debug.WriteLine(enemyRemoved)
             End Sub

@@ -190,6 +190,12 @@ Namespace Classes.Projectile
 
                 TranslateY(MovementSpeed * ProjectileDirection)
 
+                    For Each enemy As EntityClasses.EntityEnemyBase In Application.EnemyCollection
+                        if CanvasObjects.CheckCollision(enemy,Me) Then
+                            Application.RaiseProjectileHit(me,enemy)
+                        End If
+                    Next
+
                 'ObjectTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
                 'ObjectHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub

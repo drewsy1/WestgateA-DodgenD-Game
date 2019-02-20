@@ -12,8 +12,6 @@ Public Class MainWindow
     ''' </summary>
     Private Shared _newDebugWindow As DebugWindow
 
-    Public Shared Event ReleaseFireButton()
-
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
     ''' </summary>
@@ -27,6 +25,7 @@ Public Class MainWindow
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
+        AddHandler Application.ProjectileHit, AddressOf Application.ProcessProjectileHit
 
         Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
         Application.AddToCanvas(Application.EntityPlayerObject)
@@ -112,8 +111,10 @@ Public Class MainWindow
             _currentKeyPress = Nothing
         End If
         If e.Key = Key.Space Then
-            RaiseEvent ReleaseFireButton()
+            Application.RaiseReleaseFireButton()
         End If
     End Sub
+
+    
 #End Region
 End Class
