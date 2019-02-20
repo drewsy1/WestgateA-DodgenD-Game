@@ -51,7 +51,7 @@ Namespace Classes.Entities
 
             Protected ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
                 Get
-                    Return New Point((MainViewModel.CanvasWidth / 2) - (ObjectWidth / 2), 48)
+                    Return New Point((Application.CanvasWidth / 2) - (ObjectWidth / 2), 48)
                 End Get
             End Property
 

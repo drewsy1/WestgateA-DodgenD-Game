@@ -39,13 +39,13 @@ Namespace Classes.Projectile
 
             Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
-                    Return LocationCoords
+                    Return LocationCoords + New Point(ObjectTransformTranslate.X,0-ObjectTransformTranslate.Y)
                 End Get
             End Property
 
             Protected ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
                 Get
-                    Return New Point(LocationCoords.X + ObjectWidth, LocationCoords.Y + ObjectHeight)
+                    Return New Point(ObjectPointLowerLeft.X + ObjectWidth, ObjectPointLowerLeft.Y + ObjectHeight)
                 End Get
             End Property
             ' ReSharper disable UnassignedGetOnlyAutoProperty

@@ -23,7 +23,7 @@ Namespace Classes.Projectile
 
             Protected Overrides ReadOnly Property LocationCoordsDefault As Point
                 Get
-                    Return New Point(MainViewModel.CanvasWidth / 2, MainViewModel.CanvasHeight)
+                    Return New Point(Application.CanvasWidth / 2, Application.CanvasHeight)
                 End Get
             End Property
 
