@@ -12,32 +12,32 @@ Class Application
     ''' <summary>
     ''' Height of canvas in pixels
     ''' </summary>
-    Public Const CanvasHeight As Double = 768
+    Public Shared Property CanvasHeight As Double = 768
 
     ''' <summary>
     ''' TODO Write GameScore summary
     ''' </summary>
-    Public Shared GameScore As Integer
+    Public Shared Property GameScore As Integer
 
     ''' <summary>
     ''' TODO Write GameLevel summary
     ''' </summary>
-    Public Shared GameLevel As Integer
+    Public Shared Property GameLevel As Integer
 
     ''' <summary>
     ''' Gets the MainWindow as an object and provides it as a static object
     ''' </summary>
-    Public Shared MainWindowInstance As MainWindow
+    Public Shared Property MainWindowInstance As MainWindow
 
     ''' <summary>
     ''' Variable for current EntityPlayer object
     ''' </summary>
-    Public Shared EntityPlayerObject As EntityClasses.EntityPlayer
+    Public Shared Property EntityPlayerObject As EntityClasses.EntityPlayer
 
     ''' <summary>
     ''' Width of canvas in pixels
     ''' </summary>
-    Public Const CanvasWidth As Double = 672
+    Public Shared Property CanvasWidth As Double = 672
 
     ''' <summary>
     ''' TODO Write GameLives summary
