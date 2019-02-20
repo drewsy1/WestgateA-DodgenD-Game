@@ -146,7 +146,7 @@ Namespace Classes.Entities
 
             Public Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
                 Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
@@ -172,7 +172,7 @@ Namespace Classes.Entities
                     )
                 _playerCursorBitmapImage.EndInit()
 
-                MainViewModel.SetCanvasLocation(
+                Application.SetCanvasLocation(
                     LocationCoords,
                     ObjectControl
                     )
@@ -198,14 +198,15 @@ Namespace Classes.Entities
                             0,
                             New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
                             )
-                    MainViewModel.AddToCanvas(PlayerProjectileInstance)
-                    RaiseEvent PressFireButton
-                    AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
+                    Application.AddToCanvas(PlayerProjectileInstance)
+
+                    Application.RaisePressFireButton
+                    AddHandler Application.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 End If
             End Sub
 
             Private Shared Sub RemovePlayerProjectileInstance(parent As ProjectileClasses.ProjectilePlayer)
-                RemoveHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
+                RemoveHandler Application.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 PlayerProjectileInstance = Nothing
             End Sub
         End Class

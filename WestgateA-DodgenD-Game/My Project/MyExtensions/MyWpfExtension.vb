@@ -1,5 +1,4 @@
-﻿Imports System.Collections.ObjectModel
-Imports WestgateA_DodgenD_Game.Classes.Entities
+﻿Imports WestgateA_DodgenD_Game.Classes
 
 #If _MyType <> "Empty" Then
 ' ReSharper disable RedundantQualifier

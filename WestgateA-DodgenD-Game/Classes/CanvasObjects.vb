@@ -25,7 +25,7 @@ Namespace Classes
         ''' <param name="localObjectWidth"></param>
         ''' <returns>Max X-bound as Double</returns>
         Public Shared Function GetTranslateBoundRight(localLocationX As Double, localObjectWidth As Double) As Double
-            Return MainViewModel.CanvasWidth - localLocationX - (localObjectWidth * 1.5)
+            Return Application.CanvasWidth - localLocationX - (localObjectWidth * 1.5)
         End Function
 
         ''' <summary>
@@ -35,7 +35,7 @@ Namespace Classes
         ''' <param name="localObjectHeight"></param>
         ''' <returns>Max Y-bound as Double</returns>
         Public Shared Function GetTranslateBoundTop(localLocationY As Double, localObjectHeight As Double) As Double
-            Return MainViewModel.CanvasHeight - localLocationY - (localObjectHeight * 1.5)
+            Return Application.CanvasHeight - localLocationY - (localObjectHeight * 1.5)
         End Function
 
         ''' <summary>

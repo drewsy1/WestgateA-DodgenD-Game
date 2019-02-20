@@ -3,9 +3,9 @@ Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class DebugWindow
-    Public Property CanvasWidth As Double = MainViewModel.CanvasWidth
+    Public Property CanvasWidth As Double = Application.CanvasWidth
 
-    Public Property PlayerEntity As EntityClasses.EntityPlayer = MainViewModel.EntityPlayerObject
+    Public Property PlayerEntity As EntityClasses.EntityPlayer = Application.EntityPlayerObject
 
     Public Property PlayerProjectileValue As Double = PlayerEntity.ObjectTransformTranslate.Y
 
@@ -13,12 +13,12 @@ Public Class DebugWindow
 
     Public Property PlayerRightBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundRight
 
-    Public Property GameScore As Integer = MainViewModel.GameScore
-    Public Property GameLevel As Integer = MainViewModel.GameLevel
-    Public Property GameLives As Integer = MainViewModel.GameLives
+    Public Property GameScore As Integer = Application.GameScore
+    Public Property GameLevel As Integer = Application.GameLevel
+    Public Property GameLives As Integer = Application.GameLives
 
 
-    Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = MainViewModel.EnemyCollection
+    Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.EnemyCollection
 
     Sub New()
         ' This call is required by the designer.

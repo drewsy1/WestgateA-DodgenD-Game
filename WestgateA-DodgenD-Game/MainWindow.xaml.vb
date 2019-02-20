@@ -1,6 +1,4 @@
-﻿
-Imports System.Collections.ObjectModel
-Imports WestgateA_DodgenD_Game.Classes
+﻿Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class MainWindow
@@ -9,6 +7,9 @@ Public Class MainWindow
     ''' </summary>
     Dim _currentKeyPress As Key
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Private Shared _newDebugWindow As DebugWindow
 
     Public Shared Event ReleaseFireButton()
@@ -18,17 +19,17 @@ Public Class MainWindow
     ''' </summary>
     Sub New()
         InitializeComponent()
+        
         GameTimer.Start()
 
-
-        MainViewModel.MainWindowInstance = Me
-        MainViewModel.CanvasGameScreen = CanvasGameScreen
+        Application.MainWindowInstance = Me
+        Application.CanvasGameScreen = CanvasGameScreen
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
 
-        MainViewModel.EntityPlayerObject = New EntityClasses.EntityPlayer()
-        MainViewModel.AddToCanvas(MainViewModel.EntityPlayerObject)
+        Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
+        Application.AddToCanvas(Application.EntityPlayerObject)
 
         If Debugger.IsAttached Then
             _newDebugWindow = New DebugWindow
@@ -60,7 +61,7 @@ Public Class MainWindow
         Next
 
         For Each obj As EntityClasses.EntityEnemyBase In enemyArray
-            If Not IsNothing(obj) Then MainViewModel.AddToCanvas(obj)
+            If Not IsNothing(obj) Then Application.AddToCanvas(obj)
         Next
     End Sub
 
@@ -75,12 +76,12 @@ Public Class MainWindow
     ''' Reads a Key variable and carries out specific actions based on its value
     ''' </summary>
     ''' <param name="currentKeyPress">Key variable to be read/acted upon</param>
-    Private Sub RegisterKeypresses(currentKeyPress As Key)
+    Private Shared Sub RegisterKeypresses(currentKeyPress As Key)
         Select Case currentKeyPress
             Case Key.Left
-                MainViewModel.EntityPlayerObject.MoveLeft()
+                Application.EntityPlayerObject.MoveLeft()
             Case Key.Right
-                MainViewModel.EntityPlayerObject.MoveRight()
+                Application.EntityPlayerObject.MoveRight()
         End Select
     End Sub
 
@@ -97,7 +98,7 @@ Public Class MainWindow
             Case Key.Right
                 _currentKeyPress = e.Key
             Case Key.Space
-                MainViewModel.EntityPlayerObject.FireWeapon()
+                Application.EntityPlayerObject.FireWeapon()
         End Select
     End Sub
 

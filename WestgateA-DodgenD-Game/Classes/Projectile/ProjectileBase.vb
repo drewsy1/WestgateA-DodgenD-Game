@@ -1,4 +1,5 @@
 ﻿
+Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes.Projectile
@@ -30,6 +31,7 @@ Namespace Classes.Projectile
         Public MustInherit Class ProjectileBase
             Implements ICanvasObjects
 
+            #Region "Implemented From ICanvasObjects"
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
             Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
             Public Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
@@ -117,6 +119,7 @@ Namespace Classes.Projectile
                     ObjectTransformTranslate.X += localMovementSpeed
                 End If
             End Sub
+            #End Region
 
             ''' <summary>
             ''' Overridable double representing direction of projectile travel
@@ -151,7 +154,7 @@ Namespace Classes.Projectile
                 ProjectilesCollection.Add(Me)
 
                 ' Set coordinates on canvas for projectile
-                MainViewModel.SetCanvasLocation(localLocationCoords, ObjectControl)
+                Application.SetCanvasLocation(localLocationCoords, ObjectControl)
 
                 ' Increment projectile's X transform value by translateX
                 ObjectTransformTranslate.X += translateX
@@ -163,7 +166,7 @@ Namespace Classes.Projectile
             Public Overridable Sub Remove() Implements ICanvasObjects.Remove
                 RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
