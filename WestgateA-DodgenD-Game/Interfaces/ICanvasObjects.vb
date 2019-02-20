@@ -1,18 +1,26 @@
-﻿
+﻿Namespace Interfaces
 
-Namespace Interfaces
     Public Interface ICanvasObjects
-        ''' <summary>
-        ''' TODO Write ObjectName summary
-        ''' </summary>
-        ''' <returns></returns>
-        Property ObjectName As String
 
         ''' <summary>
-        ''' TODO Write ObjectScoreValue summary
+        '''     Coordinate location of entity
         ''' </summary>
-        ''' <returns></returns>
-        Property ObjectScoreValue As Integer
+        Property LocationCoords As Point
+
+        ''' <summary>
+        '''     Default starting coordinate location for entity
+        ''' </summary>
+        ReadOnly Property LocationCoordsDefault As Point
+
+        ''' <summary>
+        '''     Number of pixels by which the object moves
+        ''' </summary>
+        Property MovementSpeed As Double
+
+        ''' <summary>
+        '''     Image that serves as entity
+        ''' </summary>
+        Property ObjectControl As Object
 
         ''' <summary>
         '''     Default entity cursor height in pixels
@@ -20,9 +28,10 @@ Namespace Interfaces
         Property ObjectHeight As Double
 
         ''' <summary>
-        '''     Default entity width in pixels
+        ''' TODO Write ObjectName summary
         ''' </summary>
-        Property ObjectWidth As Double
+        ''' <returns></returns>
+        Property ObjectName As String
 
         ''' <summary>
         ''' TODO Write ObjectPointLowerLeft summary
@@ -37,14 +46,29 @@ Namespace Interfaces
         ReadOnly Property ObjectPointUpperRight As Point
 
         ''' <summary>
-        '''     Default starting coordinate location for entity
+        ''' TODO Write ObjectScoreValue summary
         ''' </summary>
-        ReadOnly Property LocationCoordsDefault As Point
+        ''' <returns></returns>
+        Property ObjectScoreValue As Integer
 
         ''' <summary>
-        '''     Coordinate location of entity
+        '''     Translate transform object for entity
         ''' </summary>
-        Property LocationCoords As Point
+        Property ObjectTransform_Translate As TranslateTransform
+
+        ''' <summary>
+        '''     TransformGroup containing Translate transform to be added to entity instance
+        ''' </summary>
+        Property ObjectTransformGroup As TransformGroup
+        ''' <summary>
+        '''     Default entity width in pixels
+        ''' </summary>
+        Property ObjectWidth As Double
+
+        ''' <summary>
+        '''     Bottommost translatable Y-value of entity
+        ''' </summary>
+        Property TranslateBoundBottom As Double
 
         ''' <summary>
         '''     Leftmost translatable X-value of entity
@@ -62,29 +86,10 @@ Namespace Interfaces
         Property TranslateBoundTop As Double
 
         ''' <summary>
-        '''     Bottommost translatable Y-value of entity
+        ''' TODO Write MoveDown summary
         ''' </summary>
-        Property TranslateBoundBottom As Double
-
-        ''' <summary>
-        '''     Number of pixels by which the object moves
-        ''' </summary>
-        Property MovementSpeed As Double
-
-        ''' <summary>
-        '''     Translate transform object for entity
-        ''' </summary>
-        Property ObjectTransformTranslate As TranslateTransform
-
-        ''' <summary>
-        '''     TransformGroup containing Translate transform to be added to entity instance
-        ''' </summary>
-        Property ObjectTransformGroup As TransformGroup
-
-        ''' <summary>
-        '''     Image that serves as entity
-        ''' </summary>
-        Property ObjectControl As Object
+        ''' <param name="localMovementSpeed"></param>
+        Sub MoveDown(Optional localMovementSpeed As Double = 0)
 
         ''' <summary>
         ''' TODO Write MoveLeft summary
@@ -105,27 +110,23 @@ Namespace Interfaces
         Sub MoveUp(Optional localMovementSpeed As Double = 0)
 
         ''' <summary>
-        ''' TODO Write MoveDown summary
+        '''     Removes entity from canvas, clears the hit box object,
+        '''     and removes entity from EntitiesCollection
         ''' </summary>
-        ''' <param name="localMovementSpeed"></param>
-        Sub MoveDown(Optional localMovementSpeed As Double = 0)
-
-        ''' <summary>
-        '''     Translates along the Y axis a given number of pixels while staying within canvas bounds
-        ''' </summary>
-        ''' <param name="localMovementSpeed">Distance to translate in pixels (Negative moves down)</param>
-        Sub TranslateY(localMovementSpeed As Double)
+        Sub Remove()
 
         ''' <summary>
         '''     Translates along the X axis a given number of pixels while staying within canvas bounds
         ''' </summary>
         ''' <param name="localMovementSpeed">Distance to translate in pixels (Negative moves left)</param>
-        Sub TranslateX(localMovementSpeed As Double)
+        'Sub TranslateX(localMovementSpeed As Double)
 
         ''' <summary>
-        '''     Removes entity from canvas, clears the hit box object,
-        '''     and removes entity from EntitiesCollection
+        '''     Translates along the Y axis a given number of pixels while staying within canvas bounds
         ''' </summary>
-        Sub Remove()
+        ''' <param name="localMovementSpeed">Distance to translate in pixels (Negative moves down)</param>
+        'Sub TranslateY(localMovementSpeed As Double)
+
     End Interface
+
 End Namespace

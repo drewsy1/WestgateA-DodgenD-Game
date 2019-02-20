@@ -71,13 +71,13 @@ Namespace Classes.Entities
 
             Public Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
 
-            Public Property ObjectTransformTranslate As TranslateTransform _
-                = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+            Public Property ObjectTransform_Translate As TranslateTransform _
+                = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
 
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
                     .Children = New TransformCollection(
-                        New Transform() {ObjectTransformTranslate})
+                        New Transform() {ObjectTransform_Translate})
                     } Implements ICanvasObjects.ObjectTransformGroup
 
             Public Property ObjectControl As Object = New Image() With {
@@ -90,58 +90,25 @@ Namespace Classes.Entities
                 } Implements ICanvasObjects.ObjectControl
 
             Public Sub MoveLeft(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveLeft
-                TranslateX(MovementSpeed * -1)
+                CanvasObjects.TranslateX(Me,MovementSpeed * -1)
             End Sub
 
             Public Sub MoveRight(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveRight
-                TranslateX(MovementSpeed)
+                CanvasObjects.TranslateX(Me,MovementSpeed)
             End Sub
 
             Public Sub MoveUp(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveUp
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateY(localMovementSpeed)
+                CanvasObjects.TranslateY(Me,localMovementSpeed)
             End Sub
 
             Public Sub MoveDown(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveDown
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateY(localMovementSpeed * -1)
-            End Sub
-
-            Public Sub TranslateY(localMovementSpeed As Double) Implements ICanvasObjects.TranslateY
-                Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
-                If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
-                   (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
-                    ObjectTransformTranslate.Y += localMovementSpeed
-                End If
-            End Sub
-
-            Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
-                Dim distanceToLeftBound As Double = TranslateBoundLeft - ObjectTransformTranslate.X
-                Dim distanceToRightBound As Double = TranslateBoundRight - ObjectTransformTranslate.X
-
-                Select Case localMovementSpeed
-                    Case > 0
-                        If (distanceToRightBound) >= localMovementSpeed Then
-                            ObjectTransformTranslate.X += localMovementSpeed
-                        ElseIf (distanceToRightBound) > 0 Then
-                            ObjectTransformTranslate.X += distanceToRightBound
-                        End If
-                    Case <= 0
-                        If (distanceToLeftBound) <= localMovementSpeed Then
-                            ObjectTransformTranslate.X += localMovementSpeed
-                        ElseIf distanceToLeftBound < 0 Then
-                            ObjectTransformTranslate.X += distanceToLeftBound
-                        End If
-                End Select
-                'If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-                '   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
-                '    ObjectTransformTranslate.X += localMovementSpeed
-                '    ObjectHitbox.MoveX(localMovementSpeed * -1)
-                'End If
+                CanvasObjects.TranslateY(Me,localMovementSpeed * -1)
             End Sub
 
             Public Sub Remove() Implements ICanvasObjects.Remove
@@ -196,7 +163,7 @@ Namespace Classes.Entities
                         New ProjectileClasses.ProjectilePlayer(
                             (ObjectWidth / 2),
                             0,
-                            New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
+                            New Point(LocationCoords.X + ObjectTransform_Translate.X, LocationCoords.Y + ObjectHeight)
                             )
                     Application.AddToCanvas(PlayerProjectileInstance)
 

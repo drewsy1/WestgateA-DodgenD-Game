@@ -1,10 +1,11 @@
-﻿
-Imports WestgateA_DodgenD_Game.Classes.Entities
+﻿Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes.Projectile
+
     ' ReSharper disable once ClassNeverInstantiated.Global
     Partial Public Class ProjectileClasses
+
         ''' <summary>
         ''' Create a static collection of projectiles to keep track of them
         ''' </summary>
@@ -31,7 +32,8 @@ Namespace Classes.Projectile
         Public MustInherit Class ProjectileBase
             Implements ICanvasObjects
 
-            #Region "Implemented From ICanvasObjects"
+#Region "Implemented From ICanvasObjects"
+
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
             Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
             Public Property ObjectHeight As Double = 27 Implements ICanvasObjects.ObjectHeight
@@ -39,7 +41,7 @@ Namespace Classes.Projectile
 
             Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
-                    Return LocationCoords + New Point(ObjectTransformTranslate.X,0-ObjectTransformTranslate.Y)
+                    Return LocationCoords + New Point(ObjectTransform_Translate.X, 0 - ObjectTransform_Translate.Y)
                 End Get
             End Property
 
@@ -48,24 +50,27 @@ Namespace Classes.Projectile
                     Return New Point(ObjectPointLowerLeft.X + ObjectWidth, ObjectPointLowerLeft.Y + ObjectHeight)
                 End Get
             End Property
+
+            Public Property ObjectPointLowerLeftStart As Point
+            Public Property ObjectPointUpperRightStart As Point
+
             ' ReSharper disable UnassignedGetOnlyAutoProperty
-            Protected Overridable ReadOnly Property LocationCoordsDefault As Point _
-                Implements ICanvasObjects.LocationCoordsDefault
+            Protected Overridable ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
 
             Protected Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
-            Protected Property TranslateBoundLeft As Double Implements ICanvasObjects.TranslateBoundLeft
-            Protected Property TranslateBoundRight As Double Implements ICanvasObjects.TranslateBoundRight
-            Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
-            Protected Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
+            Public Property TranslateBoundLeft As Double Implements ICanvasObjects.TranslateBoundLeft
+            Public Property TranslateBoundRight As Double Implements ICanvasObjects.TranslateBoundRight
+            Public Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
+            Public Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
             Protected Property MovementSpeed As Double = 30 Implements ICanvasObjects.MovementSpeed
 
-            Protected Property ObjectTransformTranslate As TranslateTransform =
-                New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransformTranslate
+            Public Property ObjectTransform_Translate As TranslateTransform =
+                New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
 
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
                     .Children = New TransformCollection(
-                        New Transform() {ObjectTransformTranslate}
+                        New Transform() {ObjectTransform_Translate}
                         )
                     } Implements ICanvasObjects.ObjectTransformGroup
 
@@ -81,45 +86,31 @@ Namespace Classes.Projectile
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateX(localMovementSpeed * -1)
+                CanvasObjects.TranslateX(Me,localMovementSpeed * -1)
             End Sub
 
             Public Sub MoveRight(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveRight
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateX(localMovementSpeed)
+                CanvasObjects.TranslateX(Me,localMovementSpeed)
             End Sub
 
             Public Sub MoveUp(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveUp
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateY(localMovementSpeed)
+                CanvasObjects.TranslateY(Me,localMovementSpeed)
             End Sub
 
             Public Sub MoveDown(Optional localMovementSpeed As Double = 0) Implements ICanvasObjects.MoveDown
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                TranslateY(localMovementSpeed * -1)
+                CanvasObjects.TranslateY(Me,localMovementSpeed * -1)
             End Sub
 
-            Public Sub TranslateY(localMovementSpeed As Double) Implements ICanvasObjects.TranslateY
-                Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
-                If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
-                   (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
-                    ObjectTransformTranslate.Y += localMovementSpeed
-                End If
-            End Sub
-
-            Public Sub TranslateX(localMovementSpeed As Double) Implements ICanvasObjects.TranslateX
-                If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-                   (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
-                    ObjectTransformTranslate.X += localMovementSpeed
-                End If
-            End Sub
-            #End Region
+#End Region
 
             ''' <summary>
             ''' Overridable double representing direction of projectile travel
@@ -133,7 +124,6 @@ Namespace Classes.Projectile
             ''' <returns>ProjectileColor</returns>
             Protected Overridable Property ProjectileColor As Color
 
-
             ''' <summary>
             ''' Instantiates a new Projectile object and adds it to ProjectilesCollection
             ''' </summary>
@@ -143,11 +133,13 @@ Namespace Classes.Projectile
                               translateY As Double,
                               Optional localLocationCoords As Point = Nothing)
                 LocationCoords = localLocationCoords
+                ObjectPointLowerLeftStart = New Point(ObjectPointLowerLeft.X,ObjectPointLowerLeft.Y)
+                ObjectPointUpperRightStart = New Point(ObjectPointUpperRight.X,ObjectPointUpperRight.Y)
 
-                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)
-                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationCoords.Y, ObjectHeight)
                 TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth)
-                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
+                TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) 
+                TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationCoords.Y, ObjectHeight)
+                TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)
 
                 CanvasObjects.ObjectCollection.Add(Me)
 
@@ -157,8 +149,8 @@ Namespace Classes.Projectile
                 Application.SetCanvasLocation(localLocationCoords, ObjectControl)
 
                 ' Increment projectile's X transform value by translateX
-                ObjectTransformTranslate.X += translateX
-                ObjectTransformTranslate.Y += translateY
+                ObjectTransform_Translate.X += translateX
+                ObjectTransform_Translate.Y += translateY
 
                 AddHandler GameTimer.Tick, AddressOf UpdateLocation
             End Sub
@@ -188,17 +180,24 @@ Namespace Classes.Projectile
             ''' </summary>
             Sub UpdateLocation()
 
-                TranslateY(MovementSpeed * ProjectileDirection)
+                CanvasObjects.TranslateY(Me,MovementSpeed * ProjectileDirection)
 
-                    For Each enemy As EntityClasses.EntityEnemyBase In Application.EnemyCollection
-                        if CanvasObjects.CheckCollision(enemy,Me) Then
-                            Application.RaiseProjectileHit(me,enemy)
-                        End If
-                    Next
+                For Each enemy As EntityClasses.EntityEnemyBase In Application.EnemyCollection
+                    If CanvasObjects.CheckCollision(enemy, Me) And enemy.ObjectEnabled Then
+                        Application.RaiseProjectileHit(Me, enemy)
+                    End If
+                Next
 
-                'ObjectTransformTranslate.Y += (MovementSpeed * ProjectileDirection)
+                If (ObjectPointUpperRight.X >= ObjectPointUpperRightStart.X + TranslateBoundRight) Or (ObjectPointUpperRight.Y >= ObjectPointUpperRightStart.Y + TranslateBoundTop) Or 
+                   (ObjectPointLowerLeft.X <= ObjectPointLowerLeftStart.X + TranslateBoundLeft) Or (ObjectPointLowerLeft.Y <= ObjectPointLowerLeftStart.Y + TranslateBoundBottom) Then
+                    Remove()
+                End If
+                'ObjectTransform_Translate.Y += (MovementSpeed * ProjectileDirection)
                 'ObjectHitbox.MoveY(MovementSpeed * ProjectileDirection * -1)
             End Sub
+
         End Class
+
     End Class
+
 End Namespace
