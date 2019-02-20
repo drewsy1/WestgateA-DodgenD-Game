@@ -42,12 +42,12 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="2" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="4" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image Grid.Column="6" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
-                <Image Grid.Column="8" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
-                <Image Grid.Column="10" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
+                <Image x:Name="Life1" Grid.Column="0" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
+                <Image x:Name="Life2" Grid.Column="2" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
+                <Image x:Name="Life3" Grid.Column="4" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
+                <Image x:Name="Life4" Grid.Column="6" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
+                <Image x:Name="Life5" Grid.Column="8" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
+                <Image x:Name="Life6" Grid.Column="10" Canvas.Left="221" Canvas.Top="656" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal" Height="39" Canvas.Left="467" Canvas.Top="729" Width="195" FlowDirection="RightToLeft">
