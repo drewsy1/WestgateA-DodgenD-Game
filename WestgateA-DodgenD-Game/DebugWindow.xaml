@@ -10,6 +10,7 @@
         Title="DebugWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized">
     <Window.Resources>
+        <local:Application x:Key="ApplicationClass"></local:Application>
         <CollectionViewSource x:Key="CvsEnemies" Source="{Binding Path=EnemyCollection,Mode=OneWay}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="EnemyType" />
@@ -101,7 +102,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" x:Name="LabelGameScore" Content="Score:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxGameScore" Text="{Binding Path=GameScore}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxGameScore" VerticalContentAlignment="Center" IsReadOnly="True" />
                 <Label Grid.Row="1" x:Name="LabelGameLives" Content="Lives:" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxGameLives" Text="{Binding Path=GameLives}" VerticalContentAlignment="Center" IsReadOnly="True" />
                 <Label Grid.Row="2" x:Name="LabelGameLevel" Content="Level:" HorizontalAlignment="Left" VerticalAlignment="Center" />

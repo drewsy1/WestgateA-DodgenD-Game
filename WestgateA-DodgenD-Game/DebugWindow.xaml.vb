@@ -21,7 +21,6 @@ Public Class DebugWindow
     Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.EnemyCollection
     Public Property GameLevel As Integer = Application.GameLevel
     Public Property GameLives As Integer = Application.GameLives
-    Public Property GameScore As Integer = Application.GameScore
     Public Property PlayerEntity As EntityClasses.EntityPlayer = Application.EntityPlayerObject
 
     Public Property PlayerLeftBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundLeft

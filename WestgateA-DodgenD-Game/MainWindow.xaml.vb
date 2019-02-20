@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Classes
+﻿Imports System.ComponentModel
+Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class MainWindow
@@ -8,16 +9,21 @@ Public Class MainWindow
     Dim _currentKeyPress As Key
 
     ''' <summary>
-    ''' 
+    ''' ToDo Write _newDebugWindow summary
     ''' </summary>
     Private Shared _newDebugWindow As DebugWindow
+
+    
+    
 
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
     ''' </summary>
     Sub New()
         InitializeComponent()
-        
+
+        labelCurrentScore_Copy.Content = My.Settings.HighScore
+
         GameTimer.Start()
 
         Application.MainWindowInstance = Me
@@ -115,6 +121,11 @@ Public Class MainWindow
         End If
     End Sub
 
-    
+
+    Private Sub Window_Closing(sender As Object, e As CancelEventArgs)
+        My.Settings.Save()
+    End Sub
+
+
 #End Region
 End Class

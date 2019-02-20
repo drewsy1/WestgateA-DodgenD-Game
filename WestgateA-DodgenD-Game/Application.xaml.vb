@@ -45,6 +45,13 @@ Class Application
     ''' TODO Write GameScore summary
     ''' </summary>
     Public Shared Property GameScore As Integer = 0
+
+    ''' <summary>
+    ''' ToDo Write HighScore summary
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared Property GameHighScore As Integer = My.Settings.HighScore
+
     ''' <summary>
     ''' Gets the MainWindow as an object and provides it as a static object
     ''' </summary>
@@ -132,6 +139,11 @@ Class Application
     Public Shared Sub ProcessProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
         if entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
             GameScore += entity.ObjectScoreValue
+            If My.Settings.HighScore < GameScore Then
+                My.Settings.HighScore = GameScore
+                MainWindowInstance.labelCurrentScore_Copy.Content = My.Settings.HighScore
+            End If
+            MainWindowInstance.labelCurrentScore.Content = GameScore
         End If
         projectile.Remove()
         entity.Remove()
