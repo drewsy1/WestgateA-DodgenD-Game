@@ -9,22 +9,6 @@ Namespace Classes
                                    New List(Of Object)()
 
         ''' <summary>
-        ''' TODO Write CreateHitbox summary
-        ''' </summary>
-        ''' <param name="localObjectWidth"></param>
-        ''' <param name="localObjectHeight"></param>
-        ''' <param name="localParent"></param>
-        ''' <param name="localLocationX"></param>
-        ''' <param name="localLocationY"></param>
-        ''' <returns></returns>
-        Public Shared Function CreateHitbox(localObjectWidth As Double, localObjectHeight As Double,
-                                            localParent As Object, localLocationX As Double, localLocationY As Double) _
-            As Hitbox
-            Dim newHitbox = New Hitbox(localObjectWidth, localObjectHeight, localParent, localLocationX, localLocationY)
-            Return newHitbox
-        End Function
-
-        ''' <summary>
         ''' Calculates the minimum X bound to which an entity can travel
         ''' </summary>
         ''' <param name="localLocationX"></param>

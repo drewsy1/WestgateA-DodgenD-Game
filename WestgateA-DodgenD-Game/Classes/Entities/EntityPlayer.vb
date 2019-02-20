@@ -116,9 +116,6 @@ Namespace Classes.Entities
                 If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
                    (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
-                    If Not IsNothing(ObjectHitbox) Then
-                        ObjectHitbox.MoveY(localMovementSpeed * -1)
-                    End If
                 End If
             End Sub
 
@@ -130,18 +127,14 @@ Namespace Classes.Entities
                     Case > 0
                         If (distanceToRightBound) >= localMovementSpeed Then
                             ObjectTransformTranslate.X += localMovementSpeed
-                            ObjectHitbox.MoveX(localMovementSpeed * -1)
                         ElseIf (distanceToRightBound) > 0 Then
                             ObjectTransformTranslate.X += distanceToRightBound
-                            ObjectHitbox.MoveX(distanceToRightBound * -1)
                         End If
                     Case <= 0
                         If (distanceToLeftBound) <= localMovementSpeed Then
                             ObjectTransformTranslate.X += localMovementSpeed
-                            ObjectHitbox.MoveX(localMovementSpeed * -1)
                         ElseIf distanceToLeftBound < 0 Then
                             ObjectTransformTranslate.X += distanceToLeftBound
-                            ObjectHitbox.MoveX(distanceToLeftBound * -1)
                         End If
                 End Select
                 'If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
@@ -156,9 +149,6 @@ Namespace Classes.Entities
                 MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
 
-                Hitbox.HitboxCollection.Remove(ObjectHitbox)
-                ObjectHitbox = Nothing
-
                 Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
                     EntityCollection(itemIndex) = Nothing
@@ -166,8 +156,6 @@ Namespace Classes.Entities
             End Sub
 
 #End Region
-
-            Public WithEvents ObjectHitbox As Hitbox
 
             Public Shared Event PlayerHit(enemy As EntityPlayer)
 
@@ -195,12 +183,7 @@ Namespace Classes.Entities
                 TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
 
                 CanvasObjects.ObjectCollection.Add(Me)
-
-                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, LocationCoords.X,
-                                                          LocationCoords.Y)
-
                 AddHandler PlayerHit, AddressOf Remove
-                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
             End Sub
 
             ''' <summary>

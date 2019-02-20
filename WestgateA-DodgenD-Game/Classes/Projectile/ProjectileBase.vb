@@ -108,9 +108,6 @@ Namespace Classes.Projectile
                 If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or
                    (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
-                    If Not IsNothing(ObjectHitbox) Then
-                        ObjectHitbox.MoveY(localMovementSpeed * -1)
-                    End If
                 End If
             End Sub
 
@@ -118,7 +115,6 @@ Namespace Classes.Projectile
                 If (ObjectTransformTranslate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
                    (ObjectTransformTranslate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.X += localMovementSpeed
-                    ObjectHitbox.MoveX(localMovementSpeed * -1)
                 End If
             End Sub
 
@@ -152,7 +148,6 @@ Namespace Classes.Projectile
 
                 CanvasObjects.ObjectCollection.Add(Me)
 
-                ObjectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X, localLocationCoords.Y)
                 ProjectilesCollection.Add(Me)
 
                 ' Set coordinates on canvas for projectile
@@ -162,26 +157,20 @@ Namespace Classes.Projectile
                 ObjectTransformTranslate.X += translateX
                 ObjectTransformTranslate.Y += translateY
 
-                AddHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
                 AddHandler GameTimer.Tick, AddressOf UpdateLocation
             End Sub
 
             Public Overridable Sub Remove() Implements ICanvasObjects.Remove
-                RemoveHandler ObjectHitbox.LeavingCanvas, AddressOf Remove
                 RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
                 MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(
                     ObjectControl)
-
-                ObjectHitbox = Nothing
 
                 Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
                     ProjectilesCollection.RemoveAt(itemIndex)
                 End If
             End Sub
-
-            Public WithEvents ObjectHitbox As Hitbox
 
             ''' <summary>
             ''' Sets fill color for projectile

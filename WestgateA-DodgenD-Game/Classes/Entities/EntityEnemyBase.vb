@@ -108,9 +108,6 @@ Namespace Classes.Entities
                 Dim location As Double = ObjectTransformTranslate.Y - LocationCoords.Y
                 If (location <= TranslateBoundBottom And (localMovementSpeed < 0)) Or (location >= TranslateBoundTop And (localMovementSpeed > 0)) Then
                     ObjectTransformTranslate.Y += localMovementSpeed
-                    If Not IsNothing(_objectHitbox) Then
-                        _objectHitbox.MoveY(localMovementSpeed * -1)
-                    End If
                 End If
             End Sub
 
@@ -143,8 +140,6 @@ Namespace Classes.Entities
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
                 MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
 
-                Hitbox.HitboxCollection.Remove(_objectHitbox)
-                _objectHitbox = Nothing
 
                 Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
                 If itemIndex >= 0 Then
@@ -160,8 +155,6 @@ Namespace Classes.Entities
             Private _enemyProjectileInstance As ProjectileClasses.ProjectileEnemy
 
             Public Property EnemyType As String = Me.GetType().Name
-
-            Private WithEvents _objectHitbox As Hitbox
 
             Public Shared Event EnemyHit(enemy As EntityEnemyBase)
 
@@ -183,7 +176,6 @@ Namespace Classes.Entities
                 CanvasObjects.ObjectCollection.Add(Me)
                 MainViewModel.EnemyCollection.Add(Me)
 
-                _objectHitbox = CanvasObjects.CreateHitbox(ObjectWidth, ObjectHeight, Me, localLocationCoords.X, localLocationCoords.Y)
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
                 AddHandler GameTimer.Tick, AddressOf CheckHitbox
@@ -208,25 +200,6 @@ Namespace Classes.Entities
                 RemoveHandler EnemyHit, AddressOf Remove
                 enemyRemoved.Remove()
                 Debug.WriteLine(enemyRemoved)
-            End Sub
-
-            ''' <summary>
-            ''' 
-            ''' </summary>
-            Private Sub CheckHitbox()
-                If Not IsNothing(EntityPlayer.PlayerProjectileInstance) Then
-                    Dim CollisionCheck As Boolean = CanvasObjects.CheckCollision(Me, EntityPlayer.PlayerProjectileInstance)
-                    If CollisionCheck Then
-                        RaiseEvent EnemyHit(Me)
-                    End If
-                End If
-                'If Not IsNothing(EntityPlayer.PlayerProjectileInstance) And Not IsNothing(_objectHitbox) Then
-                '    If _
-                '        _objectHitbox.HitboxRectangle.IntersectsWith(
-                '            EntityPlayer.PlayerProjectileInstance.ObjectHitbox.HitboxRectangle) Then
-                '        RaiseEvent EnemyHit(Me)
-                '    End If
-                'End If
             End Sub
         End Class
     End Class
