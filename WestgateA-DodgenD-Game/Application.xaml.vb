@@ -4,6 +4,13 @@ Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 Class Application
+
+    ''' <summary>
+    ''' TODO Write ObjectCollection summary
+    ''' </summary>
+    Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
+                               New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
+
     ''' <summary>
     ''' TODO Write CanvasGameScreen summary
     ''' </summary>
@@ -15,19 +22,9 @@ Class Application
     Public Shared Property CanvasHeight As Double = 768
 
     ''' <summary>
-    ''' TODO Write GameScore summary
+    ''' Width of canvas in pixels
     ''' </summary>
-    Public Shared Property GameScore As Integer
-
-    ''' <summary>
-    ''' TODO Write GameLevel summary
-    ''' </summary>
-    Public Shared Property GameLevel As Integer
-
-    ''' <summary>
-    ''' Gets the MainWindow as an object and provides it as a static object
-    ''' </summary>
-    Public Shared Property MainWindowInstance As MainWindow
+    Public Shared Property CanvasWidth As Double = 672
 
     ''' <summary>
     ''' Variable for current EntityPlayer object
@@ -35,26 +32,30 @@ Class Application
     Public Shared Property EntityPlayerObject As EntityClasses.EntityPlayer
 
     ''' <summary>
-    ''' Width of canvas in pixels
+    ''' TODO Write GameLevel summary
     ''' </summary>
-    Public Shared Property CanvasWidth As Double = 672
+    Public Shared Property GameLevel As Integer = 1
 
     ''' <summary>
     ''' TODO Write GameLives summary
     ''' </summary>
-    Public Shared GameLives As Integer
+    Public Shared Property GameLives As Integer = 3
 
     ''' <summary>
-    ''' TODO Write ObjectCollection summary
+    ''' TODO Write GameScore summary
     ''' </summary>
-    Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
-                               New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
-
+    Public Shared Property GameScore As Integer = 0
+    ''' <summary>
+    ''' Gets the MainWindow as an object and provides it as a static object
+    ''' </summary>
+    Public Shared Property MainWindowInstance As MainWindow
 #Region "Events"
+
     ''' <summary>
-    ''' ToDo Write PressFireButton summary
+    ''' ToDo Write EnemyHit summary
     ''' </summary>
-    Public Shared Event PressFireButton()
+    ''' <param name="enemy"></param>
+    Public Shared Event EnemyHit(enemy As EntityClasses.EntityEnemyBase)
 
     ''' <summary>
     ''' ToDo Write PlayerProjectileRemove summary
@@ -62,6 +63,10 @@ Class Application
     ''' <param name="projectile"></param>
     Public Shared Event PlayerProjectileRemove(projectile As ProjectileClasses.ProjectilePlayer)
 
+    ''' <summary>
+    ''' ToDo Write PressFireButton summary
+    ''' </summary>
+    Public Shared Event PressFireButton()
     ''' <summary>
     ''' ToDo Write ProjectileHit summary
     ''' </summary>
@@ -73,15 +78,33 @@ Class Application
     ''' ToDo Write ReleaseFireButton summary
     ''' </summary>
     Public Shared Event ReleaseFireButton()
+#End Region
+
+#Region "Event Friend Functions"
 
     ''' <summary>
-    ''' ToDo Write EnemyHit summary
+    ''' ToDo Write RaiseEnemyHit summary
     ''' </summary>
     ''' <param name="enemy"></param>
-    Public Shared Event EnemyHit(enemy As EntityClasses.EntityEnemyBase)
-    #End Region
+    Friend Shared Sub RaiseEnemyHit(enemy As EntityClasses.EntityEnemyBase)
+        RaiseEvent EnemyHit(enemy)
+    End Sub
 
-    #Region "Event Friend Functions"
+    ''' <summary>
+    ''' ToDo Write RaisePlayerProjectileRemove Summary
+    ''' </summary>
+    ''' <param name="projectile"></param>
+    Friend Shared Sub RaisePlayerProjectileRemove(projectile As ProjectileClasses.ProjectilePlayer)
+        RaiseEvent PlayerProjectileRemove(projectile)
+    End Sub
+
+    ''' <summary>
+    ''' ToDo Write RaisePressFireButton summary
+    ''' </summary>
+    Friend Shared Sub RaisePressFireButton()
+        RaiseEvent PressFireButton()
+    End Sub
+
     ''' <summary>
     ''' ToDo Write RaiseProjectileHit summary
     ''' </summary>
@@ -97,57 +120,26 @@ Class Application
     Friend Shared Sub RaiseReleaseFireButton()
         RaiseEvent ReleaseFireButton()
     End Sub
+#End Region
 
-    ''' <summary>
-    ''' ToDo Write RaisePressFireButton summary
-    ''' </summary>
-    Friend Shared Sub RaisePressFireButton()
-        RaiseEvent PressFireButton()
-    End Sub
+#Region "Event Methods"
 
-    ''' <summary>
-    ''' ToDo Write RaisePlayerProjectileRemove Summary
-    ''' </summary>
-    ''' <param name="projectile"></param>
-    Friend Shared Sub RaisePlayerProjectileRemove(projectile As ProjectileClasses.ProjectilePlayer)
-        RaiseEvent PlayerProjectileRemove(projectile)
-    End Sub
-
-    ''' <summary>
-    ''' ToDo Write RaiseEnemyHit summary
-    ''' </summary>
-    ''' <param name="enemy"></param>
-    Friend Shared Sub RaiseEnemyHit(enemy As EntityClasses.EntityEnemyBase)
-        RaiseEvent EnemyHit(enemy)
-    End Sub
-    #End Region
-
-
-    #Region "Event Methods"
     ''' <summary>
     ''' ToDo Write ProcessProjectileHit summary
     ''' </summary>
     ''' <param name="projectile"></param>
     ''' <param name="entity"></param>
     Public Shared Sub ProcessProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
+        if entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
+            GameScore += entity.ObjectScoreValue
+        End If
         projectile.Remove()
         entity.Remove()
     End Sub
-    #End Region
 
+#End Region
 
-    #Region "Shared Methods"
-    ''' <summary>
-    ''' Sets the canvas location of a control
-    ''' </summary>
-    ''' <param name="localLocation">Coordinate of desired location</param>
-    ''' <param name="control">Control to be placed</param>
-    Public Shared Sub SetCanvasLocation(localLocation As Point,
-                                        control As Object)
-        Canvas.SetLeft(control, localLocation.X)
-        Canvas.SetBottom(control, localLocation.Y)
-    End Sub
-
+#Region "Shared Methods"
 
     ''' <summary>
     ''' Adds a control to canvas
@@ -160,5 +152,17 @@ Class Application
 
         End If
     End Sub
-    #End Region
+
+    ''' <summary>
+    ''' Sets the canvas location of a control
+    ''' </summary>
+    ''' <param name="localLocation">Coordinate of desired location</param>
+    ''' <param name="control">Control to be placed</param>
+    Public Shared Sub SetCanvasLocation(localLocation As Point,
+                                        control As Object)
+        Canvas.SetLeft(control, localLocation.X)
+        Canvas.SetBottom(control, localLocation.Y)
+    End Sub
+#End Region
+
 End Class
