@@ -199,13 +199,14 @@ Namespace Classes.Entities
                             New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y + ObjectHeight)
                             )
                     MainViewModel.AddToCanvas(PlayerProjectileInstance)
-                    RaiseEvent PressFireButton
-                    AddHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
+
+                    Application.RaisePressFireButton
+                    AddHandler Application.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 End If
             End Sub
 
             Private Shared Sub RemovePlayerProjectileInstance(parent As ProjectileClasses.ProjectilePlayer)
-                RemoveHandler PlayerProjectileInstance.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
+                RemoveHandler Application.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 PlayerProjectileInstance = Nothing
             End Sub
         End Class

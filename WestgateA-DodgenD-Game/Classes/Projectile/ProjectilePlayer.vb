@@ -27,8 +27,6 @@ Namespace Classes.Projectile
                 End Get
             End Property
 
-            Public Event PlayerProjectileRemove(projectile As ProjectilePlayer)
-
             ''' <summary>
             ''' Instantiates a ProjectilePlayer object by calling Projectile.New() and
             ''' sets its color to ProjectileColor
@@ -42,13 +40,13 @@ Namespace Classes.Projectile
                 MyBase.New(translateX, translateY, localLocation)
 
                 SetColor(ProjectileColor)
-                AddHandler EntityClasses.EntityEnemyBase.EnemyHit, AddressOf Remove
+                AddHandler Application.EnemyHit, AddressOf Remove
             End Sub
 
             Overrides Sub Remove()
-                RemoveHandler EntityClasses.EntityEnemyBase.EnemyHit, AddressOf Remove
+                RemoveHandler Application.EnemyHit, AddressOf Remove
                 MyBase.Remove()
-                RaiseEvent PlayerProjectileRemove(Me)
+                Application.RaisePlayerProjectileRemove(Me)
             End Sub
         End Class
     End Class
