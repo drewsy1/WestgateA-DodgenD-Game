@@ -123,7 +123,7 @@ Class Application
     #End Region
 
 
-
+    #Region "Event Methods"
     ''' <summary>
     ''' ToDo Write ProcessProjectileHit summary
     ''' </summary>
@@ -133,7 +133,7 @@ Class Application
         projectile.Remove()
         entity.Remove()
     End Sub
-
+    #End Region
 
 
     #Region "Shared Methods"
