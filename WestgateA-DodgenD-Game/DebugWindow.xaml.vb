@@ -25,7 +25,7 @@ Public Class DebugWindow
         InitializeComponent()
 
         AddHandler EntityClasses.EntityPlayer.PressFireButton, AddressOf PressFireButton
-        AddHandler MainWindow.ReleaseFireButton, AddressOf ReleaseFireButton
+        AddHandler Application.ReleaseFireButton, AddressOf ReleaseFireButton
         ' Add any initialization after the InitializeComponent() call.
 
 

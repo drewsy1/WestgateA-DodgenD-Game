@@ -138,7 +138,7 @@ Namespace Classes.Entities
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                MainViewModel.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
+                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
 
 
                 Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
@@ -174,7 +174,7 @@ Namespace Classes.Entities
 
 
                 CanvasObjects.ObjectCollection.Add(Me)
-                MainViewModel.EnemyCollection.Add(Me)
+                Application.EnemyCollection.Add(Me)
 
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
@@ -185,7 +185,7 @@ Namespace Classes.Entities
             ''' </summary>
             Sub FireWeapon()
                 _enemyProjectileInstance = New ProjectileClasses.ProjectileEnemy((ObjectWidth / 2), 0 - ObjectHeight, New Point(LocationCoords.X + ObjectTransformTranslate.X, LocationCoords.Y))
-                MainViewModel.AddToCanvas(_enemyProjectileInstance)
+                Application.AddToCanvas(_enemyProjectileInstance)
             End Sub
 
             ''' <summary>
