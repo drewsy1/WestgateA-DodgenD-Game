@@ -25,13 +25,11 @@ Public Class MainWindow
         Application.MainWindowInstance = Me
         Application.CanvasGameScreen = CanvasGameScreen
         Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
-        Application.AddToCanvas(Application.EntityPlayerObject)
         Application.CurrentGameStats = New GameStats()
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
-        AddHandler GameTimer.LongTick, AddressOf Application.DefaultEnemyMovement
-        AddHandler Application.ProjectileHit, AddressOf Application.ProcessProjectileHit
+        AddHandler Application.ProjectileHit, AddressOf Application.OnProjectileHit
 
         If Debugger.IsAttached Then
             _newDebugWindow = New DebugWindow

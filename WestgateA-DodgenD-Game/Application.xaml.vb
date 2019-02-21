@@ -124,11 +124,11 @@ Public Class Application
 #Region "Event Methods"
 
     ''' <summary>
-    ''' ToDo Write ProcessProjectileHit summary
+    ''' ToDo Write OnProjectileHit summary
     ''' </summary>
     ''' <param name="projectile"></param>
     ''' <param name="entity"></param>
-    Public Shared Sub ProcessProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
+    Public Shared Sub OnProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
         UpdateScore(entity)
         projectile.Remove()
         entity.Remove()

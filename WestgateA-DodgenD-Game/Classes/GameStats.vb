@@ -5,7 +5,7 @@ Namespace Classes
     Public Class GameStats
         Implements INotifyPropertyChanged
 
-        Private _gameLevel As Integer = 0
+        Private _gameLevel As Integer = 1
         Private _gameLives As Integer = 3
         Private _gameScore As Integer = 0
         Private _gameGameHighScore As Integer = My.Settings.HighScore
