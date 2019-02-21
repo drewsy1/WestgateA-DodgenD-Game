@@ -112,14 +112,9 @@ Namespace Classes.Entities
             End Sub
 
             Public Sub Remove() Implements ICanvasObjects.Remove
-                ' Remove rectangle from CanvasGameScreen (make it invisible)
-                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    ObjectControl)
+                Me.ObjectControl.Visibility = Visibility.Hidden
 
-                Dim itemIndex As Integer = EntityCollection.IndexOf(Me)
-                If itemIndex >= 0 Then
-                    EntityCollection(itemIndex) = Nothing
-                End If
+                
             End Sub
 
 #End Region

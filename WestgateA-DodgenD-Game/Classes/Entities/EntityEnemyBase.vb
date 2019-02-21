@@ -182,6 +182,7 @@ Namespace Classes.Entities
                 Application.ActiveEnemies.Remove(Me)
                 Application.RemoveFromCanvas(Me)
                 ObjectEnabled = False
+                If Application.ActiveEnemies.Count = 0 Then Application.RaiseLevelCleared()
             End Sub
 
 #End Region

@@ -31,6 +31,7 @@ Public Class MainWindow
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
         AddHandler Application.ProjectileHit, AddressOf Application.OnProjectileHit
         AddHandler Application.CollisionHit, AddressOf Application.OnCollisionHit
+        AddHandler Application.LevelCleared, AddressOf Application.OnLevelCleared
 
         If Debugger.IsAttached Then
             _newDebugWindow = New DebugWindow
@@ -59,9 +60,7 @@ Public Class MainWindow
 
         Next
 
-        For Each obj As EntityClasses.EntityEnemyBase In Application.enemyArray
-            If Not IsNothing(obj) Then Application.AddToCanvas(obj)
-        Next
+        Application.NewGame()
     End Sub
 
     ''' <summary>

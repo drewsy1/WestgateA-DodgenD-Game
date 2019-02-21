@@ -84,6 +84,11 @@ Public Class Application
     ''' ToDo Write ReleaseFireButton summary
     ''' </summary>
     Public Shared Event ReleaseFireButton()
+
+    ''' <summary>
+    ''' ToDo Write LevelCleared summary
+    ''' </summary>
+    Public Shared Event LevelCleared()
 #End Region
 
 #Region "Event Friend Functions"
@@ -135,6 +140,13 @@ Public Class Application
     Friend Shared Sub RaiseReleaseFireButton()
         RaiseEvent ReleaseFireButton()
     End Sub
+
+    ''' <summary>
+    ''' ToDo Write RaiseLevelCleared summary
+    ''' </summary>
+    Friend Shared Sub RaiseLevelCleared()
+        RaiseEvent LevelCleared()
+    End Sub
 #End Region
 
 #Region "Event Methods"
@@ -177,6 +189,12 @@ Public Class Application
         End If
     End Sub
 
+    Public Shared Sub OnLevelCleared()
+        System.Threading.Thread.Sleep(1000)
+        RaiseLevel()
+        NewGame()
+    End Sub
+
 #End Region
 
 #Region "Shared Methods"
@@ -187,7 +205,9 @@ Public Class Application
     ''' <param name="localControl">Object representing control</param>
     Public Shared Sub AddToCanvas(localControl)
         If (localControl.GetType().IsSubclassOf(GetType(CanvasObjects).BaseType)) Then
-            CanvasGameScreen.Children.Add(localControl.ObjectControl)
+            If Not CanvasGameScreen.Children.Contains(localControl.ObjectControl) Then
+                CanvasGameScreen.Children.Add(localControl.ObjectControl)
+            End If
         End If
     End Sub
 
@@ -212,7 +232,51 @@ Public Class Application
         Canvas.SetBottom(control, localLocation.Y)
     End Sub
 
-    Public Shared Sub DefaultEnemyMovement
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Public Shared Sub NewGame()
+        For Each obj As EntityClasses.EntityEnemyBase In enemyArray
+            If Not IsNothing(obj) Then
+                ActiveEnemies.Add(obj)
+                obj.ObjectEnabled = True
+                obj.ObjectTransform_Translate.X = 0
+                obj.ObjectTransform_Translate.Y = 0
+                obj.MovementSpeed = 6 * Math.Pow(1.25,CurrentGameStats.GameLevel - 1)
+                AddToCanvas(obj)
+            End If
+            EntityPlayerObject.ObjectControl.Visibility = Visibility.Visible
+            AddToCanvas(EntityPlayerObject)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Shared Sub RaiseLevel()
+        CurrentGameStats.GameLevel += 1
+        Dim LvlX1 As Integer
+        Dim LvlX5 = Math.DivRem(CurrentGameStats.GameLevel,5,LvlX1)
+        For i As Integer = 1 To LvlX1
+            MainWindowInstance.FindName("ImageLevel"+i.ToString()).Visibility = Visibility.Visible
+        Next
+        For j As Integer = LvlX1+1 To 5
+            MainWindowInstance.FindName("ImageLevel"+j.ToString()).Visibility = Visibility.Hidden
+        Next
+    End Sub
+
+    Public Shared Sub MoveEnemiesDown()
+        For Each obj As EntityClasses.EntityEnemyBase in EnemyArray
+            If Not IsNothing(obj) Then
+                If obj.ObjectTransform_Translate.Y + (30 * Math.Pow(1.25,CurrentGameStats.GameLevel-1)) >= obj.TranslateBoundBottom * -1 Then
+                    RaiseCollisionHit(Application.EntityPlayerObject,obj)
+                    Else 
+                        obj.MoveDown(30 * Math.Pow(1.25,CurrentGameStats.GameLevel-1))
+                End If
+                
+            End If
+        Next
+    End Sub
 
 
     End Sub
