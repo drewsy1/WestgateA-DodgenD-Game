@@ -3,17 +3,16 @@ Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 
 Public Class MainWindow
-    ''' <summary>
-    ''' Key (left or right) that controls movement of player cursor
-    ''' </summary>
-    Dim _currentKeyPress As Key
 
     ''' <summary>
     ''' ToDo Write _newDebugWindow summary
     ''' </summary>
     Private Shared _newDebugWindow As DebugWindow
 
-
+    ''' <summary>
+    ''' Key (left or right) that controls movement of player cursor
+    ''' </summary>
+    Dim _currentKeyPress As Key
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
     ''' </summary>
@@ -42,32 +41,25 @@ Public Class MainWindow
             Select Case a
                 Case 0
                     For b = 3 To 6
-                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyD(("EnemyD_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.EnemyArray(a, b) = New EntityClasses.EntityEnemyD(("EnemyD_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 1
                     For b = 2 To 7
-                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyC(("EnemyC_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.EnemyArray(a, b) = New EntityClasses.EntityEnemyC(("EnemyC_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 2
                     For b = 1 To 8
-                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyB(("EnemyB_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.EnemyArray(a, b) = New EntityClasses.EntityEnemyB(("EnemyB_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 3 To 5
                     For b = 0 To 9
-                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyA(("EnemyA_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.EnemyArray(a, b) = New EntityClasses.EntityEnemyA(("EnemyA_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
             End Select
 
         Next
 
         Application.NewGame()
-    End Sub
-
-    ''' <summary>
-    ''' This method is called on every tick of the _dtTimer
-    ''' </summary>
-    Private Sub GameTimeUpdater()
-        RegisterKeypresses(_currentKeyPress)
     End Sub
 
     ''' <summary>
@@ -83,7 +75,18 @@ Public Class MainWindow
         End Select
     End Sub
 
+    ''' <summary>
+    ''' This method is called on every tick of the _dtTimer
+    ''' </summary>
+    Private Sub GameTimeUpdater()
+        RegisterKeypresses(_currentKeyPress)
+    End Sub
 #Region "Window Events"
+
+    Private Sub Window_Closing(sender As Object, e As CancelEventArgs)
+        My.Settings.Save()
+    End Sub
+
     ''' <summary>
     ''' Handles event raised when a key is pressed within the Window
     ''' </summary>
@@ -113,12 +116,6 @@ Public Class MainWindow
             Application.RaiseReleaseFireButton()
         End If
     End Sub
-
-
-    Private Sub Window_Closing(sender As Object, e As CancelEventArgs)
-        My.Settings.Save()
-    End Sub
-
-
 #End Region
+
 End Class

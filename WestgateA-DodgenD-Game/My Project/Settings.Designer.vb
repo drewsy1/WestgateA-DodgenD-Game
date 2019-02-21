@@ -14,7 +14,7 @@ Option Explicit On
 
 
 <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
- Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0"),  _
+ Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0"),  _
  Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
 Partial Friend NotInheritable Class MySettings
     Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -63,6 +63,33 @@ Partial Friend NotInheritable Class MySettings
         Set
             Me("HighScore") = value
         End Set
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
+    Public ReadOnly Property DefaultLives() As Integer
+        Get
+            Return CType(Me("DefaultLives"),Integer)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("3000")>  _
+    Public ReadOnly Property NewLifeScore() As Integer
+        Get
+            Return CType(Me("NewLifeScore"),Integer)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("6")>  _
+    Public ReadOnly Property MaxLives() As Integer
+        Get
+            Return CType(Me("MaxLives"),Integer)
+        End Get
     End Property
 End Class
 
