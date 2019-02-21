@@ -100,13 +100,16 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" x:Name="LabelGameScore" Content="Score:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxGameScore" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxGameScore" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding Path=CurrentGameStats.GameScore}" />
                 <Label Grid.Row="1" x:Name="LabelGameLives" Content="Lives:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxGameLives" Text="{Binding Path=GameLives}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxGameLives" Text="{Binding Path=CurrentGameStats.GameLives}" VerticalContentAlignment="Center" IsReadOnly="True" />
                 <Label Grid.Row="2" x:Name="LabelGameLevel" Content="Level:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxGameLevel" Text="{Binding Path=GameLevel}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxGameLevel" Text="{Binding Path=CurrentGameStats.GameLevel}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <Label Grid.Row="3" x:Name="LabelHighScore" Content="High Score:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="TextBoxHighScore" Text="{Binding Path=CurrentGameStats.GameHighScore}" VerticalContentAlignment="Center" IsReadOnly="True" />
             </Grid>
         </StackPanel>
     </Grid>

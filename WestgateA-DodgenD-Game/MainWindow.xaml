@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:westgateADodgenDGame="clr-namespace:WestgateA_DodgenD_Game"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeToContent="WidthAndHeight" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"  DataContext="{Binding RelativeSource={RelativeSource Self} }" Closing="Window_Closing">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeToContent="WidthAndHeight" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Closing="Window_Closing">
     <Window.Resources>
         <ResourceDictionary>
             <westgateADodgenDGame:Application x:Key="Application"></westgateADodgenDGame:Application>
@@ -25,11 +25,11 @@
         </Grid.RowDefinitions>
         <!--<Canvas Grid.Column="0" Background="Black"/>-->
         <Canvas x:Name="CanvasWindowDecoration" Height="768" Panel.ZIndex="0" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" IsEnabled="False">
-            <Image x:Name="Image" Grid.Column="1" Height="768" Width="672" Source="Resources/1181242110212.png" Visibility="Hidden" />
-            <Label FontFamily="{StaticResource ARCADE}" x:Name="label1up" Content="1UP" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Canvas.Left="76" Width="70" FontSize="24" Height="29" Canvas.Top="-5" HorizontalContentAlignment="Center" Foreground="Black"/>
-            <Label FontFamily="{StaticResource ARCADE}" x:Name="labelHighScore" Content="HIGH SCORE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" Height="29" HorizontalContentAlignment="Center" Canvas.Left="221" Width="235" Canvas.Top="-5" Foreground="Black"/>
-            <Label FontFamily="{StaticResource ARCADE}" x:Name="labelCurrentScore" Content="0" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0" Canvas.Left="24" Width="146" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Right" Foreground="Red" VerticalContentAlignment="Center"/>
-            <Label FontFamily="{StaticResource ARCADE}" x:Name="labelCurrentScore_Copy" Content="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" Canvas.Left="264" Width="144" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Center" Foreground="Red" VerticalContentAlignment="Center"/>
+            <Image x:Name="Image" Height="768" Width="672" Source="Resources/1181242110212.png" Visibility="Hidden" />
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="Label1Up" Content="1UP" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Canvas.Left="76" Width="70" FontSize="24" Height="29" Canvas.Top="-5" HorizontalContentAlignment="Center" Foreground="Black"/>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelHighScore" Content="HIGH SCORE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" Height="29" HorizontalContentAlignment="Center" Canvas.Left="221" Width="235" Canvas.Top="-5" Foreground="Black"/>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelCurrentScore" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding CurrentGameStats.GameScore}" Padding="0" Canvas.Left="24" Width="146" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Right" Foreground="Red" VerticalContentAlignment="Center"/>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelCurrentHighScore" Content="{Binding CurrentGameStats.GameHighScore}" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" Canvas.Left="264" Width="144" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Center" Foreground="Red" VerticalContentAlignment="Center"/>
             <Grid x:Name="GridPlayerLifeIndicator" Height="42" Canvas.Left="33" Canvas.Top="723" Width="270">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>

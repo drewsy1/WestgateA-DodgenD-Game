@@ -138,16 +138,24 @@ Public Class Application
     ''' <param name="projectile"></param>
     ''' <param name="entity"></param>
     Public Shared Sub ProcessProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
-        if entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
-            GameScore += entity.ObjectScoreValue
-            If My.Settings.HighScore < GameScore Then
-                My.Settings.HighScore = GameScore
-                MainWindowInstance.labelCurrentScore_Copy.Content = My.Settings.HighScore
-            End If
-            MainWindowInstance.labelCurrentScore.Content = GameScore
-        End If
+        UpdateScore(entity)
         projectile.Remove()
         entity.Remove()
+    End Sub
+
+    ''' <summary>
+    ''' ToDo Write UpdateScore summary
+    ''' </summary>
+    ''' <param name="entity"></param>
+    Public Shared Sub UpdateScore(ByRef entity As Object)
+        if entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
+            CurrentGameStats.GameScore += entity.ObjectScoreValue
+            If My.Settings.HighScore < CurrentGameStats.GameScore Then
+                My.Settings.HighScore = CurrentGameStats.GameScore
+                MainWindowInstance.labelCurrentHighScore.Content = My.Settings.HighScore
+            End If
+            MainWindowInstance.labelCurrentScore.Content = CurrentGameStats.GameScore
+        End If
     End Sub
 
 #End Region

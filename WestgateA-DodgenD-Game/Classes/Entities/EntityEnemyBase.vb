@@ -12,8 +12,26 @@ Namespace Classes.Entities
 
         Public Class EntityEnemyBase
             Implements ICanvasObjects
+            Implements INotifyPropertyChanged
 
-#Region "Inherited properties"
+#Region "Implementations from INotifyPropertyChanged"
+
+            ''' <summary>
+            ''' Todo Write PropertyChanged summary
+            ''' </summary>
+            Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+            ''' <summary>
+            ''' ToDo Write OnPropertyChanged summary
+            ''' </summary>
+            ''' <param name="name"></param>
+            Protected Sub OnPropertyChanged(ByVal name As String)
+                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
+            End Sub
+
+#End Region
+
+#Region "Implementations From ICanvasObjects"
 
             Public Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
 
@@ -132,14 +150,32 @@ Namespace Classes.Entities
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
             End Sub
 
-            Public Shared Event EnemyHit(enemy As EntityEnemyBase)
-
             ''' <summary>
             ''' ToDo Write EnemyType Summary
             ''' </summary>
             ''' <returns></returns>
             Public Property EnemyType As String = Me.GetType().Name
 
+            Private _objectEnabled As Boolean
+            ''' <summary>
+            ''' ToDo Write ObjectEnabled summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectEnabled() As Boolean
+            Get
+                Return _objectEnabled
+            End Get
+                Set(value As Boolean)
+                    _objectEnabled = value
+                    OnPropertyChanged("ObjectEnabled")
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' Projectile object for weapon projectile
+            ''' </summary>
+            Private Property EnemyProjectileInstance As ProjectileClasses.ProjectileEnemy
+            
             ''' <summary>
             ''' Creates an enemy projectile that moves downward
             ''' </summary>
