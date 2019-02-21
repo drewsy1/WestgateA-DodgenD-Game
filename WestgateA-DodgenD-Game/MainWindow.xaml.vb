@@ -30,6 +30,7 @@ Public Class MainWindow
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
+        AddHandler GameTimer.LongTick, AddressOf Application.DefaultEnemyMovement
         AddHandler Application.ProjectileHit, AddressOf Application.ProcessProjectileHit
 
         If Debugger.IsAttached Then
@@ -37,31 +38,29 @@ Public Class MainWindow
             _newDebugWindow.Show()
         End If
 
-        Dim enemyArray(5, 9) As EntityClasses.EntityEnemyBase
-
         For a = 0 To 5
             Select Case a
                 Case 0
                     For b = 3 To 6
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyD(("EnemyD_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyD(("EnemyD_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 1
                     For b = 2 To 7
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyC(("EnemyC_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyC(("EnemyC_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 2
                     For b = 1 To 8
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyB(("EnemyB_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyB(("EnemyB_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
                 Case 3 To 5
                     For b = 0 To 9
-                        enemyArray(a, b) = New EntityClasses.EntityEnemyA(("EnemyA_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
+                        Application.enemyArray(a, b) = New EntityClasses.EntityEnemyA(("EnemyA_" + CStr(a) + "," + CStr(b)), New Point(117 + (45 * b), 630 - (36 * a)))
                     Next
             End Select
 
         Next
 
-        For Each obj As EntityClasses.EntityEnemyBase In enemyArray
+        For Each obj As EntityClasses.EntityEnemyBase In Application.enemyArray
             If Not IsNothing(obj) Then Application.AddToCanvas(obj)
         Next
     End Sub

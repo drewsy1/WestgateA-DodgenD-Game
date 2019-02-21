@@ -49,7 +49,7 @@
         ''' TODO Write ObjectScoreValue summary
         ''' </summary>
         ''' <returns></returns>
-        Property ObjectScoreValue As Integer
+        ReadOnly Property ObjectScoreValue As Integer
 
         ''' <summary>
         '''     Translate transform object for entity

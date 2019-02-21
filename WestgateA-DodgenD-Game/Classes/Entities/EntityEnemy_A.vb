@@ -5,6 +5,9 @@ Namespace Classes.Entities
         Public Class EntityEnemyA
             Inherits EntityEnemyBase
 
+            Private Const ScoreValueConvoy As Integer = 30
+            Private Const ScoreValueCharger As Integer = 60
+
             Private Shared ReadOnly EnemyACollection As List(Of Object) =
                                           New List(Of Object)()
 
@@ -27,7 +30,7 @@ Namespace Classes.Entities
             'Public Shadows WithEvents ObjectHitbox As Hitbox
 
             Sub New(localName As String, localLocation As Point)
-                MyBase.New(localName, 30, localLocation)
+                MyBase.New(localName, ScoreValueCharger, ScoreValueConvoy, localLocation)
                 Application.SetCanvasLocation(
                     localLocation,
                     ObjectControl

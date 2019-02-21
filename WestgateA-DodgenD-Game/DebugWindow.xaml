@@ -34,12 +34,12 @@
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelEnemyEntities" Grid.Row="0" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
             <DataGrid x:Name="DataGridEnemies" Grid.Row="1" Margin="10" ItemsSource="{Binding Source={StaticResource CvsEnemies}}" AutoGenerateColumns="False" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding ObjectName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Type" Binding="{Binding EnemyType}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="↗" Binding="{Binding ObjectPointUpperRight}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="↙" Binding="{Binding ObjectPointLowerLeft}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Score" Binding="{Binding ObjectScoreValue}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Active" Binding="{Binding ObjectEnabled}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ObjectName}"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding EnemyType}"/>
+                    <DataGridTextColumn Header="↗" Binding="{Binding ObjectPointUpperRight}"/>
+                    <DataGridTextColumn Header="↙" Binding="{Binding ObjectPointLowerLeft}"/>
+                    <DataGridTextColumn Header="Score" Binding="{Binding ObjectScoreValue}"/>
+                    <DataGridTextColumn Header="Mode" Binding="{Binding Path=ObjectMovementMode,Converter={StaticResource MovementModeStringConverter}}"/>
                 </DataGrid.Columns>
                 <DataGrid.GroupStyle>
                     <GroupStyle>

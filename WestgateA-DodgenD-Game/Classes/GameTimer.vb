@@ -16,6 +16,10 @@ Namespace Classes
             .Interval = TimeSpan.FromSeconds(0.5)
             }
 
+        Public Shared WithEvents EnemyMoveTimer As DispatcherTimer = New DispatcherTimer() With {
+            .Interval = TimeSpan.FromSeconds(0.5)
+            }
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -23,12 +27,15 @@ Namespace Classes
 
         Public Shared Event LongTick()
 
+        Public Shared Event EnemyMoveTick()
+
         ''' <summary>
         ''' 
         ''' </summary>
         Public Shared Sub Start()
             _dtTimer.Start()
             _LongTimer.Start()
+            EnemyMoveTimer.Start()
         End Sub
 
         ''' <summary>

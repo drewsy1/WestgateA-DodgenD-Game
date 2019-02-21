@@ -11,6 +11,9 @@ Public Class Application
     Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
                                New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
 
+    Public Shared EnemyArray(5, 9) As EntityClasses.EntityEnemyBase
+
+
     ''' <summary>
     ''' TODO Write CanvasGameScreen summary
     ''' </summary>
@@ -129,13 +132,13 @@ Public Class Application
     ''' </summary>
     ''' <param name="entity"></param>
     Public Shared Sub UpdateScore(ByRef entity As Object)
-        if entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
+        If entity.GetType().IsSubclassOf(GetType(EntityClasses.EntityEnemyBase)) Then
             CurrentGameStats.GameScore += entity.ObjectScoreValue
             If My.Settings.HighScore < CurrentGameStats.GameScore Then
                 My.Settings.HighScore = CurrentGameStats.GameScore
-                MainWindowInstance.labelCurrentHighScore.Content = My.Settings.HighScore
+                MainWindowInstance.LabelCurrentHighScore.Content = My.Settings.HighScore
             End If
-            MainWindowInstance.labelCurrentScore.Content = CurrentGameStats.GameScore
+            MainWindowInstance.LabelCurrentScore.Content = CurrentGameStats.GameScore
         End If
     End Sub
 
@@ -164,6 +167,11 @@ Public Class Application
                                         control As Object)
         Canvas.SetLeft(control, localLocation.X)
         Canvas.SetBottom(control, localLocation.Y)
+    End Sub
+
+    Public Shared Sub DefaultEnemyMovement
+
+
     End Sub
 
 

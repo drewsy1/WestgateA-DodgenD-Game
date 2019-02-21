@@ -1,9 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Globalization
-Imports System.Windows.Markup
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
-Imports WestgateA_DodgenD_Game.Classes.Projectile
 
 Public Class DebugWindow
     Sub New()
@@ -16,6 +14,8 @@ Public Class DebugWindow
 
     End Sub
 
+
+    Public Shared Property ActiveEnemyList As List(Of EntityClasses.EntityEnemyBase) = Application.ActiveEnemyList
     Public Property CanvasWidth As Double = Application.CanvasWidth
     Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.EnemyCollection
     Public Property CurrentGameStats As GameStats = Application.CurrentGameStats
@@ -35,4 +35,23 @@ Public Class DebugWindow
         
     End Sub
     
+End Class
+
+Public Class MovementModeStringConverter
+    Implements  IValueConverter
+
+    Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As CultureInfo) As Object Implements IValueConverter.Convert
+        If value=1 Then
+            Return "Charger"
+        Else
+            Return "Convoy"
+        End If
+
+    End Function
+
+    Public Function ConvertBack(value As Object, targetType As Type, parameter As Object, culture As CultureInfo) As Object Implements IValueConverter.ConvertBack
+        Dim tryParseResult As Integer
+        EntityClasses.EEnemyMovementModeStrings.TryParse(value,tryParseResult)
+        Return tryParseResult
+    End Function
 End Class

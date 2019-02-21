@@ -9,7 +9,57 @@ Namespace Classes.Entities
     ''' Class containing Projectile classes and meta-properties
     ''' </summary>
     Partial Public Class EntityClasses
+        Implements INotifyPropertyChanged
 
+#Region "Implementations from INotifyPropertyChanged"
+
+        ''' <summary>
+        ''' Todo Write PropertyChanged summary
+        ''' </summary>
+        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+        ''' <summary>
+        ''' ToDo Write OnPropertyChanged summary
+        ''' </summary>
+        ''' <param name="name"></param>
+        Protected Sub OnPropertyChanged(sender As Object, ByVal name As String)
+            RaiseEvent PropertyChanged(sender, New PropertyChangedEventArgs(name))
+        End Sub
+
+#End Region
+
+        Protected Shared _movementDirection As Integer = 1
+
+        ''' <summary>
+        ''' ToDo Write MovementDirection summary
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property MovementDirection As Integer
+            Get
+                Return _movementDirection
+            End Get
+            Set(value As Integer)
+                _movementDirection = value
+                OnPropertyChanged(Me,"MovementDirection")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Enum that converts movement mode strings to their numeric representations
+        ''' </summary>
+        Public Enum EEnemyMovementModeStrings As Integer
+            Convoy = 0
+            Charger = 1
+        End Enum
+
+        Public Enum EEnemyMovementDirections As Integer
+            Left = -1
+            Right = 1
+        End Enum
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Public Class EntityEnemyBase
             Implements ICanvasObjects
             Implements INotifyPropertyChanged
@@ -31,6 +81,8 @@ Namespace Classes.Entities
 
 #End Region
 
+            
+
 #Region "Implementations From ICanvasObjects"
 
             Public Property LocationCoords As Point Implements ICanvasObjects.LocationCoords
@@ -41,7 +93,7 @@ Namespace Classes.Entities
                 End Get
             End Property
 
-            Protected Property MovementSpeed As Double = 5 Implements ICanvasObjects.MovementSpeed
+            Protected Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
             Public Overridable Property ObjectControl As Object = New UIElement() Implements ICanvasObjects.ObjectControl
             Public Property ObjectHeight As Double = 33 Implements ICanvasObjects.ObjectHeight
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
@@ -58,15 +110,19 @@ Namespace Classes.Entities
                 End Get
             End Property
 
-            Public Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
+            Public ReadOnly Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
+            Get
+                Return MovementModeScoreValues.Item(ObjectMovementMode)
+            End Get
+            End Property
             Public Property ObjectWidth As Double = 33 Implements ICanvasObjects.ObjectWidth
-            Protected Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
-            Protected Property TranslateBoundLeft As Double = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundLeft
+            Public Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
+            Public Property TranslateBoundLeft As Double = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundLeft
 
-            Protected Property TranslateBoundRight As Double = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundRight
+            Public Property TranslateBoundRight As Double = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundRight
 
-            Protected Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
-            Protected Property ObjectTransform_Translate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
+            Public Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
+            Public Property ObjectTransform_Translate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
 
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
@@ -121,21 +177,32 @@ Namespace Classes.Entities
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
                 Application.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
                 ObjectEnabled = False
-
+                Application.ActiveEnemyList.Remove(Me)
             End Sub
 
 #End Region
 
             ''' <summary>
+            ''' ToDo Write _objectEnabled summary
+            ''' </summary>
+            Private _objectEnabled As Boolean
+
+            ''' <summary>
+            ''' ToDo Write _objectEnabled summary
+            ''' </summary>
+            Private _objectMovementMode As Boolean = EEnemyMovementModeStrings.Convoy
+
+            ''' <summary>
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
             ''' <param name="localName"></param>
-            ''' <param name="localScoreValue"></param>
+            ''' <param name="localScoreValueConvoy"></param>
             ''' <param name="localLocationCoords"></param>
-            Sub New(localName As String, localScoreValue As Integer, Optional localLocationCoords As Point = Nothing)
+            Sub New(localName As String, localScoreValueCharger As Integer, localScoreValueConvoy As Integer, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
                 ObjectName = localName
-                ObjectScoreValue = localScoreValue
+                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Convoy,localScoreValueConvoy)
+                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Charger,localScoreValueCharger) 
                 LocationCoords = localLocationCoords
                 ObjectEnabled = True
 
@@ -146,6 +213,7 @@ Namespace Classes.Entities
 
                 CanvasObjects.ObjectCollection.Add(Me)
                 Application.EnemyCollection.Add(Me)
+                Application.ActiveEnemyList.Add(Me)
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
             End Sub
@@ -154,17 +222,18 @@ Namespace Classes.Entities
             ''' ToDo Write EnemyType Summary
             ''' </summary>
             ''' <returns></returns>
-            Public Property EnemyType As String = Me.GetType().Name
+            Public ReadOnly Property EnemyType As String = Me.GetType().Name
 
-            Private _objectEnabled As Boolean
+            Public Property MovementModeScoreValues As Dictionary(Of Integer, Integer) = New Dictionary(Of Integer,Integer)
+
             ''' <summary>
             ''' ToDo Write ObjectEnabled summary
             ''' </summary>
             ''' <returns></returns>
             Public Property ObjectEnabled() As Boolean
-            Get
-                Return _objectEnabled
-            End Get
+                Get
+                    Return _objectEnabled
+                End Get
                 Set(value As Boolean)
                     _objectEnabled = value
                     OnPropertyChanged("ObjectEnabled")
@@ -172,10 +241,24 @@ Namespace Classes.Entities
             End Property
 
             ''' <summary>
+            ''' ToDo Write ObjectEnabled summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectMovementMode() As Integer
+                Get
+                    Return _objectMovementMode
+                End Get
+                Set(value As Integer)
+                    _objectMovementMode = value
+                    OnPropertyChanged("ObjectMovementMode")
+                End Set
+            End Property
+
+            ''' <summary>
             ''' Projectile object for weapon projectile
             ''' </summary>
             Private Property EnemyProjectileInstance As ProjectileClasses.ProjectileEnemy
-            
+
             ''' <summary>
             ''' Creates an enemy projectile that moves downward
             ''' </summary>
@@ -185,14 +268,17 @@ Namespace Classes.Entities
             End Sub
 
             ''' <summary>
+            ''' Returns ObjectName whenever this class' ToString method is called
+            ''' </summary>
+            ''' <returns></returns>
+            Public Overrides Function ToString() As String
+                Return ObjectName
+            End Function
+
+            ''' <summary>
             ''' ToDo Write ChangeContent summary
             ''' </summary>
             Protected Overridable Sub ChangeContent()
-            End Sub
-
-            Private Overloads Shared Sub Remove(enemyRemoved As EntityEnemyBase)
-                enemyRemoved.Remove()
-                Debug.WriteLine(enemyRemoved)
             End Sub
 
         End Class

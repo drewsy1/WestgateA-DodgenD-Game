@@ -5,6 +5,9 @@ Namespace Classes.Entities
         Public Class EntityEnemyC
             Inherits EntityEnemyBase
 
+            Private Const ScoreValueConvoy As Integer = 50
+            Private Const ScoreValueCharger As Integer = 100
+
             Private Shared ReadOnly EnemyCCollection As List(Of Object) =
                                           New List(Of Object)()
 
@@ -26,7 +29,7 @@ Namespace Classes.Entities
                 }
 
             Sub New(localName As String, localLocation As Point)
-                MyBase.New(localName, 50, localLocation)
+                MyBase.New(localName, ScoreValueCharger,ScoreValueConvoy, localLocation)
                 Application.SetCanvasLocation(
                     localLocation,
                     ObjectControl
