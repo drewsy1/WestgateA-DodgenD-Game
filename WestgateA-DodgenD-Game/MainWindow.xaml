@@ -44,7 +44,7 @@
                 </Grid.ColumnDefinitions>
                 <Image x:Name="Life1" Grid.Column="0" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
                 <Image x:Name="Life2" Grid.Column="2" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image x:Name="Life3" Grid.Column="4" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
+                <Image x:Name="Life3" Grid.Column="4" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life4" Grid.Column="6" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life5" Grid.Column="8" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life6" Grid.Column="10" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>

@@ -278,7 +278,20 @@ Public Class Application
         Next
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Shared Sub SubtractLife()
+        CurrentGameStats.GameLives -= 1
+        MainWindowInstance.FindName("Life"+CurrentGameStats.GameLives.ToString()).Visibility = Visibility.Hidden
+    End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Public Shared Sub AddLife()
+        MainWindowInstance.FindName("Life"+CurrentGameStats.GameLives.ToString()).Visibility = Visibility.Visible
+        CurrentGameStats.GameLives += 1
     End Sub
 
 
