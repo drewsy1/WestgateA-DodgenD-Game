@@ -160,6 +160,7 @@ Namespace Classes.Entities
 
                 CanvasObjects.ObjectCollection.Add(Me)
                 AddHandler PlayerHit, AddressOf Remove
+                AddHandler GameTimer.Tick, AddressOf UpdateCollision
             End Sub
 
             ''' <summary>

@@ -260,7 +260,7 @@ Namespace Classes.Entities
                 
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
-                AddHandler GameTimer.LongTick,AddressOf DefaultEnemyMove
+                AddHandler GameTimer.EnemyMoveTimer.Tick, AddressOf DefaultEnemyMove
             End Sub
 
             ''' <summary>
@@ -326,21 +326,28 @@ Namespace Classes.Entities
             Protected Overridable Sub ChangeContent()
             End Sub
 
-            Public Sub DefaultEnemyMove()
+            ''' <summary>
+            ''' 
+            ''' </summary>
+            Private Sub DefaultEnemyMove()
                 If _movementDirection = 1 And ObjectMovementMode = 0 Then
-                    If ObjectTransform_Translate.X + MovementSpeed < MaxIdleTransformRight
+                    
+                    If ObjectTransform_Translate.X + MovementSpeed <= MaxIdleTransformRight
                         MoveRight(MovementSpeed)
                     Else 
                         _movementDirection = -1
+                        MoveLeft(MovementSpeed)
+                        Application.MoveEnemiesDown()
                     End If
-                    Else If _movementDirection = -1 And ObjectMovementMode = 0
-                        If ObjectTransform_Translate.X - MovementSpeed > -1 * MaxIdleTransformLeft
-                            MoveLeft(MovementSpeed)
-                        Else 
-                            _movementDirection = 1
-                        End If
+                Else If _movementDirection = -1 And ObjectMovementMode = 0
+                    If ObjectTransform_Translate.X - MovementSpeed >= -1 * MaxIdleTransformLeft
+                        MoveLeft(MovementSpeed)
+                    Else 
+                        _movementDirection = 1
+                        MoveRight(MovementSpeed)
+                        Application.MoveEnemiesDown()
+                    End If
                 End If
-                MoveRight(MovementSpeed)
             End Sub
 
         End Class

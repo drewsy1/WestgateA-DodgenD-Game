@@ -17,7 +17,7 @@ Namespace Classes
             }
 
         Public Shared WithEvents EnemyMoveTimer As DispatcherTimer = New DispatcherTimer() With {
-            .Interval = TimeSpan.FromSeconds(0.5)
+            .Interval = TimeSpan.FromSeconds(.25)
             }
 
         ''' <summary>
