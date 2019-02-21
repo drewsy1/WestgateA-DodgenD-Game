@@ -1,9 +1,30 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 ' ReSharper disable VBPossibleMistakenCallToGetType.2
 Public Class Application
+    Implements INotifyPropertyChanged
+
+#Region "Implementations from INotifyPropertyChanged"
+
+    ''' <summary>
+    ''' Todo Write PropertyChanged summary
+    ''' </summary>
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+    ''' <summary>
+    ''' ToDo Write OnPropertyChanged summary
+    ''' </summary>
+    ''' <param name="name"></param>
+    Protected Sub OnPropertyChanged(sender As Object,ByVal name As String)
+        RaiseEvent PropertyChanged(sender,New PropertyChangedEventArgs(name))
+    End Sub
+
+#End Region
+
+    Private Shared _activeEnemyList As List(Of EntityClasses.EntityEnemyBase) = New List(Of EntityClasses.EntityEnemyBase)
 
     ''' <summary>
     ''' TODO Write ObjectCollection summary
@@ -13,6 +34,15 @@ Public Class Application
 
     Public Shared EnemyArray(5, 9) As EntityClasses.EntityEnemyBase
 
+    Public Property ActiveEnemyList As List(Of EntityClasses.EntityEnemyBase)
+    Get
+        Return _activeEnemyList
+    End Get
+        Set(value As List(Of EntityClasses.EntityEnemyBase))
+            _activeEnemyList = value
+            OnPropertyChanged(Me,"ActiveEnemyList")
+        End Set
+    End Property
 
     ''' <summary>
     ''' TODO Write CanvasGameScreen summary

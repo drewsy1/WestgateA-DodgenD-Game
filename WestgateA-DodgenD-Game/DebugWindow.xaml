@@ -10,6 +10,7 @@
         Title="DebugWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized">
     <Window.Resources>
+        <local:MovementModeStringConverter x:Key="MovementModeStringConverter"></local:MovementModeStringConverter>
         <local:Application x:Key="ApplicationClass"></local:Application>
         <CollectionViewSource x:Key="CvsEnemies" Source="{Binding Path=EnemyCollection,Mode=OneWay}">
             <CollectionViewSource.GroupDescriptions>
@@ -28,8 +29,9 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelEnemyEntities" Grid.Row="0" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
             <DataGrid x:Name="DataGridEnemies" Grid.Row="1" Margin="10" ItemsSource="{Binding Source={StaticResource CvsEnemies}}" AutoGenerateColumns="False" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True">
@@ -66,7 +68,33 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
                 </DataGrid.GroupStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=Item.ObjectEnabled}" Value="False">
+                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="FontStyle" Value="Italic"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                       
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
+            <Grid Margin="10" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" x:Name="LabelEnemyCount" Content="Active Enemy Count:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxEnemyCount" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding Path=ActiveEnemyList.Count,Mode=OneWay}" />
+            </Grid>
+
         </Grid>
         <StackPanel Grid.Column="1">
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelPlayer" Content="Player" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
