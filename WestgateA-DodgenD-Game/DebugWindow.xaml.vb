@@ -18,8 +18,7 @@ Public Class DebugWindow
 
     Public Property CanvasWidth As Double = Application.CanvasWidth
     Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.EnemyCollection
-    Public Property GameLevel As Integer = Application.GameLevel
-    Public Property GameLives As Integer = Application.GameLives
+    Public Property CurrentGameStats As GameStats = Application.CurrentGameStats
     Public Property PlayerEntity As EntityClasses.EntityPlayer = Application.EntityPlayerObject
     Public Property PlayerLeftBound As Double = PlayerEntity.LocationCoords.X + PlayerEntity.TranslateBoundLeft
     Public Property PlayerProjectileValue As Double = PlayerEntity.ObjectTransform_Translate.Y

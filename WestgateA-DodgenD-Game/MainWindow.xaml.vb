@@ -19,15 +19,13 @@ Public Class MainWindow
     ''' </summary>
     Sub New()
         InitializeComponent()
-
-        labelCurrentScore_Copy.Content = My.Settings.HighScore
-
         GameTimer.Start()
 
         Application.MainWindowInstance = Me
         Application.CanvasGameScreen = CanvasGameScreen
         Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
         Application.AddToCanvas(Application.EntityPlayerObject)
+        Application.CurrentGameStats = New GameStats()
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
