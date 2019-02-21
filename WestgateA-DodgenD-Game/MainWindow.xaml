@@ -12,7 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" >
+    <Grid Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" >
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="672"/>
@@ -50,19 +50,25 @@
                 <Image x:Name="Life6" Grid.Column="10" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
             </Grid>
 
-            <StackPanel Orientation="Horizontal" Height="39" Canvas.Left="467" Canvas.Top="729" Width="195" FlowDirection="RightToLeft">
-                <Label x:Name="ImageLevel1" Content="ÿ" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="Black"/>
-                <Label x:Name="ImageLevel2" Content="ÿ" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="#FFFD0100" Visibility="Hidden"/>
-                <Label x:Name="ImageLevel3" Content="ÿ" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="#FF007E00" Visibility="Hidden"/>
-                <Label x:Name="ImageLevel4" Content="ÿ" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="#FF0001FC" Visibility="Hidden"/>
-                <Label x:Name="ImageLevel5" Content="ÿ" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="36" Foreground="#FFFDDB00" Visibility="Hidden"/>
+            <StackPanel Orientation="Horizontal" Canvas.Left="462" Canvas.Top="728" FlowDirection="RightToLeft">
+                <Label FontFamily="{StaticResource ARCADE}" x:Name="LvlX5" Content="{Binding CurrentGameStats.LvlX5}" VerticalAlignment="Center" Padding="0" FontSize="24" Height="28" HorizontalContentAlignment="Right" Foreground="Black" Margin="0" MinWidth="25"/>
+                <Image x:Name="ImageLevel1" Source="Resources/WinLogo.png" Width="37" Height="40"/>
+                <Image x:Name="ImageLevel2" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
+                <Image x:Name="ImageLevel3" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
+                <Image x:Name="ImageLevel4" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
+                <Image x:Name="ImageLevel5" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
 
 
             </StackPanel>
+
         </Canvas>
 
         <Canvas x:Name="CanvasGameScreen" Height="768" Panel.ZIndex="1">
         </Canvas>
+
+        <Canvas x:Name="CanvasGameOver" Height="768" Panel.ZIndex="1">
+        </Canvas>
+
 
     </Grid>
 </Window>

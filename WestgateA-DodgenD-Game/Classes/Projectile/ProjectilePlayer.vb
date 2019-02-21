@@ -36,7 +36,7 @@ Namespace Classes.Projectile
             ''' <summary>
             ''' Color of ProjectilePlayer projectile
             ''' </summary>
-            Protected Overrides Property ProjectileColor As Color = Colors.LawnGreen
+            Protected Overrides Property ProjectileColor As Color = Colors.Green
 
             ''' <summary>
             ''' Direction of projectile
