@@ -71,6 +71,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        '''</summary>
+        Public ReadOnly Property CyberSpaceInvaders() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("CyberSpaceInvaders", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
         Public ReadOnly Property PlayerCursor() As System.Drawing.Bitmap

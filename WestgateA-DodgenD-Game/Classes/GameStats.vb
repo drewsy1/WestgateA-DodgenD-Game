@@ -8,7 +8,35 @@ Namespace Classes
         Private _gameLevel As Integer = 1
         Private _gameLives As Integer = 3
         Private _gameScore As Integer = 0
+        Private _lvlX1 As Integer = 1
+        Private _lvlX5 As Integer = 0
         Private _gameGameHighScore As Integer = My.Settings.HighScore
+
+        ''' <summary>
+        ''' TODO Write LvlX1 summary
+        ''' </summary>
+        Public Property LvlX1 As Integer
+            Get
+                return _lvlX1
+            End Get
+            Set(value As Integer)
+                _lvlX1 = value
+                OnPropertyChanged("LvlX1")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' TODO Write LvlX5 summary
+        ''' </summary>
+        Public Property LvlX5 As Integer
+        Get
+            return _lvlX5
+        End Get
+            Set(value As Integer)
+                _lvlX5 = value
+                OnPropertyChanged("LvlX5")
+            End Set
+        End Property
 
         ''' <summary>
         ''' TODO Write GameLevel summary

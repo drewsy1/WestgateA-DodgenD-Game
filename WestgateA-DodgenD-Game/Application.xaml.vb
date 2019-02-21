@@ -183,12 +183,16 @@ Public Class Application
             CurrentGameStats.GameScore += entity.ObjectScoreValue
             If My.Settings.HighScore < CurrentGameStats.GameScore Then
                 My.Settings.HighScore = CurrentGameStats.GameScore
-                MainWindowInstance.LabelCurrentHighScore.Content = My.Settings.HighScore
             End If
-            MainWindowInstance.LabelCurrentScore.Content = CurrentGameStats.GameScore
+
+            ' Add life if player has earned another 3000 pts
+            If Math.IEEERemainder(CurrentGameStats.GameScore,MySettings.Default.NewLifeScore).CompareTo(0) = 0 Then AddLife()
         End If
     End Sub
 
+    ''' <summary>
+    ''' ToDo Write OnLevelCleared Summary
+    ''' </summary>
     Public Shared Sub OnLevelCleared()
         System.Threading.Thread.Sleep(1000)
         RaiseLevel()
@@ -251,20 +255,22 @@ Public Class Application
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' ToDO Write RaiseLevel summary
     ''' </summary>
     Private Shared Sub RaiseLevel()
         CurrentGameStats.GameLevel += 1
-        Dim LvlX1 As Integer
-        Dim LvlX5 = Math.DivRem(CurrentGameStats.GameLevel,5,LvlX1)
-        For i As Integer = 1 To LvlX1
+        CurrentGameStats.LvlX5 = Math.DivRem(CurrentGameStats.GameLevel,5,CurrentGameStats.LvlX1)
+        For i As Integer = 1 To CurrentGameStats.LvlX1
             MainWindowInstance.FindName("ImageLevel"+i.ToString()).Visibility = Visibility.Visible
         Next
-        For j As Integer = LvlX1+1 To 5
+        For j As Integer = CurrentGameStats.LvlX1+1 To 5
             MainWindowInstance.FindName("ImageLevel"+j.ToString()).Visibility = Visibility.Hidden
         Next
     End Sub
 
+    ''' <summary>
+    ''' ToDo Write MoveEnemiesDown summary
+    ''' </summary>
     Public Shared Sub MoveEnemiesDown()
         For Each obj As EntityClasses.EntityEnemyBase in EnemyArray
             If Not IsNothing(obj) Then
@@ -279,7 +285,7 @@ Public Class Application
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' ToDo Write SubtractLife summary
     ''' </summary>
     Private Shared Sub SubtractLife()
         CurrentGameStats.GameLives -= 1
@@ -287,11 +293,13 @@ Public Class Application
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' ToDo Write AddLife summary
     ''' </summary>
     Public Shared Sub AddLife()
-        MainWindowInstance.FindName("Life"+CurrentGameStats.GameLives.ToString()).Visibility = Visibility.Visible
-        CurrentGameStats.GameLives += 1
+        If CurrentGameStats.GameLives <= MySettings.Default.MaxLives Then
+            MainWindowInstance.FindName("Life"+CurrentGameStats.GameLives.ToString()).Visibility = Visibility.Visible
+            CurrentGameStats.GameLives += 1
+        End If
     End Sub
 
 
