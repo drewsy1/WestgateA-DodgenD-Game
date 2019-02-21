@@ -30,18 +30,22 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelEnemyEntities" Grid.Row="0" Content="Enemy Entities" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
-            <DataGrid x:Name="DataGridEnemies" Grid.Row="1" Margin="10" ItemsSource="{Binding Source={StaticResource CvsEnemies}}" AutoGenerateColumns="False" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True">
+            <DataGrid x:Name="DataGridEnemies" Grid.Row="2" Margin="10" ItemsSource="{Binding Source={StaticResource CvsEnemies}}" AutoGenerateColumns="False" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" UseLayoutRounding="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding ObjectName}"/>
                     <DataGridTextColumn Header="Type" Binding="{Binding EnemyType}"/>
                     <DataGridTextColumn Header="↗" Binding="{Binding ObjectPointUpperRight}"/>
                     <DataGridTextColumn Header="↙" Binding="{Binding ObjectPointLowerLeft}"/>
+                    <DataGridTextColumn Header="⇄" Binding="{Binding Path=ObjectTransform_Translate.X}"/>
+                    <DataGridTextColumn Header="⇅" Binding="{Binding Path=ObjectTransform_Translate.Y}"/>
+                    <DataGridTextColumn Header="Speed" Binding="{Binding Path=MovementSpeed}"/>
                     <DataGridTextColumn Header="Score" Binding="{Binding ObjectScoreValue}"/>
                     <DataGridTextColumn Header="Mode" Binding="{Binding Path=ObjectMovementMode,Converter={StaticResource MovementModeStringConverter}}"/>
+                    
                 </DataGrid.Columns>
                 <DataGrid.GroupStyle>
                     <GroupStyle>
@@ -80,7 +84,7 @@
                     </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
-            <Grid Margin="10" Grid.Row="2">
+            <Grid Margin="10" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -96,7 +100,7 @@
             </Grid>
 
         </Grid>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="2">
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelPlayer" Content="Player" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
             <Grid Margin="10">
                 <Grid.RowDefinitions>
@@ -117,7 +121,7 @@
             </Grid>
             <TextBox x:Name="TextBoxFiring" Height="23" TextWrapping="Wrap" Text="Fire" TextAlignment="Center" Margin="10" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
         </StackPanel>
-        <StackPanel Grid.Column="2">
+        <StackPanel Grid.Column="1">
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelStats"  Content="Current Game Stats" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" />
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
@@ -137,7 +141,7 @@
                 <Label Grid.Row="2" x:Name="LabelGameLevel" Content="Level:" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxGameLevel" Text="{Binding Path=CurrentGameStats.GameLevel}" VerticalContentAlignment="Center" IsReadOnly="True" />
                 <Label Grid.Row="3" x:Name="LabelHighScore" Content="High Score:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="3" Grid.Column="1" x:Name="TextBoxHighScore" Text="{Binding Path=CurrentGameStats.GameHighScore}" VerticalContentAlignment="Center" IsReadOnly="True" />
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="TextBoxHighScore" Text="{Binding CurrentGameStats.GameHighScore}" VerticalContentAlignment="Center" IsReadOnly="True" />
             </Grid>
         </StackPanel>
     </Grid>
