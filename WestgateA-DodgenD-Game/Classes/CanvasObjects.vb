@@ -15,9 +15,9 @@ Namespace Classes
 
             Select Case localMovementSpeed
                 Case > 0
-                    If (distanceToBottomBound) >= -1 * localMovementSpeed Then
+                    If (distanceToBottomBound) <= -1 * localMovementSpeed Then
                         entity.ObjectTransform_Translate.Y += localMovementSpeed
-                    ElseIf (distanceToBottomBound) > 0 Then
+                    ElseIf (distanceToBottomBound) < 0 Then
                         entity.ObjectTransform_Translate.Y += -1 * distanceToBottomBound
                     End If
                 Case <= 0
@@ -67,10 +67,18 @@ Namespace Classes
         ''' <param name="projectile"></param>
         ''' <returns></returns>
         Public Shared Function CheckCollision(entity As ICanvasObjects, projectile As ICanvasObjects) As Boolean
-            Dim containsTopBound As Boolean = CheckIfWithinRange(projectile.ObjectPointUpperRight.Y, entity.ObjectPointUpperRight.Y, entity.ObjectPointLowerLeft.Y)
-            Dim containsBottomBound As Boolean = CheckIfWithinRange(projectile.ObjectPointLowerLeft.Y, entity.ObjectPointUpperRight.Y, entity.ObjectPointLowerLeft.Y)
-            Dim containsLeftBound As Boolean = CheckIfWithinRange(projectile.ObjectPointLowerLeft.X, entity.ObjectPointUpperRight.X, entity.ObjectPointLowerLeft.X)
-            Dim containsRightBound As Boolean = CheckIfWithinRange(projectile.ObjectPointUpperRight.X, entity.ObjectPointUpperRight.X, entity.ObjectPointLowerLeft.X)
+            Dim containsTopBound As Boolean = CheckIfWithinRange(projectile.ObjectPointUpperRight.Y,
+                                                                 entity.ObjectPointUpperRight.Y,
+                                                                 entity.ObjectPointLowerLeft.Y) Or CheckIfWithinRange(entity.ObjectPointUpperRight.Y,
+                                                                                                                      projectile.ObjectPointUpperRight.Y,
+                                                                                                                      projectile.ObjectPointLowerLeft.Y)
+            Dim containsBottomBound As Boolean = CheckIfWithinRange(projectile.ObjectPointLowerLeft.Y, 
+                                                                    entity.ObjectPointUpperRight.Y, 
+                                                                    entity.ObjectPointLowerLeft.Y) Or CheckIfWithinRange(entity.ObjectPointLowerLeft.Y, 
+                                                                                                                         projectile.ObjectPointUpperRight.Y, 
+                                                                                                                         projectile.ObjectPointLowerLeft.Y)
+            Dim containsLeftBound As Boolean = CheckIfWithinRange(projectile.ObjectPointLowerLeft.X, entity.ObjectPointUpperRight.X, entity.ObjectPointLowerLeft.X) Or CheckIfWithinRange(entity.ObjectPointLowerLeft.X, projectile.ObjectPointUpperRight.X, projectile.ObjectPointLowerLeft.X)
+            Dim containsRightBound As Boolean = CheckIfWithinRange(projectile.ObjectPointUpperRight.X, entity.ObjectPointUpperRight.X, entity.ObjectPointLowerLeft.X) Or CheckIfWithinRange(entity.ObjectPointUpperRight.X, projectile.ObjectPointUpperRight.X, projectile.ObjectPointLowerLeft.X)
 
             Dim containsYAxis = containsTopBound Or containsBottomBound
             Dim containsXAxis = containsLeftBound Or containsRightBound

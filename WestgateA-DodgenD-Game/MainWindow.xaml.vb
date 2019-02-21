@@ -30,6 +30,7 @@ Public Class MainWindow
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
         AddHandler Application.ProjectileHit, AddressOf Application.OnProjectileHit
+        AddHandler Application.CollisionHit, AddressOf Application.OnCollisionHit
 
         If Debugger.IsAttached Then
             _newDebugWindow = New DebugWindow

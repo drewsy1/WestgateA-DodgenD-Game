@@ -74,6 +74,13 @@ Public Class Application
     Public Shared Event ProjectileHit(ByRef projectile As ProjectileClasses.ProjectileBase, ByRef entity As Object)
 
     ''' <summary>
+    ''' ToDo Write CollisionHit summary
+    ''' </summary>
+    ''' <param name="player"></param>
+    ''' <param name="entity"></param>
+    Public Shared Event CollisionHit(ByRef player As EntityClasses.EntityPlayer, ByRef entity As Object)
+
+    ''' <summary>
     ''' ToDo Write ReleaseFireButton summary
     ''' </summary>
     Public Shared Event ReleaseFireButton()
@@ -114,6 +121,15 @@ Public Class Application
     End Sub
 
     ''' <summary>
+    ''' ToDo Write RaiseCollisionHit summary
+    ''' </summary>
+    ''' <param name="projectile"></param>
+    ''' <param name="entity"></param>
+    Friend Shared Sub RaiseCollisionHit(ByRef player As EntityClasses.EntityPlayer, ByRef entity As Object)
+        RaiseEvent CollisionHit(player, entity)
+    End Sub
+
+    ''' <summary>
     ''' ToDo Write RaiseReleaseFireButton summary
     ''' </summary>
     Friend Shared Sub RaiseReleaseFireButton()
@@ -132,6 +148,18 @@ Public Class Application
         UpdateScore(entity)
         projectile.Remove()
         entity.Remove()
+    End Sub
+
+    ''' <summary>
+    ''' ToDo Write OnCollisionHit summary
+    ''' </summary>
+    ''' <param name="player"></param>
+    ''' <param name="entity"></param>
+    Public Shared Sub OnCollisionHit(ByRef player As EntityClasses.EntityPlayer, ByRef entity As Object)
+        player.Remove()
+        System.Threading.Thread.Sleep(1000)
+        SubtractLife()
+        NewGame()
     End Sub
 
     ''' <summary>

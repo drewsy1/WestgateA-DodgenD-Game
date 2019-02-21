@@ -37,13 +37,13 @@ Namespace Classes.Entities
 
             Public Property ObjectWidth As Double = 39 Implements ICanvasObjects.ObjectWidth
 
-            Protected ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
+            Public ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
-                    Return LocationCoords
+                    Return LocationCoords + New Point(ObjectTransform_Translate.X, 0 - ObjectTransform_Translate.Y)
                 End Get
             End Property
 
-            Protected ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
+            Public ReadOnly Property ObjectPointUpperRight As Point Implements ICanvasObjects.ObjectPointUpperRight
                 Get
                     Return New Point(LocationCoords.X + ObjectWidth, LocationCoords.Y + ObjectHeight)
                 End Get
@@ -123,6 +123,17 @@ Namespace Classes.Entities
             End Sub
 
 #End Region
+            ''' <summary>
+            ''' TODO Write ObjectPointLowerLeftStart summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectPointLowerLeftStart As Point
+
+            ''' <summary>
+            ''' TODO Write ObjectPointUpperRightStart summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectPointUpperRightStart As Point
 
             Public Shared Event PlayerHit(enemy As EntityPlayer)
 
@@ -143,6 +154,9 @@ Namespace Classes.Entities
                     LocationCoords,
                     ObjectControl
                     )
+
+                ObjectPointLowerLeftStart = LocationCoordsDefault + New Point(ObjectTransform_Translate.X, 0 - ObjectTransform_Translate.Y)
+                ObjectPointUpperRightStart = New Point(LocationCoordsDefault.X + ObjectWidth, LocationCoordsDefault.Y + ObjectHeight)
 
                 TranslateBoundBottom = CanvasObjects.GetTranslateBoundBottom(LocationCoords.Y, ObjectHeight)
                 TranslateBoundTop = CanvasObjects.GetTranslateBoundTop(LocationCoords.Y, ObjectHeight)
@@ -175,6 +189,14 @@ Namespace Classes.Entities
             Private Shared Sub RemovePlayerProjectileInstance(parent As ProjectileClasses.ProjectilePlayer)
                 RemoveHandler Application.PlayerProjectileRemove, AddressOf RemovePlayerProjectileInstance
                 PlayerProjectileInstance = Nothing
+            End Sub
+
+            Public Sub UpdateCollision()
+                For Each enemy As EntityClasses.EntityEnemyBase In Application.EnemyCollection
+                    If CanvasObjects.CheckCollision(enemy, Me) And enemy.ObjectEnabled Then
+                        Application.RaiseCollisionHit(Me, enemy)
+                    End If
+                Next
             End Sub
         End Class
     End Class

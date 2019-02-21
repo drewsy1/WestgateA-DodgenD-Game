@@ -51,9 +51,6 @@ Namespace Classes.Projectile
                 End Get
             End Property
 
-            Public Property ObjectPointLowerLeftStart As Point
-            Public Property ObjectPointUpperRightStart As Point
-
             ' ReSharper disable UnassignedGetOnlyAutoProperty
             Protected Overridable ReadOnly Property LocationCoordsDefault As Point Implements ICanvasObjects.LocationCoordsDefault
 
@@ -123,6 +120,17 @@ Namespace Classes.Projectile
             End Sub
 
 #End Region
+            ''' <summary>
+            ''' TODO Write ObjectPointLowerLeftStart summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectPointLowerLeftStart As Point
+
+            ''' <summary>
+            ''' TODO Write ObjectPointUpperRightStart summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ObjectPointUpperRightStart As Point
 
             ''' <summary>
             ''' Overridable double representing direction of projectile travel

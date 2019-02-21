@@ -97,14 +97,14 @@ Namespace Classes.Entities
                 End Get
             End Property
 
-            Protected Property MovementSpeed As Double = 10 Implements ICanvasObjects.MovementSpeed
+            Public Property MovementSpeed As Double = 6 Implements ICanvasObjects.MovementSpeed
             Public Overridable Property ObjectControl As Object = New UIElement() Implements ICanvasObjects.ObjectControl
             Public Property ObjectHeight As Double = 33 Implements ICanvasObjects.ObjectHeight
             Public Property ObjectName As String Implements ICanvasObjects.ObjectName
 
             Public ReadOnly Property ObjectPointLowerLeft As Point Implements ICanvasObjects.ObjectPointLowerLeft
                 Get
-                    Return LocationCoords
+                    Return LocationCoords + New Point(ObjectTransform_Translate.X, 0 - ObjectTransform_Translate.Y)
                 End Get
             End Property
 
@@ -141,7 +141,7 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateY(Me, localMovementSpeed * -1)
+                CanvasObjects.TranslateY(Me, localMovementSpeed)
             End Sub
 
             ''' <summary>
@@ -174,7 +174,7 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateY(Me, localMovementSpeed)
+                CanvasObjects.TranslateY(Me, localMovementSpeed * -1)
             End Sub
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
@@ -189,7 +189,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' ToDo Write _maxIdleTransformLeft summary
             ''' </summary>
-            Private Shared _maxIdleTransformLeft As Double
+            Private Shared _maxIdleTransformLeft As Double = 100
 
             ''' <summary>
             ''' ToDo Write MaxIdleTransformLeft summary
@@ -208,7 +208,7 @@ Namespace Classes.Entities
             ''' <summary>
             ''' ToDo Write _maxIdleTransformRight summary
             ''' </summary>
-            Private Shared _maxIdleTransformRight As Double
+            Private Shared _maxIdleTransformRight As Double = 100
 
             ''' <summary>
             ''' ToDo Write MaxIdleTransformLeft summary
@@ -254,12 +254,9 @@ Namespace Classes.Entities
                 TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth)
                 TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
 
-                MaxIdleTransformRight=Math.Min(MaxIdleTransformRight,TranslateBoundRight)
-                MaxIdleTransformLeft=Math.Min(MaxIdleTransformLeft,TranslateBoundLeft)
-
                 CanvasObjects.ObjectCollection.Add(Me)
                 Application.EnemyCollection.Add(Me)
-                Application.ActiveEnemies.Add(Me)
+                
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
                 AddHandler GameTimer.LongTick,AddressOf DefaultEnemyMove
