@@ -12,7 +12,7 @@ Namespace Classes
             .Interval = TimeSpan.FromMilliseconds(20)
         }
 
-        Private Shared WithEvents _LongTimer As DispatcherTimer = New DispatcherTimer() With {
+        Private Shared WithEvents _longTimer As DispatcherTimer = New DispatcherTimer() With {
             .Interval = TimeSpan.FromSeconds(0.5)
             }
 
@@ -25,9 +25,10 @@ Namespace Classes
         ''' </summary>
         Public Shared Event Tick()
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Public Shared Event LongTick()
-
-        Public Shared Event EnemyMoveTick()
 
         ''' <summary>
         ''' 
@@ -45,7 +46,7 @@ Namespace Classes
             RaiseEvent Tick()
         End Sub
 
-        Private Shared Sub _secondRaiseEvent() Handles _LongTimer.Tick
+        Private Shared Sub _secondRaiseEvent() Handles _longTimer.Tick
             RaiseEvent LongTick()
         End Sub
 

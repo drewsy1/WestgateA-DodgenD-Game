@@ -1,48 +1,25 @@
 ﻿Imports System.Collections.ObjectModel
-Imports System.ComponentModel
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 ' ReSharper disable VBPossibleMistakenCallToGetType.2
 Public Class Application
-    Implements INotifyPropertyChanged
-
-#Region "Implementations from INotifyPropertyChanged"
-
     ''' <summary>
-    ''' Todo Write PropertyChanged summary
-    ''' </summary>
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-
-    ''' <summary>
-    ''' ToDo Write OnPropertyChanged summary
-    ''' </summary>
-    ''' <param name="name"></param>
-    Protected Sub OnPropertyChanged(sender As Object,ByVal name As String)
-        RaiseEvent PropertyChanged(sender,New PropertyChangedEventArgs(name))
-    End Sub
-
-#End Region
-
-    Private Shared _activeEnemyList As List(Of EntityClasses.EntityEnemyBase) = New List(Of EntityClasses.EntityEnemyBase)
-
-    ''' <summary>
-    ''' TODO Write ObjectCollection summary
+    ''' TODO Write EnemyCollection summary
     ''' </summary>
     Public Shared ReadOnly EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
                                New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
 
-    Public Shared EnemyArray(5, 9) As EntityClasses.EntityEnemyBase
+    ''' <summary>
+    ''' TODO Write ActiveEnemies summary
+    ''' </summary>
+    Public Shared ReadOnly ActiveEnemies As ObservableCollection(Of EntityClasses.EntityEnemyBase) =
+                               New ObservableCollection(Of EntityClasses.EntityEnemyBase)()
 
-    Public Property ActiveEnemyList As List(Of EntityClasses.EntityEnemyBase)
-    Get
-        Return _activeEnemyList
-    End Get
-        Set(value As List(Of EntityClasses.EntityEnemyBase))
-            _activeEnemyList = value
-            OnPropertyChanged(Me,"ActiveEnemyList")
-        End Set
-    End Property
+    ''' <summary>
+    ''' ToDO Write EnemyArray summary
+    ''' </summary>
+    Public Shared EnemyArray(5, 9) As EntityClasses.EntityEnemyBase
 
     ''' <summary>
     ''' TODO Write CanvasGameScreen summary
@@ -183,8 +160,16 @@ Public Class Application
     Public Shared Sub AddToCanvas(localControl)
         If (localControl.GetType().IsSubclassOf(GetType(CanvasObjects).BaseType)) Then
             CanvasGameScreen.Children.Add(localControl.ObjectControl)
-        Else
+        End If
+    End Sub
 
+    ''' <summary>
+    ''' Removes a control to canvas
+    ''' </summary>
+    ''' <param name="localControl">Object representing control</param>
+    Public Shared Sub RemoveFromCanvas(localControl)
+        If (localControl.GetType().IsSubclassOf(GetType(CanvasObjects).BaseType)) Then
+            CanvasGameScreen.Children.Remove(localControl.ObjectControl)
         End If
     End Sub
 

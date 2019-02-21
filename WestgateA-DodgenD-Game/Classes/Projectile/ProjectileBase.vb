@@ -110,6 +110,18 @@ Namespace Classes.Projectile
                 CanvasObjects.TranslateY(Me,localMovementSpeed * -1)
             End Sub
 
+            Public Overridable Sub Remove() Implements ICanvasObjects.Remove
+                RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
+                ' Remove rectangle from CanvasGameScreen (make it invisible)
+                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(
+                    ObjectControl)
+
+                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
+                If itemIndex >= 0 Then
+                    ProjectilesCollection.RemoveAt(itemIndex)
+                End If
+            End Sub
+
 #End Region
 
             ''' <summary>
@@ -155,17 +167,7 @@ Namespace Classes.Projectile
                 AddHandler GameTimer.Tick, AddressOf UpdateLocation
             End Sub
 
-            Public Overridable Sub Remove() Implements ICanvasObjects.Remove
-                RemoveHandler GameTimer.Tick, AddressOf UpdateLocation
-                ' Remove rectangle from CanvasGameScreen (make it invisible)
-                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(
-                    ObjectControl)
-
-                Dim itemIndex As Integer = ProjectilesCollection.IndexOf(Me)
-                If itemIndex >= 0 Then
-                    ProjectilesCollection.RemoveAt(itemIndex)
-                End If
-            End Sub
+            
 
             ''' <summary>
             ''' Sets fill color for projectile

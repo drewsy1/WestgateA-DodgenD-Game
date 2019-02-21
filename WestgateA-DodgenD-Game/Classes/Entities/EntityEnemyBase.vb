@@ -28,7 +28,26 @@ Namespace Classes.Entities
 
 #End Region
 
-        Protected Shared _movementDirection As Integer = 1
+        ''' <summary>
+        ''' ToDo Write _movementDirection Summary
+        ''' </summary>
+        Private Shared _movementDirection As Integer = 1
+
+        ''' <summary>
+        ''' Enum that converts directions to integers
+        ''' </summary>
+        Public Enum EEnemyMovementDirections As Integer
+            Left = -1
+            Right = 1
+        End Enum
+
+        ''' <summary>
+        ''' Enum that converts movement mode strings to their numeric representations
+        ''' </summary>
+        Public Enum EEnemyMovementModeStrings As Integer
+            Convoy = 0
+            Charger = 1
+        End Enum
 
         ''' <summary>
         ''' ToDo Write MovementDirection summary
@@ -40,25 +59,12 @@ Namespace Classes.Entities
             End Get
             Set(value As Integer)
                 _movementDirection = value
-                OnPropertyChanged(Me,"MovementDirection")
+                OnPropertyChanged(Me, "MovementDirection")
             End Set
         End Property
 
         ''' <summary>
-        ''' Enum that converts movement mode strings to their numeric representations
-        ''' </summary>
-        Public Enum EEnemyMovementModeStrings As Integer
-            Convoy = 0
-            Charger = 1
-        End Enum
-
-        Public Enum EEnemyMovementDirections As Integer
-            Left = -1
-            Right = 1
-        End Enum
-
-        ''' <summary>
-        ''' 
+        ''' ToDo Write EntityEnemyBase summary
         ''' </summary>
         Public Class EntityEnemyBase
             Implements ICanvasObjects
@@ -75,13 +81,11 @@ Namespace Classes.Entities
             ''' ToDo Write OnPropertyChanged summary
             ''' </summary>
             ''' <param name="name"></param>
-            Protected Sub OnPropertyChanged(ByVal name As String)
+            Private Sub OnPropertyChanged(ByVal name As String)
                 RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
             End Sub
 
 #End Region
-
-            
 
 #Region "Implementations From ICanvasObjects"
 
@@ -111,10 +115,12 @@ Namespace Classes.Entities
             End Property
 
             Public ReadOnly Property ObjectScoreValue As Integer Implements ICanvasObjects.ObjectScoreValue
-            Get
-                Return MovementModeScoreValues.Item(ObjectMovementMode)
-            End Get
+                Get
+                    Return MovementModeScoreValues.Item(ObjectMovementMode)
+                End Get
             End Property
+
+            Public Property ObjectTransform_Translate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
             Public Property ObjectWidth As Double = 33 Implements ICanvasObjects.ObjectWidth
             Public Property TranslateBoundBottom As Double Implements ICanvasObjects.TranslateBoundBottom
             Public Property TranslateBoundLeft As Double = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundLeft
@@ -122,8 +128,6 @@ Namespace Classes.Entities
             Public Property TranslateBoundRight As Double = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth) Implements ICanvasObjects.TranslateBoundRight
 
             Public Property TranslateBoundTop As Double Implements ICanvasObjects.TranslateBoundTop
-            Public Property ObjectTransform_Translate As TranslateTransform = New TranslateTransform() With {.X = 0, .Y = 0} Implements ICanvasObjects.ObjectTransform_Translate
-
             Protected Property ObjectTransformGroup As TransformGroup =
                 New TransformGroup() With {
                     .Children = New TransformCollection(New Transform() {ObjectTransform_Translate})
@@ -175,12 +179,50 @@ Namespace Classes.Entities
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
-                Application.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
+                Application.ActiveEnemies.Remove(Me)
+                Application.RemoveFromCanvas(Me)
                 ObjectEnabled = False
-                Application.ActiveEnemyList.Remove(Me)
             End Sub
 
 #End Region
+
+            ''' <summary>
+            ''' ToDo Write _maxIdleTransformLeft summary
+            ''' </summary>
+            Private Shared _maxIdleTransformLeft As Double
+
+            ''' <summary>
+            ''' ToDo Write MaxIdleTransformLeft summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property MaxIdleTransformLeft As Double
+            Get
+                Return _maxIdleTransformLeft
+            End Get
+                Set(value As Double)
+                    _maxIdleTransformLeft = value
+                    OnPropertyChanged("MaxIdleTransformLeft")
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' ToDo Write _maxIdleTransformRight summary
+            ''' </summary>
+            Private Shared _maxIdleTransformRight As Double
+
+            ''' <summary>
+            ''' ToDo Write MaxIdleTransformLeft summary
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property MaxIdleTransformRight As Double
+                Get
+                    Return _maxIdleTransformRight
+                End Get
+                Set(value As Double)
+                    _maxIdleTransformRight = value
+                    OnPropertyChanged("MaxIdleTransformRight")
+                End Set
+            End Property
 
             ''' <summary>
             ''' ToDo Write _objectEnabled summary
@@ -196,13 +238,14 @@ Namespace Classes.Entities
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
             ''' <param name="localName"></param>
+            ''' <param name="localScoreValueCharger"></param>
             ''' <param name="localScoreValueConvoy"></param>
             ''' <param name="localLocationCoords"></param>
             Sub New(localName As String, localScoreValueCharger As Integer, localScoreValueConvoy As Integer, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
                 ObjectName = localName
-                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Convoy,localScoreValueConvoy)
-                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Charger,localScoreValueCharger) 
+                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Convoy, localScoreValueConvoy)
+                MovementModeScoreValues.Add(EEnemyMovementModeStrings.Charger, localScoreValueCharger)
                 LocationCoords = localLocationCoords
                 ObjectEnabled = True
 
@@ -211,11 +254,15 @@ Namespace Classes.Entities
                 TranslateBoundLeft = CanvasObjects.GetTranslateBoundLeft(LocationCoords.X, ObjectWidth)
                 TranslateBoundRight = CanvasObjects.GetTranslateBoundRight(LocationCoords.X, ObjectWidth)
 
+                MaxIdleTransformRight=Math.Min(MaxIdleTransformRight,TranslateBoundRight)
+                MaxIdleTransformLeft=Math.Min(MaxIdleTransformLeft,TranslateBoundLeft)
+
                 CanvasObjects.ObjectCollection.Add(Me)
                 Application.EnemyCollection.Add(Me)
-                Application.ActiveEnemyList.Add(Me)
+                Application.ActiveEnemies.Add(Me)
 
                 AddHandler GameTimer.LongTick, AddressOf ChangeContent
+                AddHandler GameTimer.LongTick,AddressOf DefaultEnemyMove
             End Sub
 
             ''' <summary>
@@ -224,7 +271,7 @@ Namespace Classes.Entities
             ''' <returns></returns>
             Public ReadOnly Property EnemyType As String = Me.GetType().Name
 
-            Public Property MovementModeScoreValues As Dictionary(Of Integer, Integer) = New Dictionary(Of Integer,Integer)
+            Public Property MovementModeScoreValues As Dictionary(Of Integer, Integer) = New Dictionary(Of Integer, Integer)
 
             ''' <summary>
             ''' ToDo Write ObjectEnabled summary
@@ -279,6 +326,23 @@ Namespace Classes.Entities
             ''' ToDo Write ChangeContent summary
             ''' </summary>
             Protected Overridable Sub ChangeContent()
+            End Sub
+
+            Public Sub DefaultEnemyMove()
+                If _movementDirection = 1 And ObjectMovementMode = 0 Then
+                    If ObjectTransform_Translate.X + MovementSpeed < MaxIdleTransformRight
+                        MoveRight(MovementSpeed)
+                    Else 
+                        _movementDirection = -1
+                    End If
+                    Else If _movementDirection = -1 And ObjectMovementMode = 0
+                        If ObjectTransform_Translate.X - MovementSpeed > -1 * MaxIdleTransformLeft
+                            MoveLeft(MovementSpeed)
+                        Else 
+                            _movementDirection = 1
+                        End If
+                End If
+                MoveRight(MovementSpeed)
             End Sub
 
         End Class

@@ -14,8 +14,7 @@ Public Class DebugWindow
 
     End Sub
 
-
-    Public Shared Property ActiveEnemyList As List(Of EntityClasses.EntityEnemyBase) = Application.ActiveEnemyList
+    Public Property ActiveEnemies As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.ActiveEnemies
     Public Property CanvasWidth As Double = Application.CanvasWidth
     Public Property EnemyCollection As ObservableCollection(Of EntityClasses.EntityEnemyBase) = Application.EnemyCollection
     Public Property CurrentGameStats As GameStats = Application.CurrentGameStats

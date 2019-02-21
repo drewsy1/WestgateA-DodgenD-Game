@@ -92,7 +92,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" x:Name="LabelEnemyCount" Content="Active Enemy Count:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxEnemyCount" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding Path=ActiveEnemyList.Count,Mode=OneWay}" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxEnemyCount" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding Path=ActiveEnemies.Count,Mode=OneWay}" />
             </Grid>
 
         </Grid>
