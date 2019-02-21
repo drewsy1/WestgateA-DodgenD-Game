@@ -31,26 +31,7 @@ Public Class Application
     ''' </summary>
     Public Shared Property EntityPlayerObject As EntityClasses.EntityPlayer
 
-    ''' <summary>
-    ''' TODO Write GameLevel summary
-    ''' </summary>
-    Public Shared Property GameLevel As Integer = 1
-
-    ''' <summary>
-    ''' TODO Write GameLives summary
-    ''' </summary>
-    Public Shared Property GameLives As Integer = 3
-
-    ''' <summary>
-    ''' TODO Write GameScore summary
-    ''' </summary>
-    Public Shared Property GameScore As Integer = 0
-
-    ''' <summary>
-    ''' ToDo Write HighScore summary
-    ''' </summary>
-    ''' <returns></returns>
-    Public Shared Property GameHighScore As Integer = My.Settings.HighScore
+    Public Shared Property CurrentGameStats As GameStats
 
     ''' <summary>
     ''' Gets the MainWindow as an object and provides it as a static object
