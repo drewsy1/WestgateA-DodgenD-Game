@@ -26,7 +26,7 @@
             <Image Height="768" Width="672" Source="Resources/1181242110212.png" Visibility="Hidden" />
             <Label FontFamily="{StaticResource ARCADE}" x:Name="Label1Up" Content="1UP" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Canvas.Left="76" Width="70" FontSize="24" Height="29" Canvas.Top="-5" HorizontalContentAlignment="Center" Foreground="Black"/>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelHighScore" Content="HIGH SCORE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" Height="29" HorizontalContentAlignment="Center" Canvas.Left="221" Width="235" Canvas.Top="-5" Foreground="Black"/>
-            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelCurrentScore" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding CurrentGameStats.GameScore}" Padding="0" Canvas.Left="24" Width="146" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Right" Foreground="Red" VerticalContentAlignment="Center"/>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelCurrentScore" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding CurrentGameStats.GameScore}" Padding="0" Canvas.Left="24" Width="146" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Right" Foreground="Red" VerticalContentAlignment="Center" Visibility="Hidden"/>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelCurrentHighScore" Content="{Binding CurrentGameStats.GameHighScore}" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" Canvas.Left="264" Width="144" FontSize="24" Height="29" Canvas.Top="22" HorizontalContentAlignment="Center" Foreground="Red" VerticalContentAlignment="Center"/>
             <Grid x:Name="GridPlayerLifeIndicator" Height="42" Canvas.Left="33" Canvas.Top="723" Width="270">
                 <Grid.ColumnDefinitions>
@@ -42,17 +42,17 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="Life1" Grid.Column="0" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
-                <Image x:Name="Life2" Grid.Column="2" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center"/>
+                <Image x:Name="Life1" Grid.Column="0" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
+                <Image x:Name="Life2" Grid.Column="2" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life3" Grid.Column="4" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life4" Grid.Column="6" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life5" Grid.Column="8" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
                 <Image x:Name="Life6" Grid.Column="10" Source="Resources/PlayerCursor.png" HorizontalAlignment="Center" Visibility="Hidden"/>
             </Grid>
 
-            <StackPanel Orientation="Horizontal" Canvas.Left="462" Canvas.Top="728" FlowDirection="RightToLeft">
+            <StackPanel x:Name="LevelIndicators" Orientation="Horizontal" Canvas.Left="462" Canvas.Top="728" FlowDirection="RightToLeft">
                 <Label FontFamily="{StaticResource ARCADE}" x:Name="LvlX5" Content="{Binding CurrentGameStats.LvlX5}" VerticalAlignment="Center" Padding="0" FontSize="24" Height="28" HorizontalContentAlignment="Right" Foreground="Black" Margin="0" MinWidth="25"/>
-                <Image x:Name="ImageLevel1" Source="Resources/WinLogo.png" Width="37" Height="40"/>
+                <Image x:Name="ImageLevel1" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
                 <Image x:Name="ImageLevel2" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
                 <Image x:Name="ImageLevel3" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
                 <Image x:Name="ImageLevel4" Source="Resources/WinLogo.png" Width="37" Height="40" Visibility="Hidden"/>
@@ -66,8 +66,35 @@
         <Canvas x:Name="CanvasGameScreen" Height="768" Panel.ZIndex="1">
         </Canvas>
 
-        <Canvas x:Name="CanvasGameOver" Height="768" Panel.ZIndex="1">
+        <Canvas x:Name="CanvasGameOver" Height="768" Panel.ZIndex="2" Visibility="Hidden">
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelGameOver" Content="GAME OVER" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" HorizontalContentAlignment="Center" Foreground="Red" Canvas.Left="230.5" Canvas.Top="369"/>
         </Canvas>
+
+        <Canvas x:Name="CanvasIntro" Height="768" Panel.ZIndex="2">
+            <Grid Height="406" Width="652" Canvas.Left="10" Canvas.Top="210">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.ColumnSpan="2" FontFamily="{StaticResource ARCADE}" x:Name="LabelIntro1" Content="WE ARE THE INVADERS" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" HorizontalContentAlignment="Center" Foreground="Red"/>
+                <Label Grid.ColumnSpan="2" Grid.Row="1" FontFamily="{StaticResource ARCADE}" x:Name="LabelIntro2" Content="MISSION: INVADE CYBERSPACE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" HorizontalContentAlignment="Center" Foreground="Red"/>
+
+            </Grid>
+            <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelIntro_PressEnter" Content="PRESS ENTER TO BEGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" HorizontalContentAlignment="Center" Foreground="Black" Canvas.Left="104" Canvas.Top="728"/>
+
+        </Canvas>
+
+
 
 
     </Grid>

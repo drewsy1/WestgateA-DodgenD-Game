@@ -42,6 +42,15 @@ Namespace Classes
         ''' <summary>
         ''' 
         ''' </summary>
+        Public Shared Sub StopTimers()
+            _dtTimer.Stop()
+            _LongTimer.Stop()
+            EnemyMoveTimer.Stop()
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Private Shared Sub _dtRaiseEvent() Handles _dtTimer.Tick
             RaiseEvent Tick()
         End Sub

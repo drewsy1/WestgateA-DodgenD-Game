@@ -1,9 +1,19 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.Security.AccessControl
+Imports System.Timers
+Imports System.Windows.Threading
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Classes.Projectile
 ' ReSharper disable VBPossibleMistakenCallToGetType.2
 Public Class Application
+
+    Private Shared WithEvents _introTimer As DispatcherTimer
+
+    Private Shared _introTimerElapsed As Integer
+
+    Public Shared GameStatus As Integer
+
     ''' <summary>
     ''' TODO Write EnemyCollection summary
     ''' </summary>
@@ -128,7 +138,7 @@ Public Class Application
     ''' <summary>
     ''' ToDo Write RaiseCollisionHit summary
     ''' </summary>
-    ''' <param name="projectile"></param>
+    ''' <param name="player"></param>
     ''' <param name="entity"></param>
     Friend Shared Sub RaiseCollisionHit(ByRef player As EntityClasses.EntityPlayer, ByRef entity As Object)
         RaiseEvent CollisionHit(player, entity)
@@ -172,6 +182,8 @@ Public Class Application
         System.Threading.Thread.Sleep(1000)
         SubtractLife()
         NewGame()
+
+        If CurrentGameStats.GameLives = 0 Then GameOver()
     End Sub
 
     ''' <summary>
@@ -239,7 +251,55 @@ Public Class Application
     ''' <summary>
     ''' 
     ''' </summary>
+    Public Shared Sub Intro()
+        GameStatus = 0
+        MainWindowInstance.LabelIntro1.Visibility = Visibility.Hidden
+        MainWindowInstance.LabelIntro2.Visibility = Visibility.Hidden
+        MainWindowInstance.LabelIntro_PressEnter.Visibility = Visibility.Hidden
+
+        _introTimer  = New DispatcherTimer() With {
+            .Interval = TimeSpan.FromMilliseconds(500)
+            }
+        _introTimer.Start()
+        
+        AddHandler _introTimer.Tick, AddressOf OnIntroTimer
+    End Sub
+
+    Private Shared Sub OnIntroTimer(source As Object,e As EventArgs)
+        _introTimerElapsed += 1
+        Select _introTimerElapsed
+            Case 2
+                MainWindowInstance.LabelIntro1.Visibility = Visibility.Visible
+            Case 4
+                MainWindowInstance.LabelIntro2.Visibility = Visibility.Visible
+        End Select
+        
+        Select MainWindowInstance.LabelIntro_PressEnter.Visibility
+            Case Visibility.Hidden
+                MainWindowInstance.LabelIntro_PressEnter.Visibility = Visibility.Visible
+            Case Visibility.Visible
+                MainWindowInstance.LabelIntro_PressEnter.Visibility = Visibility.Hidden
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Public Shared Sub NewGame()
+        _introTimer.Stop()
+        GameStatus = 1
+        MainWindowInstance.CanvasGameOver.Visibility = Visibility.Hidden
+        MainWindowInstance.CanvasIntro.Visibility = Visibility.Hidden
+
+        MainWindowInstance.LabelCurrentScore.Visibility = Visibility.Visible
+        MainWindowInstance.ImageLevel1.Visibility = Visibility.Visible
+
+        For j As Integer = 1 To CurrentGameStats.GameLives-1
+            MainWindowInstance.FindName("Life"+j.ToString()).Visibility = Visibility.Visible
+        Next
+
+        ActiveEnemies.Clear()
+
         For Each obj As EntityClasses.EntityEnemyBase In enemyArray
             If Not IsNothing(obj) Then
                 ActiveEnemies.Add(obj)
@@ -249,9 +309,12 @@ Public Class Application
                 obj.MovementSpeed = 6 * Math.Pow(1.25,CurrentGameStats.GameLevel - 1)
                 AddToCanvas(obj)
             End If
-            EntityPlayerObject.ObjectControl.Visibility = Visibility.Visible
-            AddToCanvas(EntityPlayerObject)
         Next
+
+        EntityPlayerObject.ObjectControl.Visibility = Visibility.Visible
+        AddToCanvas(EntityPlayerObject)
+        GameTimer.Start()
+
     End Sub
 
     ''' <summary>
@@ -295,11 +358,28 @@ Public Class Application
     ''' <summary>
     ''' ToDo Write AddLife summary
     ''' </summary>
-    Public Shared Sub AddLife()
+    Private Shared Sub AddLife()
         If CurrentGameStats.GameLives <= MySettings.Default.MaxLives Then
             MainWindowInstance.FindName("Life"+CurrentGameStats.GameLives.ToString()).Visibility = Visibility.Visible
             CurrentGameStats.GameLives += 1
         End If
+    End Sub
+
+    ''' <summary>
+    ''' ToDo Write GameOver Summary
+    ''' </summary>
+    Private Shared Sub GameOver()
+        GameStatus = 2
+        GameTimer.StopTimers()
+        MainWindowInstance.LabelCurrentScore.Visibility = Visibility.Hidden
+        CurrentGameStats.GameScore = 0
+        For Each control As UIElement In MainWindowInstance.GridPlayerLifeIndicator.Children
+            control.Visibility=Visibility.Hidden
+        Next
+        For Each control As UIElement In MainWindowInstance.LevelIndicators.Children
+            control.Visibility=Visibility.Hidden
+        Next
+        MainWindowInstance.CanvasGameOver.Visibility = Visibility.Visible
     End Sub
 
 

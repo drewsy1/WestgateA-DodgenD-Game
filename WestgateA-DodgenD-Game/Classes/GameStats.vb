@@ -30,7 +30,7 @@ Namespace Classes
         ''' </summary>
         Public Property LvlX5 As Integer
         Get
-            return _lvlX5
+            return _lvlX5 * 5
         End Get
             Set(value As Integer)
                 _lvlX5 = value

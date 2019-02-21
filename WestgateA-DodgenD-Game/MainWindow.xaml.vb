@@ -19,7 +19,6 @@ Public Class MainWindow
     Sub New()
         InitializeComponent()
         DataContext = Windows.Application.Current
-        GameTimer.Start()
 
         Application.MainWindowInstance = Me
         Application.CanvasGameScreen = CanvasGameScreen
@@ -59,7 +58,7 @@ Public Class MainWindow
 
         Next
 
-        Application.NewGame()
+        Application.Intro()
     End Sub
 
     ''' <summary>
@@ -93,13 +92,18 @@ Public Class MainWindow
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs)
-        Select Case e.Key
-            Case Key.Left
-                _currentKeyPress = e.Key
-            Case Key.Right
-                _currentKeyPress = e.Key
-            Case Key.Space
-                Application.EntityPlayerObject.FireWeapon()
+        Select Case Application.GameStatus
+            Case 0
+                If e.Key = Key.Return Then Application.NewGame()
+            Case 1
+                Select Case e.Key
+                    Case Key.Left
+                        _currentKeyPress = e.Key
+                    Case Key.Right
+                        _currentKeyPress = e.Key
+                    Case Key.Space
+                        Application.EntityPlayerObject.FireWeapon()
+                End Select
         End Select
     End Sub
 
@@ -109,12 +113,15 @@ Public Class MainWindow
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Window_KeyUp(sender As Object, e As KeyEventArgs)
-        If Not Keyboard.IsKeyDown(Key.Left) And Not Keyboard.IsKeyDown(Key.Right) Then
-            _currentKeyPress = Nothing
+        If Application.GameStatus = 1 Then
+            If Not Keyboard.IsKeyDown(Key.Left) And Not Keyboard.IsKeyDown(Key.Right) Then
+                _currentKeyPress = Nothing
+            End If
+            If e.Key = Key.Space Then
+                Application.RaiseReleaseFireButton()
+            End If
         End If
-        If e.Key = Key.Space Then
-            Application.RaiseReleaseFireButton()
-        End If
+        
     End Sub
 #End Region
 
