@@ -13,8 +13,6 @@ Public Class MainWindow
     ''' </summary>
     Private Shared _newDebugWindow As DebugWindow
 
-    
-    
 
     ''' <summary>
     ''' Instantiates the MainWindow, starts the _dtTimer, and creates/adds the EntityPlayer instance
@@ -28,13 +26,12 @@ Public Class MainWindow
 
         Application.MainWindowInstance = Me
         Application.CanvasGameScreen = CanvasGameScreen
+        Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
+        Application.AddToCanvas(Application.EntityPlayerObject)
 
         ' Add handler pointing each tick of dtTimer to GameTimeUpdater
         AddHandler GameTimer.Tick, AddressOf GameTimeUpdater
         AddHandler Application.ProjectileHit, AddressOf Application.ProcessProjectileHit
-
-        Application.EntityPlayerObject = New EntityClasses.EntityPlayer()
-        Application.AddToCanvas(Application.EntityPlayerObject)
 
         If Debugger.IsAttached Then
             _newDebugWindow = New DebugWindow

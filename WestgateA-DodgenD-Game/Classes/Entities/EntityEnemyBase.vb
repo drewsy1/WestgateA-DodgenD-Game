@@ -1,4 +1,5 @@
-﻿Imports WestgateA_DodgenD_Game.Classes.Projectile
+﻿Imports System.ComponentModel
+Imports WestgateA_DodgenD_Game.Classes.Projectile
 Imports WestgateA_DodgenD_Game.Interfaces
 
 Namespace Classes.Entities
@@ -62,7 +63,7 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateY(Me,localMovementSpeed * -1)
+                CanvasObjects.TranslateY(Me, localMovementSpeed * -1)
             End Sub
 
             ''' <summary>
@@ -73,7 +74,7 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateX(Me,localMovementSpeed * -1)
+                CanvasObjects.TranslateX(Me, localMovementSpeed * -1)
             End Sub
 
             ''' <summary>
@@ -84,7 +85,7 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateX(Me,localMovementSpeed)
+                CanvasObjects.TranslateX(Me, localMovementSpeed)
             End Sub
 
             ''' <summary>
@@ -95,27 +96,24 @@ Namespace Classes.Entities
                 If (localMovementSpeed.Equals(0) And MovementSpeed) Then
                     localMovementSpeed = MovementSpeed
                 End If
-                CanvasObjects.TranslateY(Me,localMovementSpeed)
+                CanvasObjects.TranslateY(Me, localMovementSpeed)
             End Sub
 
             Public Overloads Sub Remove() Implements ICanvasObjects.Remove
                 ' Remove rectangle from CanvasGameScreen (make it invisible)
                 Application.MainWindowInstance.CanvasGameScreen.Children.Remove(ObjectControl)
                 ObjectEnabled = False
-                
+
             End Sub
+
 #End Region
-
-            Public Property ObjectEnabled() As Boolean = false
-
-            ''' <summary>
-            ''' ProjectilePlayer object for weapon projectile
-            ''' </summary>
-            Private _enemyProjectileInstance As ProjectileClasses.ProjectileEnemy
 
             ''' <summary>
             ''' Instantiates a new Entity object with matching hitbox and adds it to ObjectCollection
             ''' </summary>
+            ''' <param name="localName"></param>
+            ''' <param name="localScoreValue"></param>
+            ''' <param name="localLocationCoords"></param>
             Sub New(localName As String, localScoreValue As Integer, Optional localLocationCoords As Point = Nothing)
                 If IsNothing(localLocationCoords) Then localLocationCoords = LocationCoordsDefault
                 ObjectName = localName
@@ -136,18 +134,22 @@ Namespace Classes.Entities
 
             Public Shared Event EnemyHit(enemy As EntityEnemyBase)
 
+            ''' <summary>
+            ''' ToDo Write EnemyType Summary
+            ''' </summary>
+            ''' <returns></returns>
             Public Property EnemyType As String = Me.GetType().Name
 
             ''' <summary>
             ''' Creates an enemy projectile that moves downward
             ''' </summary>
             Sub FireWeapon()
-                _enemyProjectileInstance = New ProjectileClasses.ProjectileEnemy((ObjectWidth / 2), 0 - ObjectHeight, New Point(LocationCoords.X + ObjectTransform_Translate.X, LocationCoords.Y))
-                Application.AddToCanvas(_enemyProjectileInstance)
+                EnemyProjectileInstance = New ProjectileClasses.ProjectileEnemy((ObjectWidth / 2), 0 - ObjectHeight, New Point(LocationCoords.X + ObjectTransform_Translate.X, LocationCoords.Y))
+                Application.AddToCanvas(EnemyProjectileInstance)
             End Sub
 
             ''' <summary>
-            '''
+            ''' ToDo Write ChangeContent summary
             ''' </summary>
             Protected Overridable Sub ChangeContent()
             End Sub

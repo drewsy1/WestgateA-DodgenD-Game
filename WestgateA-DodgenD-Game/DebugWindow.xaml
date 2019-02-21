@@ -39,7 +39,7 @@
                     <DataGridTextColumn Header="↗" Binding="{Binding ObjectPointUpperRight}"></DataGridTextColumn>
                     <DataGridTextColumn Header="↙" Binding="{Binding ObjectPointLowerLeft}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Score" Binding="{Binding ObjectScoreValue}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Active" Binding="{Binding ObjectEnabled, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Active" Binding="{Binding ObjectEnabled}"></DataGridTextColumn>
                 </DataGrid.Columns>
                 <DataGrid.GroupStyle>
                     <GroupStyle>

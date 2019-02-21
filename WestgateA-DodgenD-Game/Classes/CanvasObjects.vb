@@ -52,11 +52,6 @@ Namespace Classes
                         entity.ObjectTransform_Translate.X += distanceToLeftBound
                     End If
             End Select
-            'If (ObjectTransform_Translate.X >= TranslateBoundLeft And (localMovementSpeed < 0)) Or
-            '   (ObjectTransform_Translate.X <= TranslateBoundRight And (localMovementSpeed > 0)) Then
-            '    ObjectTransform_Translate.X += localMovementSpeed
-            '    ObjectHitbox.MoveX(localMovementSpeed * -1)
-            'End If
         End Sub
 
         ''' <summary>
@@ -124,7 +119,7 @@ Namespace Classes
         End Function
 
         ''' <summary>
-        ''' 
+        ''' ToDo Write CheckIfWithinRange summary
         ''' </summary>
         ''' <param name="numberToCheck"></param>
         ''' <param name="upperBound"></param>

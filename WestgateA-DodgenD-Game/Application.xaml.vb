@@ -2,8 +2,8 @@
 Imports WestgateA_DodgenD_Game.Classes
 Imports WestgateA_DodgenD_Game.Classes.Entities
 Imports WestgateA_DodgenD_Game.Classes.Projectile
-
-Class Application
+' ReSharper disable VBPossibleMistakenCallToGetType.2
+Public Class Application
 
     ''' <summary>
     ''' TODO Write ObjectCollection summary
@@ -56,8 +56,8 @@ Class Application
     ''' Gets the MainWindow as an object and provides it as a static object
     ''' </summary>
     Public Shared Property MainWindowInstance As MainWindow
-#Region "Events"
 
+#Region "Events"
     ''' <summary>
     ''' ToDo Write EnemyHit summary
     ''' </summary>
@@ -74,6 +74,7 @@ Class Application
     ''' ToDo Write PressFireButton summary
     ''' </summary>
     Public Shared Event PressFireButton()
+
     ''' <summary>
     ''' ToDo Write ProjectileHit summary
     ''' </summary>
@@ -175,6 +176,8 @@ Class Application
         Canvas.SetLeft(control, localLocation.X)
         Canvas.SetBottom(control, localLocation.Y)
     End Sub
+
+
 #End Region
 
 End Class
