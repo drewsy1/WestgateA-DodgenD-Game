@@ -22,7 +22,7 @@
             <RowDefinition Height="768"/>
         </Grid.RowDefinitions>
         <!--<Canvas Grid.Column="0" Background="Black"/>-->
-        <Canvas x:Name="CanvasWindowDecoration" Height="768" Panel.ZIndex="0" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" IsEnabled="False">
+        <Canvas x:Name="CanvasWindowDecoration" Height="768" Panel.ZIndex="0" IsEnabled="False">
             <Image Height="768" Width="672" Source="Resources/1181242110212.png" Visibility="Hidden" />
             <Label FontFamily="{StaticResource ARCADE}" x:Name="Label1Up" Content="1UP" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Canvas.Left="76" Width="70" FontSize="24" Height="29" Canvas.Top="-5" HorizontalContentAlignment="Center" Foreground="Black"/>
             <Label FontFamily="{StaticResource ARCADE}" x:Name="LabelHighScore" Content="HIGH SCORE" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0" FontSize="24" Height="29" HorizontalContentAlignment="Center" Canvas.Left="221" Width="235" Canvas.Top="-5" Foreground="Black"/>

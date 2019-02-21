@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:WestgateA_DodgenD_Game"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="DebugWindow" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized">
+        Title="CyberSpace Invaders [Debug]" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self} }" WindowState="Maximized" Icon="Resources/CyberSpaceInvaders.ico">
     <Window.Resources>
         <local:MovementModeStringConverter x:Key="MovementModeStringConverter"></local:MovementModeStringConverter>
         <local:Application x:Key="ApplicationClass"></local:Application>
